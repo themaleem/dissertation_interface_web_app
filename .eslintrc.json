@@ -1,3 +1,38 @@
 {
-  "extends": "next/core-web-vitals"
+    "extends": ["next/core-web-vitals", "prettier"],
+    "plugins": ["prettier"],
+    "rules": {
+        "no-unused-vars": "error",
+        "import/no-duplicates": ["error", { "considerQueryString": true }],
+        "no-console": "error",
+        "arrow-body-style": ["error", "as-needed"],
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "parent",
+                    "sibling",
+                    "index",
+                    "object",
+                    "type"
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "@/**/**",
+                        "group": "parent",
+                        "position": "before"
+                    }
+                ],
+                "alphabetize": { "order": "asc" }
+            }
+        ],
+        "no-restricted-imports": [
+            "error",
+            {
+                "patterns": ["../"]
+            }
+        ]
+    }
 }

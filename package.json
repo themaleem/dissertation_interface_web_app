@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "cypress:open": "cypress open --config baseUrl=http://localhost:3000",
-    "cypress:run": "cypress run --config baseUrl=http://localhost:3000"
+    "cypress:run": "cypress run --config baseUrl=http://localhost:3000",
+    "prepare": "husky install",
+    "pre-commit": "next lint"
   },
   "dependencies": {
     "@types/node": "20.5.4",
@@ -17,11 +19,16 @@
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "next": "13.4.19",
+    "prettier": "^3.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "cypress": "12.17.4"
+    "cypress": "12.17.4",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-plugin-prettier": "5.0.0",
+    "husky": "8.0.3",
+    "lint-staged": "14.0.1"
   }
 }
