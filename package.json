@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress:open": "cypress open --config baseUrl=http://localhost:3000",
+    "cypress:run": "cypress run --config baseUrl=http://localhost:3000"
   },
   "dependencies": {
     "@types/node": "20.5.4",
@@ -18,5 +20,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "cypress": "12.17.4"
   }
 }
