@@ -51,4 +51,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Contributing to the Repository
 
-### Linting
+### Formatting & Linting
+
+-   Check for linting errors
+
+    -   `npm run lint`
+
+-   Check for linting errors and fix
+    -   `npm run lint --fix`
+
+### Cypress - E2E Testing
+
+-   `npm run cypress:open`
+-   `npm run cypress:run`
