@@ -7,7 +7,7 @@ FROM node:18-alpine
 # where our Next.js app will live
 RUN mkdir -p /app
 
-# Set /app as the working directory
+# Set /app as the working directory 
 WORKDIR /app
 
 # Copy package.json and package-lock.json
