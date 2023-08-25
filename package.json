@@ -10,25 +10,27 @@
     "cypress:open": "cypress open --config baseUrl=http://localhost:3000",
     "cypress:run": "cypress run --config baseUrl=http://localhost:3000",
     "prepare": "husky install",
-    "pre-commit": "next lint"
+    "pre-commit": "next lint",
+    "audit": "better-npm-audit audit"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-        "eslint --fix",
-        "prettier --config ./.prettierrc.js --write"
+      "eslint --fix",
+      "prettier --config ./.prettierrc.js --write"
     ],
     "**/*.{css,scss,md,html,json}": [
-        "prettier --config ./.prettierrc.js --write"
+      "prettier --config ./.prettierrc.js --write"
     ]
   },
   "dependencies": {
     "@types/node": "20.5.4",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "better-npm-audit": "^3.7.3",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "next": "13.4.19",
-    "prettier": "^3.0.2",
+    "prettier": "3.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.2.2"
@@ -39,5 +41,8 @@
     "eslint-plugin-prettier": "5.0.0",
     "husky": "8.0.3",
     "lint-staged": "14.0.1"
+  },
+  "overrides": {
+    "@cypress/request": "3.0.0"
   }
 }

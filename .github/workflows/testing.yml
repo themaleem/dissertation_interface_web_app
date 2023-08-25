@@ -1,0 +1,37 @@
+name: Disseration Web Application - Build and Linting
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  NEXT_WEBPACK_USEPOLLING: ${{secrets.NEXT_WEBPACK_USEPOLLING}}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses:  actions/checkout@v2
+      - name: 'Install Dependencies'
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 18.17.1
+          cache: 'npm'
+      - name: Run ci
+        shell: bash
+        run: npm ci
+      - name: Build Application
+        shell: bash
+        run: npm run build
+      - name: Run audit
+        shell: bash
+        run: npm run audit
+      - name: Linting
+        shell: bash
+        run: npm run lint
