@@ -64,3 +64,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 -   `npm run cypress:open`
 -   `npm run cypress:run`
+
+### Package Audit
+
+Run package audit
+
+-   `npm run audit`
