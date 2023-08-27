@@ -1,4 +1,4 @@
-name: Disseration Web Application - Build and Linting
+name: Dissertation Web Application - Build and Linting
 
 on:
   push:
