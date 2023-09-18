@@ -1,9 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import styles from "../components/css/page";
+import getCatFact from "@/actions/getCatFact";
 
 export default function Home() {
+  const dispatch = useDispatch();
+
+  const [catData, setCatData] = useState({});
+
+  const handleGetCatFact = () => {
+    dispatch(getCatFact())
+      .then((res) => setCatData(res.data))
+      .catch();
+  };
   return (
     <>
       <style jsx>{styles}</style>
@@ -13,6 +26,10 @@ export default function Home() {
             Get started by editing&nbsp;
             <code className="code">app/page.js</code>
           </p>
+          <button type="button" onClick={handleGetCatFact}>
+            Get random cat fact
+          </button>
+
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
@@ -33,68 +50,7 @@ export default function Home() {
         </div>
 
         <div className="center">
-          <Image
-            className="logo"
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-
-        <div className="grid">
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>Explore the Next.js 13 playground.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL with Vercel.
-            </p>
-          </a>
+          <h3>{catData.fact}</h3>
         </div>
       </main>
     </>
