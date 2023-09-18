@@ -1,2 +1,4 @@
 !.prettierrc.js
 next.config.js
+/.next/**
+/node_modules/**
