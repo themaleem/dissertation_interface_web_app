@@ -1,38 +1,66 @@
+// https://dev.to/devdammak/setting-up-eslint-in-your-javascript-project-with-vs-code-2amf
+
 {
-    "extends": ["next/core-web-vitals", "prettier"],
-    "plugins": ["prettier"],
-    "rules": {
-        "no-unused-vars": "error",
-        "import/no-duplicates": ["error", { "considerQueryString": true }],
-        "no-console": "error",
-        "arrow-body-style": ["error", "as-needed"],
-        "import/order": [
-            "error",
-            {
-                "groups": [
-                    "builtin",
-                    "external",
-                    "parent",
-                    "sibling",
-                    "index",
-                    "object",
-                    "type"
-                ],
-                "pathGroups": [
-                    {
-                        "pattern": "@/**/**",
-                        "group": "parent",
-                        "position": "before"
-                    }
-                ],
-                "alphabetize": { "order": "asc" }
-            }
+  "extends": [
+    "airbnb",
+    "prettier",
+    "next/babel",
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "no-unused-vars": "error",
+    "import/no-duplicates": ["error", { "considerQueryString": true }],
+    "no-console": "error",
+    "arrow-body-style": ["error", "as-needed"],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
         ],
-        "no-restricted-imports": [
-            "error",
-            {
-                "patterns": ["../"]
-            }
-        ]
-    }
+        "pathGroups": [
+          {
+            "pattern": "@/**/**",
+            "group": "parent",
+            "position": "before"
+          }
+        ],
+        "alphabetize": { "order": "asc" }
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["../"]
+      }
+    ],
+    "prettier/prettier": "error",
+    "react/no-array-index-key": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-props-no-spreading": "warn",
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ]
+  }
 }
