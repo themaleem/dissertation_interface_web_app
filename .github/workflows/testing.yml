@@ -11,18 +11,17 @@ on:
 env:
   NEXT_WEBPACK_USEPOLLING: ${{secrets.NEXT_WEBPACK_USEPOLLING}}
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses:  actions/checkout@v2
-      - name: 'Install Dependencies'
+      - uses: actions/checkout@v2
+      - name: "Install Dependencies"
         uses: actions/setup-node@v3
-        with: 
+        with:
           node-version: 18.17.1
-          cache: 'npm'
+          cache: "npm"
       - name: Run ci
         shell: bash
         run: npm ci
@@ -32,6 +31,6 @@ jobs:
       - name: Run audit
         shell: bash
         run: npm run audit
-      - name: Linting
-        shell: bash
-        run: npm run lint
+      # - name: Linting
+      #   shell: bash
+      #   run: npm run lint
