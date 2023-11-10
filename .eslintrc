@@ -1,0 +1,36 @@
+// https://dev.to/devdammak/setting-up-eslint-in-your-javascript-project-with-vs-code-2amf
+
+{
+  "extends": [
+    "airbnb",
+    "prettier",
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "no-unused-vars": "error",
+    "import/no-duplicates": ["error", { "considerQueryString": true }],
+    "no-console": "warn",
+    "prettier/prettier": "error",
+    "react/no-array-index-key": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-props-no-spreading": "warn",
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ]
+  }
+}

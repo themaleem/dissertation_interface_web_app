@@ -17,5 +17,3 @@ export default function initializeStore(axiosInstance = null) {
 
   return store;
 }
-
-export { initializeStore };
