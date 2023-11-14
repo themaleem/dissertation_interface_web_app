@@ -1,14 +1,12 @@
 import useSWR from "swr";
 import Router from "next/router";
-import pluralize from "pluralize";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
-import Skeleton from "react-loading-skeleton";
 
 import EditModal from "./editModal";
 import { getPath } from "../../../config/urls";
-import Suspense from "../../../components/suspense";
 import ModalWrapper from "../../../components/modal";
 import ImageComponent from "../../../components/image";
 import Pagination from "../../../components/pagination";
@@ -35,13 +33,24 @@ const AdminUsersList = ({
   const [pageSize] = useState(3);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedUser, setSelectedUser] = useState();
+  const [searchValue, setSearchValue] = useState("");
+
+  const debouncedNameSearch = useCallback(
+    debounce((value) => setSearchValue(value), 300),
+    [setSearchValue],
+  );
+
+  const handleInputChange = (event) => {
+    const value = event.target.value.trim();
+    if (value !== searchValue) debouncedNameSearch(value);
+  };
 
   const handlePageChange = (pageNum) => setPageNumber(pageNum);
 
   const baseUrl = createStringifiedUrl(getPath("adminUsersPath").route, {
     pageSize,
     PageNumber: pageNumber,
-    // SearchByUserName: "612",
+    SearchByUserName: searchValue,
   });
 
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -125,9 +134,8 @@ const AdminUsersList = ({
               <div className="custom-table-cell">
                 <button
                   type="button"
-                  onClick={() => toggleEditModal(user)}
-                  // href={getPath("adminUserPath", { id: user.id }).as}
                   className="button"
+                  onClick={() => toggleEditModal(user)}
                 >
                   Edit
                 </button>
@@ -199,26 +207,13 @@ const AdminUsersList = ({
                 </div>
               </div>
               <div className="search-block is-flex is-align-items-flex-end is-justify-content-space-between">
-                <h6 className="search-block-results">
-                  <Suspense
-                    hasData
-                    auth={auth}
-                    data={data}
-                    skeleton={() => <Skeleton width={80} height={15} />}
-                    component={() =>
-                      `${data.result.totalCount} ${pluralize(
-                        "results",
-                        data.result.totalCount,
-                      )}`
-                    }
-                  />
-                </h6>
                 <div className="field">
                   <p className="control has-icons-left no-label no-bts">
                     <input
-                      className="input"
                       type="text"
-                      placeholder="Search list"
+                      className="input"
+                      onChange={handleInputChange}
+                      placeholder="Search by Username"
                     />
                     <span className="searxh-icon-img">
                       <ImageComponent src={SearchIconImage} />

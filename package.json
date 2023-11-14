@@ -31,6 +31,7 @@
     "framer-motion": "^10.16.4",
     "html-react-parser": "^2.0.0",
     "json-api-normalize": "^1.1.5",
+    "lodash": "^4.17.21",
     "next": "13.4.19",
     "pluralize": "^8.0.0",
     "prop-types": "^15.8.1",
