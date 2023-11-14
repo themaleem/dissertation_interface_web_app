@@ -15,6 +15,15 @@ const Pagination = ({
   const totalPages = Math.ceil(totalRecords / size);
 
   const renderPageNumbers = () => {
+    // If only one page, render just that
+    if (totalPages === 1) {
+      return (
+        <button key="page-1" type="button" className="button is-active">
+          1
+        </button>
+      );
+    }
+
     const pages = [];
     pages.push(
       <button
@@ -81,27 +90,29 @@ const Pagination = ({
         Showing {Math.min(size, totalRecords - (currentPageNumber - 1) * size)}{" "}
         of {totalRecords} results
       </p>
-      <div className="pagination-btn-wrapper is-flex is-align-items-center">
-        {currentPageNumber > 1 && (
-          <button
-            type="button"
-            className="button"
-            onClick={() => onPageChange(currentPageNumber - 1)}
-          >
-            <ImageComponent src={CaretBackwardImage} alt="Previous" />
-          </button>
-        )}
-        {renderPageNumbers()}
-        {currentPageNumber < totalPages && (
-          <button
-            type="button"
-            className="button"
-            onClick={() => onPageChange(currentPageNumber + 1)}
-          >
-            <ImageComponent src={CaretForwardImage} alt="next" />
-          </button>
-        )}
-      </div>
+      {totalPages > 0 && (
+        <div className="pagination-btn-wrapper is-flex is-align-items-center">
+          {currentPageNumber > 1 && (
+            <button
+              type="button"
+              className="button"
+              onClick={() => onPageChange(currentPageNumber - 1)}
+            >
+              <ImageComponent src={CaretBackwardImage} alt="Previous" />
+            </button>
+          )}
+          {renderPageNumbers()}
+          {currentPageNumber < totalPages && (
+            <button
+              type="button"
+              className="button"
+              onClick={() => onPageChange(currentPageNumber + 1)}
+            >
+              <ImageComponent src={CaretForwardImage} alt="next" />
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
