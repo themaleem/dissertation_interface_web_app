@@ -40,31 +40,31 @@ const pathsByName = {
     href: "/user/[id]",
     route: "/user/[id]",
   },
-  superadminDashboardPath: {
-    type: "superadmin",
-    href: "/superadmin/dashboard",
+  adminDashboardPath: {
+    type: "admin",
     metaTitle: "",
     metaDescription: "",
+    href: "/admin/dashboard",
   },
   adminUsersPath: {
     metaTitle: "",
+    href: "/admin/list",
     type: "superadmin",
     metaDescription: "",
-    href: "/superadmin/admins",
     route: "/user/get-admin-users",
   },
-  adminUserPath: {
-    type: "superadmin",
-    route: "/superadmin/user/[id]",
-    href: "/superadmin/admin-users/[id]",
-    metaTitle: "",
-    metaDescription: "",
-  },
+  // adminUserPath: {
+  //   type: "superadmin",
+  //   route: "/superadmin/user/[id]",
+  //   href: "/superadmin/admin-users/[id]",
+  //   metaTitle: "",
+  //   metaDescription: "",
+  // },
   newAdminPath: {
     metaTitle: "",
     type: "superadmin",
+    href: "/admin/new",
     metaDescription: "",
-    href: "/superadmin/admins/new",
   },
 };
 

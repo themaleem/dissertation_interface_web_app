@@ -89,7 +89,7 @@ const authWrapper = (WrappedComponent) => {
     const userAccountIsInactive = () => {
       if (!user) return;
 
-      const userStatus = user.status;
+      const userStatus = user.role;
       // todo add cookie clearing login, and redirect to homepage
       // if (userStatus === "active"){ return (redirectTo = homePath);}
     };
@@ -101,7 +101,7 @@ const authWrapper = (WrappedComponent) => {
         return (redirectTo = homePath);
       }
 
-      if ((isStudent() || isSupervisor) && onAdminPath(pathname)) {
+      if ((isStudent() || isSupervisor()) && onAdminPath(pathname)) {
         return (redirectTo = homePath);
       }
 
