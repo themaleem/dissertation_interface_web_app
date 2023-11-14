@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
+import { confirmDialog } from "primereact/confirmdialog";
 
 import EditModal from "./editModal";
 import { getPath } from "../../../config/urls";
@@ -43,6 +44,7 @@ const AdminUsersList = ({
   const handleInputChange = (event) => {
     const value = event.target.value.trim();
     if (value !== searchValue) debouncedNameSearch(value);
+    setPageNumber(1);
   };
 
   const handlePageChange = (pageNum) => setPageNumber(pageNum);
@@ -83,6 +85,25 @@ const AdminUsersList = ({
     },
     [deactivateUser, showNotification],
   );
+
+  const onDeactivateUser = (email) => {
+    confirmDialog({
+      icon: "pi pi-info-circle",
+      header: "Deactivate Admin",
+      acceptClassName: "button is-primary",
+      accept: () => handleDeactivateUser(email),
+      message: "Are you sure you want to deactivate account?",
+    });
+  };
+
+  const onActivateUser = (email) => {
+    confirmDialog({
+      header: "Activate account",
+      acceptClassName: "button is-primary",
+      accept: () => handleActivateUser(email),
+      message: "Are you sure you want to activate account?",
+    });
+  };
 
   const handleResendConfirmationEmail = (email) => {
     return resendConfirmationEmail({ email })
@@ -143,7 +164,7 @@ const AdminUsersList = ({
                   <button
                     type="button"
                     className="button has-text-green"
-                    onClick={() => handleActivateUser(user.email)}
+                    onClick={() => onActivateUser(user.email)}
                   >
                     Activate
                   </button>
@@ -151,7 +172,7 @@ const AdminUsersList = ({
                   <button
                     type="button"
                     className="button has-text-red"
-                    onClick={() => handleDeactivateUser(user.email)}
+                    onClick={() => onDeactivateUser(user.email)}
                   >
                     Deactivate
                   </button>

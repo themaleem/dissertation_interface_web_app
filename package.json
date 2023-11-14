@@ -34,6 +34,7 @@
     "lodash": "^4.17.21",
     "next": "13.4.19",
     "pluralize": "^8.0.0",
+    "primereact": "^10.0.9",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-detect-offline": "^2.4.5",

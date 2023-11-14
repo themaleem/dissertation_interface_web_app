@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Provider } from "react-redux";
 
+import Dialog from "../containers/dialog";
 import getOrCreateStore from "../lib/axiosReduxStore";
 import Notification from "../components/notification";
 import useIsClient from "../components/hooks/useIsClient";
@@ -32,11 +33,11 @@ const MyApp = ({ Component, pageProps }) => {
           <meta name="description" content="Sheffield Hallam Dissertation" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
         </Head>
-        <>
-          {/* <Component online={!isClient || online} {...pageProps} /> */}
-          <Component online={!isClient} {...pageProps} />
-          <Notification />
-        </>
+
+        {/* <Component online={!isClient || online} {...pageProps} /> */}
+        <Component online={!isClient} {...pageProps} />
+        <Notification />
+        <Dialog />
         {/* @todo setup online */}
         {/* <Online>
           {(online) => (
