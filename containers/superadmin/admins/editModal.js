@@ -11,7 +11,7 @@ import EmailInput from "../../../components/inputs/emailInput";
 import updateAdminUser from "../../../actions/superadmin/updateAdminUser";
 import { showNotification } from "../../../reducers/notification/notificationReducer";
 
-const EditModal = ({ auth, closeModal, user }) => {
+const EditModal = ({ auth, closeModal, mutateResources, user }) => {
   const dispatch = useDispatch();
 
   const initialValues = {
@@ -32,8 +32,10 @@ const EditModal = ({ auth, closeModal, user }) => {
 
     return dispatch(updateAdminUser(data))
       .then((res) => {
-        if (res)
+        if (res) {
           dispatch(showNotification("Admin account has updated successfully!"));
+          mutateResources();
+        }
         closeModal();
       })
       .catch();
@@ -149,6 +151,7 @@ const EditModal = ({ auth, closeModal, user }) => {
 
 EditModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  mutateResources: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 

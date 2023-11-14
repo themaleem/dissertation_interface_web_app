@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -64,26 +64,30 @@ const AdminUsersList = ({
 
   const { data, error, isLoading } = useSWR(baseUrl, getAdminUsers);
 
+  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
+
   const handleActivateUser = useCallback(
     (email) => {
       return activateUser({ email })
         .then(() => {
+          mutateResources();
           showNotification("Admin has been activated successfully");
         })
         .catch();
     },
-    [activateUser, showNotification],
+    [activateUser, mutateResources, showNotification],
   );
 
   const handleDeactivateUser = useCallback(
     (email) => {
       return deactivateUser({ email })
         .then(() => {
+          mutateResources();
           showNotification("Admin has been deactivated successfully");
         })
         .catch();
     },
-    [deactivateUser, showNotification],
+    [deactivateUser, mutateResources, showNotification],
   );
 
   const onDeactivateUser = (email) => {
@@ -124,6 +128,7 @@ const AdminUsersList = ({
           auth={auth}
           user={selectedUser}
           closeModal={toggleEditModal}
+          mutateResources={mutateResources}
         />
       </ModalWrapper>
     );
