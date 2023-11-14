@@ -16,7 +16,7 @@ import { showNotification } from "../../reducers/notification/notificationReduce
 
 const homePath = getPath("homePath").href;
 const forgotPasswordPath = getPath("forgotPasswordPath").href;
-const superadminDashboardPath = getPath("superadminDashboardPath").href;
+const adminDashboardPath = getPath("adminDashboardPath").href;
 
 const SignIn = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const SignIn = () => {
 
     return dispatch(signIn(data))
       .then(() => {
-        router.push(superadminDashboardPath);
+        router.push(adminDashboardPath);
       })
       .catch((err) => {
         if (err?.data?.message) {

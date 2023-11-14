@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 
 import Image from "../../image";
 import {
-  signOut as signOutReducer,
   signingOut,
+  signOut as signOutReducer,
 } from "../../../reducers/auth/authReducer";
 import { getPath } from "../../../config/urls";
 import Logo from "../../../public/images/logo.svg";

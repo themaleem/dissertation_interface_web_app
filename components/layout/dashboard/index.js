@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-// import Footer from "./footer";
-import Header from "./header";
+import Header from "./adminHeader";
 
 import "../../../public/styles/dashboard.css";
 
@@ -11,7 +10,6 @@ const DashboardLayout = ({ auth, children }) => {
     <>
       <Header auth={auth} />
       {children}
-      {/* <Footer /> */}
     </>
   );
 };

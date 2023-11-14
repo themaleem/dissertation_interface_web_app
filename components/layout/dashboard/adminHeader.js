@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import Skeleton from "react-loading-skeleton";
@@ -11,11 +12,11 @@ import { getUserInitials } from "../../../lib/objects";
 
 const homePath = getPath("homePath").href;
 const adminUsersPath = getPath("adminUsersPath").href;
-const superadminDashboardPath = getPath("superadminDashboardPath").href;
+const adminDashboardPath = getPath("adminDashboardPath").href;
 
 const paths = [
-  { name: "Dashboard", path: superadminDashboardPath },
-  { name: "Manage Admins", path: adminUsersPath },
+  { name: "Dashboard", path: adminDashboardPath },
+  { name: "Manage Admins", path: adminUsersPath, type: "superadmin" },
   { name: "System configuration", path: "#" },
   { name: "Students", path: "#" },
   { name: "Supervisors", path: "#" },
@@ -23,6 +24,12 @@ const paths = [
 ];
 
 const Header = ({ auth }) => {
+  const isSuperadmin = useMemo(() => {
+    if (!auth.user) return undefined;
+
+    return auth.user.role === "superadmin";
+  }, [auth.user]);
+
   const router = useRouter();
 
   const renderInitial = () => (
@@ -55,6 +62,8 @@ const Header = ({ auth }) => {
         <div className="resp-menu">
           <div className="navbar-end">
             {paths.map((item) => {
+              if (item.type === "superadmin" && !isSuperadmin) return null;
+
               return (
                 <div key={item.name} className="navbar-item">
                   <Link
