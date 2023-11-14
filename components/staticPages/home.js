@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { useMemo } from "react";
 import PropTypes from "prop-types";
+import { useCallback } from "react";
 import { useRouter } from "next/router";
 
 import FAQSection from "./faq";
@@ -14,16 +14,33 @@ import BulbImage from "../../public/images/tabler_bulb.svg";
 
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;
-const superadminDashboardPath = getPath("superadminDashboardPath").href;
+const adminDashboardPath = getPath("adminDashboardPath").href;
 
 const Home = ({ auth }) => {
   const router = useRouter();
 
-  const signInorDashboardPath = useMemo(() => {
-    if (!auth.user) return signInPath;
+  const renderHeroButton = useCallback(() => {
+    if (!auth.user)
+      return (
+        <button
+          type="button"
+          className="button"
+          onClick={() => router.push(signInPath)}
+        >
+          Get Started
+        </button>
+      );
 
-    return superadminDashboardPath;
-  }, [auth]);
+    return (
+      <button
+        type="button"
+        className="button"
+        onClick={() => router.push(adminDashboardPath)}
+      >
+        Go to Dashboard
+      </button>
+    );
+  }, [auth.user, router]);
 
   return (
     <>
@@ -39,13 +56,7 @@ const Home = ({ auth }) => {
                     themes: enabling healthier lives, building stronger
                     communities and driving future economies.
                   </p>
-                  <button
-                    type="button"
-                    className="button"
-                    onClick={() => router.push(signInorDashboardPath)}
-                  >
-                    Get Started
-                  </button>
+                  {renderHeroButton()}
                 </div>
                 <ImageComponent alt="hero-img" src={HeroImage} />
               </div>
