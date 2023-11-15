@@ -59,7 +59,7 @@ const authWrapper = (WrappedComponent) => {
     // User who is unauthenticated but trying to visit an authentication pages.
     // Need to set the link to redirect a user to who tried to visit an authenticated page without signing in
     const noUserAndNotOnAuthPath = () => {
-      if (!user && !onAuthPath(pathname)) {
+      if (user === null && !onAuthPath(pathname)) {
         const str = window.location.href.substring(
           window.location.origin.length,
         );
@@ -112,7 +112,7 @@ const authWrapper = (WrappedComponent) => {
     // This block will not run on server since user on server will always be undefined  and per redux default state.
     //  We also don't want to run these checks on static pages.
     // @todo test more
-    if (user !== null && pathname && !onStaticPath(pathname)) {
+    if (user !== undefined && pathname && !onStaticPath(pathname)) {
       if (noUserAndNotOnAuthPath()) {
       } else if (user) {
         userOnAuthPath() || userAccountIsInactive() || isForbidden();
