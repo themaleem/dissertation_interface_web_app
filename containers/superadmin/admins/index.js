@@ -73,7 +73,9 @@ const AdminUsersList = ({
           mutateResources();
           showNotification("Admin has been activated successfully");
         })
-        .catch();
+        .catch((err) => {
+          showNotification(err.message);
+        });
     },
     [activateUser, mutateResources, showNotification],
   );
@@ -85,7 +87,9 @@ const AdminUsersList = ({
           mutateResources();
           showNotification("Admin has been deactivated successfully");
         })
-        .catch();
+        .catch((err) => {
+          showNotification(err.message);
+        });
     },
     [deactivateUser, mutateResources, showNotification],
   );
@@ -145,9 +149,23 @@ const AdminUsersList = ({
               <div className="custom-table-cell">
                 <span title={user.userName}> {user.userName} </span>
               </div>
-              <div className="custom-table-cell">
+              {/* <div className="custom-table-cell">
                 <span title="johndoe@sheffielduni.co">{user.email}</span>
+              </div> */}
+
+              <div className="custom-table-cell">
+                <span title="johndoe@sheffielduni.co">
+                  {user.email}
+                  {!user.emailConfirmed && (
+                    <a
+                      onClick={() => handleResendConfirmationEmail(user.email)}
+                    >
+                      Resend confirm email
+                    </a>
+                  )}
+                </span>
               </div>
+
               <div className="custom-table-cell">
                 <span title="John Doe">
                   {user.firstName} {user.lastName}
@@ -180,16 +198,6 @@ const AdminUsersList = ({
                     onClick={() => onDeactivateUser(user.email)}
                   >
                     Deactivate
-                  </button>
-                )}
-
-                {!user.emailConfirmed && (
-                  <button
-                    type="button"
-                    className="button has-text-green"
-                    onClick={() => handleResendConfirmationEmail(user.email)}
-                  >
-                    Resend confirm email
                   </button>
                 )}
               </div>

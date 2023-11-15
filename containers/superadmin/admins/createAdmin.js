@@ -42,7 +42,12 @@ const CreateAdminUser = () => {
         dispatch(showNotification("Admin account has created successfully!"));
         navToAdminListPage();
       })
-      .catch();
+      .catch((err) => {
+        // @note dispatching only the very first error i encounter on create
+        // instead of multiple
+        const errorList = err.data.errors.Custom;
+        dispatch(showNotification(errorList[0]));
+      });
   };
 
   return (

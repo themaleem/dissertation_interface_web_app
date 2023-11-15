@@ -1,5 +1,3 @@
-import { showNotification } from "../../reducers/notification/notificationReducer";
-
 const updateAdminUser =
   (values) =>
   async (dispatch, _getState, { api }) => {
@@ -7,9 +5,8 @@ const updateAdminUser =
       if (response.data.isSuccess) {
         return response.data;
       }
-      dispatch(showNotification(response.data.message));
-      // @note explicitly returning false
-      return false;
+      // @note explicitly throwing error
+      throw { response: { message: response.data.message } };
     }
 
     function onError(error) {

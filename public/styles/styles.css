@@ -141,7 +141,8 @@ a.navbar-item:hover {
   height: 100%;
 }
 
-.container, .section-wrapper {
+.container,
+.section-wrapper {
   max-width: 1157px !important;
   margin: 0 auto;
 }
@@ -787,6 +788,9 @@ footer {
   .form-wrapper.dashboard-add-admin {
     height: calc(100vh - 196px);
   }
+  .form-wrapper.edit {
+    height: calc(100vh - 269px);
+  }
   .form-card-bt-strip {
     flex-direction: row;
   }
@@ -917,7 +921,47 @@ input:-webkit-autofill {
 }
 
 @media only screen and (max-height: 952px) {
-  .form-wrapper.dashboard-add-admin {
+  .form-wrapper.dashboard-add-admin, .form-wrapper.edit {
     height: unset;
   }
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.sub-navigation {
+  padding: 0 64px;
+  border-top: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 92px;
+  z-index: 1;
+}
+
+.sub-navigation .container {
+  display: flex;
+}
+
+.sub-navigation a {
+  display: flex;
+  height: 72px;
+  padding: 0px 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-size: 16px;
+}
+
+.sub-navigation a.is-active {
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 700;
+}
+
+.sub-navigation a:hover{
+  background: rgba(0, 0, 0, 0.08);
 }

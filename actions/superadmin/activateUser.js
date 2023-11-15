@@ -2,7 +2,12 @@ const activateUser =
   (values) =>
   async (dispatch, _getState, { api }) => {
     function onSuccess(response) {
-      return response.data;
+      if (response.data.isSuccess) {
+        return response.data;
+      }
+
+      // @note explicitly throwing error
+      throw { response: { message: response.data.message } };
     }
 
     function onError(error) {

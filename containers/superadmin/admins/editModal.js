@@ -31,14 +31,14 @@ const EditModal = ({ auth, closeModal, mutateResources, user }) => {
     };
 
     return dispatch(updateAdminUser(data))
-      .then((res) => {
-        if (res) {
-          dispatch(showNotification("Admin account has updated successfully!"));
-          mutateResources();
-        }
-        closeModal();
+      .then(() => {
+        dispatch(showNotification("Admin account has updated successfully!"));
+        mutateResources();
       })
-      .catch();
+      .catch((err) => {
+        dispatch(showNotification(err.message));
+      })
+      .finally(closeModal);
   };
 
   return (
