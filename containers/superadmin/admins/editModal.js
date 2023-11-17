@@ -25,7 +25,7 @@ const EditModal = ({ auth, closeModal, mutateResources, user }) => {
     const data = {
       userId: user.id,
       email: values.email,
-      userName: user.userName,
+      userName: values.username,
       lastName: values.last_name,
       firstName: values.first_name,
     };

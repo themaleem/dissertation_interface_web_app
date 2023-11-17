@@ -31,7 +31,7 @@ const AdminUsersList = ({
   showNotification,
   resendConfirmationEmail,
 }) => {
-  const [pageSize] = useState(3);
+  const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedUser, setSelectedUser] = useState();
   const [searchValue, setSearchValue] = useState("");
