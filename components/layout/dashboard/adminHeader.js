@@ -13,11 +13,12 @@ import { getUserInitials } from "../../../lib/objects";
 const homePath = getPath("homePath").href;
 const adminUsersPath = getPath("adminUsersPath").href;
 const adminDashboardPath = getPath("adminDashboardPath").href;
+const systemConfigurationPath = getPath("systemConfigurationPath").href;
 
 const paths = [
   { name: "Dashboard", path: adminDashboardPath },
   { name: "Manage Admins", path: adminUsersPath, type: "superadmin" },
-  { name: "System configuration", path: "#" },
+  { name: "System configuration", path: systemConfigurationPath },
   { name: "Students", path: "#" },
   { name: "Supervisors", path: "#" },
   { name: "Requests", path: "#" },

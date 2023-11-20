@@ -1,30 +1,31 @@
-import Select from "react-select";
 import PropTypes from "prop-types";
-import { useRef, useMemo, useState, useCallback } from "react";
+import AsyncSelect from "react-select/async";
+import { useMemo, useState, useCallback } from "react";
 
-const SelectInput = ({
-  id,
+const AsyncSelectInput = ({
   meta,
-  multi,
   input,
   value,
-  options,
-  onChange,
+  error,
+  multi,
   disabled,
-  usePortal,
-  clearable,
+  onChange,
+  errorMsg,
   className,
+  showValue,
+  clearable,
   searchable,
+  loadOptions,
   placeholder,
   defaultValue,
+  cacheOptions,
   menuPlacement,
-  indicateError,
-  maxMenuHeight,
-  getOptionValue,
+  defaultOptions,
   getOptionLabel,
+  getOptionValue,
+  backspaceRemovesValue,
   menuShouldScrollIntoView,
 }) => {
-  const wrapper = useRef();
   const [focused, setFocused] = useState(false);
 
   const onInputFocus = useCallback(
@@ -39,105 +40,91 @@ const SelectInput = ({
     setFocused(false);
   }, []);
 
-  const handleChange = useCallback(
-    (event) => {
-      if (input.onChange && event != null) {
-        input.onChange(event);
-      } else {
-        input.onChange(null);
-      }
-    },
-    [input],
+  const errorComponent = useMemo(
+    () => <p className="text-danger"> {errorMsg} </p>,
+    [errorMsg],
   );
-
-  const hasError = useMemo(
-    () => meta.touched && meta.error,
-    [meta.error, meta.touched],
-  );
-
-  const idName = useMemo(() => (id.length ? { id } : {}), [id]);
 
   return (
-    <div
-      style={{ position: "relative" }}
-      className="variable-group-inner"
-      ref={wrapper}
-    >
-      <Select
-        {...idName}
+    <div>
+      <AsyncSelect
         isMulti={multi}
-        options={options}
         name={input?.name}
         onBlur={onInputBlur}
         isDisabled={disabled}
+        className={className}
         onFocus={onInputFocus}
         isClearable={clearable}
-        isSearchable={searchable}
         placeholder={placeholder}
+        loadOptions={loadOptions}
+        isSearchable={searchable}
+        cacheOptions={cacheOptions}
         defaultValue={defaultValue}
         menuPlacement={menuPlacement}
         value={input?.value || value}
-        maxMenuHeight={maxMenuHeight}
+        defaultOptions={defaultOptions}
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
-        onChange={onChange || handleChange}
+        controlShouldRenderValue={showValue}
+        onChange={onChange || input.onChange}
+        backspaceRemovesValue={backspaceRemovesValue}
         menuShouldScrollIntoView={menuShouldScrollIntoView}
-        menuPortalTarget={usePortal ? wrapper.current : undefined}
-        className={`${className}${
-          indicateError
-            ? `${meta.touched ? `${meta.valid ? "" : " has-error"}` : ""}`
-            : ""
-        }`}
       />
-      {hasError ? <p className="error-text">{meta.error}</p> : ""}
+      {error ? errorComponent : ""}
+      {meta.error && !meta.pristine && (
+        <p className="error-text">{meta.error}</p>
+      )}
       {meta.submitError && <p className="error-text">{meta.submitError}</p>}
     </div>
   );
 };
 
-SelectInput.defaultProps = {
-  id: "",
+AsyncSelectInput.defaultProps = {
   meta: {},
   multi: false,
   className: "",
-  // darkMode: false,
+  showValue: true,
   disabled: false,
-  input: undefined,
-  usePortal: false,
+  darkMode: false,
   clearable: false,
+  input: undefined,
   value: undefined,
   searchable: false,
+  cacheOptions: true,
   onChange: undefined,
   menuPlacement: "auto",
+  loadOptions: undefined,
+  menuPosition: "absolute",
   defaultValue: undefined,
-  maxMenuHeight: undefined,
+  defaultOptions: undefined,
   getOptionValue: undefined,
   getOptionLabel: undefined,
+  backspaceRemovesValue: true,
   menuShouldScrollIntoView: true,
   placeholder: "Select an option",
 };
 
-SelectInput.propTypes = {
-  id: PropTypes.string,
+AsyncSelectInput.propTypes = {
   multi: PropTypes.bool,
-  // darkMode: PropTypes.bool,
-  onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  usePortal: PropTypes.bool,
+  onChange: PropTypes.func,
+  showValue: PropTypes.bool,
   clearable: PropTypes.bool,
   searchable: PropTypes.bool,
+  loadOptions: PropTypes.func,
   className: PropTypes.string,
+  cacheOptions: PropTypes.bool,
   placeholder: PropTypes.string,
+  getOptionLabel: PropTypes.func,
   getOptionValue: PropTypes.func,
   menuPlacement: PropTypes.string,
-  getOptionLabel: PropTypes.func,
-  maxMenuHeight: PropTypes.number,
-  meta: PropTypes.instanceOf(Object),
   input: PropTypes.instanceOf(Object),
   value: PropTypes.instanceOf(Object),
+  backspaceRemovesValue: PropTypes.bool,
   menuShouldScrollIntoView: PropTypes.bool,
-  defaultValue: PropTypes.instanceOf(Object),
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  meta: PropTypes.objectOf(PropTypes.any),
+  defaultValue: PropTypes.instanceOf(Array),
+  defaultOptions: PropTypes.instanceOf(Array),
 };
 
-export default SelectInput;
+export default AsyncSelectInput;

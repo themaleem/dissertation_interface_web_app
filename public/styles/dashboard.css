@@ -368,6 +368,10 @@ section.list-section {
   grid-template-columns: 17.83% 28.68% 17.83% 17.83% 17.83%;
 }
 
+.custom-table.acayr .custom-table-row {
+  grid-template-columns: 28.68% 28.68% 21.32% 21.32%;
+}
+
 .custom-table-row.header {
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.72);
@@ -717,4 +721,9 @@ box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 
 .button.text-red{
   color: #C7004E;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
 }

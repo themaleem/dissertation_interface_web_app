@@ -39,7 +39,9 @@ const CreateAdminUser = () => {
 
     return dispatch(createAdminUser(data))
       .then(() => {
-        dispatch(showNotification("Admin account has created successfully!"));
+        dispatch(
+          showNotification("Admin account has been created successfully!"),
+        );
         navToAdminListPage();
       })
       .catch((err) => {

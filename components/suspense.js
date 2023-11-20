@@ -1,29 +1,3 @@
-// import PropTypes from "prop-types";
-
-// import { doNothing } from "../lib/objects";
-
-// const Suspense = ({ data, hasData, skeleton, component }) => {
-//   const showSkeleton = hasData && data === undefined;
-
-//   return showSkeleton ? <>{skeleton()}</> : component(data);
-// };
-
-// Suspense.defaultProps = {
-//   hasData: false,
-//   data: undefined,
-//   skeleton: doNothing,
-//   component: doNothing,
-// };
-
-// Suspense.propTypes = {
-//   data: PropTypes.any,
-//   hasData: PropTypes.bool,
-//   skeleton: PropTypes.func,
-//   component: PropTypes.func,
-// };
-
-// export default Suspense;
-
 import PropTypes from "prop-types";
 
 import { doNothing } from "../lib/objects";
