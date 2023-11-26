@@ -1,4 +1,3 @@
-// @todo clean up axios instance to remove baseurl
 const DISSERTATION_BASE_URL =
   "https://difgatewaysolution.azurewebsites.net/api/v1";
 const ACCOUNTS_BASE_URL =
@@ -65,13 +64,6 @@ const pathsByName = {
     href: "/admin/new",
     metaDescription: "",
   },
-  // adminUserPath: {
-  //   type: "superadmin",
-  //   route: "/superadmin/user/[id]",
-  //   href: "/superadmin/admin-users/[id]",
-  //   metaTitle: "",
-  //   metaDescription: "",
-  // },
   systemConfigurationPath: {
     metaTitle: "",
     type: "admin",
@@ -79,51 +71,51 @@ const pathsByName = {
     route: "/academicyear",
     href: "/admin/system-configuration",
   },
-  newSystemConfigurationPath: {
+  newAcademicYearPath: {
     metaTitle: "",
     type: "admin",
     metaDescription: "",
     route: "/academicyear",
     href: "/admin/system-configuration/new-academic-year",
   },
-  dissertationCohortsPath: {
-    metaTitle: "",
+  newCoursePath: {
     type: "admin",
+    metaTitle: "",
     metaDescription: "",
-    href: "/admin/cohorts",
-    route: "/dissertationcohort",
+    href: "/admin/system-configuration/new-course",
   },
   newDissertationCohortsPath: {
     type: "admin",
     metaTitle: "",
     metaDescription: "",
-    href: "/admin/cohorts/new",
-  },
-  departmentsPath: {
-    metaTitle: "",
-    type: "admin",
-    route: "/department",
-    metaDescription: "",
-    href: "/admin/departments",
+    href: "/admin/system-configuration/new-cohort",
   },
   newDepartmentPath: {
     metaTitle: "",
     type: "admin",
     metaDescription: "",
-    href: "/admin/departments/new",
+    href: "/admin/system-configuration/new-department",
+  },
+  dissertationCohortsPath: {
+    href: "",
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/dissertationcohort",
+  },
+  departmentsPath: {
+    href: "",
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/department",
   },
   coursesPath: {
-    metaTitle: "",
+    href: "",
     type: "admin",
+    metaTitle: "",
     route: "/course",
-    href: "/admin/courses",
     metaDescription: "",
-  },
-  newCoursePath: {
-    type: "admin",
-    metaTitle: "",
-    metaDescription: "",
-    href: "/admin/courses/new",
   },
 };
 

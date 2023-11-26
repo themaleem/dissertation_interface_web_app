@@ -14,7 +14,7 @@ import PaginationSkeleton from "../../../../components/skeletons/pagination";
 import getAcademicYears from "../../../../actions/systemConfig/getAcademicYears";
 import AdminUserSkeleton from "../../../../components/skeletons/superadmin/adminUsers";
 
-const newSystemConfigurationPath = getPath("newSystemConfigurationPath").href;
+const newAcademicYearPath = getPath("newAcademicYearPath").href;
 
 const SystemConfiguration = ({ auth, getAcademicYears }) => {
   const [pageSize] = useState(10);
@@ -124,7 +124,7 @@ const SystemConfiguration = ({ auth, getAcademicYears }) => {
                   <button
                     type="button"
                     className="button is-primary"
-                    onClick={() => Router.push(newSystemConfigurationPath)}
+                    onClick={() => Router.push(newAcademicYearPath)}
                   >
                     New academic year
                   </button>

@@ -33,6 +33,10 @@ const Header = ({ auth }) => {
 
   const router = useRouter();
 
+  const isSystemConfigPage = useMemo(() => {
+    return systemConfigurationPath === router.pathname.split("/", 3).join("/");
+  }, [router.pathname]);
+
   const renderInitial = () => (
     <div className="navbar-item">
       <div className="initials-wrapper">{getUserInitials(auth.user)}</div>
@@ -62,8 +66,21 @@ const Header = ({ auth }) => {
         </div>
         <div className="resp-menu">
           <div className="navbar-end">
-            {paths.map((item) => {
+            {paths.map((item, index) => {
               if (item.type === "superadmin" && !isSuperadmin) return null;
+
+              if (index === 2 && isSystemConfigPage) {
+                return (
+                  <div key={item.name} className="navbar-item">
+                    <Link
+                      href={item.path}
+                      className="navbar-link is-arrowless is-active"
+                    >
+                      {item.name}
+                    </Link>
+                  </div>
+                );
+              }
 
               return (
                 <div key={item.name} className="navbar-item">

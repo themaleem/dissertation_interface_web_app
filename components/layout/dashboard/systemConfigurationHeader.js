@@ -4,19 +4,22 @@ import { useRouter } from "next/router";
 
 import { getPath } from "../../../config/urls";
 
-const coursesPath = getPath("coursesPath").href;
-const departmentsPath = getPath("departmentsPath").href;
-const dissertationCohortsPath = getPath("dissertationCohortsPath").href;
 const systemConfigurationPath = getPath("systemConfigurationPath").href;
 
 const paths = [
-  { name: "Academic year", path: systemConfigurationPath },
-  { name: "Dissertation cohort", path: dissertationCohortsPath },
-  { name: "Departments", path: departmentsPath },
-  { name: "Courses", path: coursesPath },
+  {
+    name: "Academic year",
+    path: `${systemConfigurationPath}#tab=academic-year`,
+  },
+  {
+    name: "Dissertation cohort",
+    path: `${systemConfigurationPath}#tab=cohorts`,
+  },
+  { name: "Departments", path: `${systemConfigurationPath}#tab=departments` },
+  { name: "Courses", path: `${systemConfigurationPath}#tab=courses` },
 ];
 
-const SystemConfigurationHeader = ({ auth }) => {
+const SystemConfigurationHeader = () => {
   const router = useRouter();
 
   return (
@@ -39,6 +42,6 @@ const SystemConfigurationHeader = ({ auth }) => {
 };
 
 SystemConfigurationHeader.propTypes = {
-  auth: PropTypes.instanceOf(Object).isRequired,
+  systemConfig: PropTypes.bool,
 };
 export default SystemConfigurationHeader;
