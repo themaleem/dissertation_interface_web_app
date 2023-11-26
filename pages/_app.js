@@ -16,7 +16,7 @@ import "../public/styles/extras.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const MyApp = ({ Component, pageProps }) => {
-  const isClient = useIsClient();
+  // const isClient = useIsClient();
 
   return (
     <Provider store={getOrCreateStore()}>
@@ -35,7 +35,7 @@ const MyApp = ({ Component, pageProps }) => {
         </Head>
 
         {/* <Component online={!isClient || online} {...pageProps} /> */}
-        <Component online={!isClient} {...pageProps} />
+        <Component {...pageProps} />
         <Notification />
         <Dialog />
         {/* @todo setup online */}

@@ -1,35 +1,19 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-import { useSWRConfig } from "swr";
-import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 
 import Image from "../../image";
-import {
-  signingOut,
-  signOut as signOutReducer,
-} from "../../../reducers/auth/authReducer";
 import { getPath } from "../../../config/urls";
 import Logo from "../../../public/images/logo.svg";
-import { removeDocumentAuthCookies } from "../../../lib/auth";
+import useSignOut from "../../../containers/hooks/useSignOut";
 
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;
 
 const Header = ({ auth }) => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-
-  const { cache } = useSWRConfig();
+  const { onSignOut } = useSignOut(auth);
 
   const onLogoutClick = async () => {
-    if (!auth.signingOut) {
-      dispatch(signingOut());
-      removeDocumentAuthCookies();
-      cache.clear();
-      router.push(homePath);
-      dispatch(signOutReducer());
-    }
+    onSignOut();
   };
 
   const renderSignInButton = (className) => {

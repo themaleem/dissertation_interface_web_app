@@ -4,6 +4,7 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import useSignOut from "../hooks/useSignOut";
 import useWithSWR from "../../components/swr/withSwr";
 import { getPath, isPathType } from "../../config/urls";
 import { ONLY_FOCUS_REVALIDATION } from "../../config/swr";
@@ -26,10 +27,10 @@ const authWrapper = (WrappedComponent) => {
 
     const pathname = isClient ? Router.pathname : "";
 
-    const {
-      getCurrentUser,
-      auth: { user },
-    } = props;
+    const { auth, getCurrentUser } = props;
+
+    const { user } = auth;
+    const { onSignOut } = useSignOut(auth);
 
     const fetchOn = () => true;
 
@@ -72,7 +73,7 @@ const authWrapper = (WrappedComponent) => {
     // Handle Redirects
     // User who is authenticated but trying to visit an auth pages.
     // redirect to homePath
-    // todo dashboard index page based on role
+    // todo send user dashboard index page based on role
     const userOnAuthPath = () => {
       if (user !== null && onAuthPath(pathname)) {
         const str = window.location.href.substring(
@@ -85,13 +86,17 @@ const authWrapper = (WrappedComponent) => {
     };
 
     // if account is inactive, we want to clear their cookie and log them out
-    // todo should we inform them before logging them out?
+    // todo should we inform the user before logging them out?
     const userAccountIsInactive = () => {
       if (!user) return;
 
-      const userStatus = user.role;
+      const isActive = user.active;
       // todo add cookie clearing login, and redirect to homepage
-      // if (userStatus === "active"){ return (redirectTo = homePath);}
+
+      if (!isActive) {
+        onSignOut();
+        return (redirectTo = signInPath);
+      }
     };
 
     // if you're not superadmin, and you visit superadmin path
@@ -109,17 +114,14 @@ const authWrapper = (WrappedComponent) => {
     };
 
     // when user is undefined move on to the component and render the component's skeleton
-    // This block will not run on server since user on server will always be undefined  and per redux default state.
+    // This block will not run on server since user on server will always be undefined per redux default state.
     //  We also don't want to run these checks on static pages.
-    // @todo test more
     if (user !== undefined && pathname && !onStaticPath(pathname)) {
       if (noUserAndNotOnAuthPath()) {
       } else if (user) {
-        userOnAuthPath() || userAccountIsInactive() || isForbidden();
+        userOnAuthPath() || isForbidden() || userAccountIsInactive();
       }
     }
-
-    // return <WrappedComponent {...props} />;
 
     if (redirectTo) Router.push(redirectTo);
     return redirectTo ? null : <WrappedComponent {...props} />;

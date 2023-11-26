@@ -21,7 +21,6 @@ const getCurrentUser =
     }
 
     function onError(error) {
-      // dispatch({ type: "ERROR_GENERATED", error });
       return Promise.reject(error.response);
     }
 
