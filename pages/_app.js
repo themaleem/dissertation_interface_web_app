@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import Dialog from "../containers/dialog";
 import getOrCreateStore from "../lib/axiosReduxStore";
 import Notification from "../components/notification";
-import useIsClient from "../components/hooks/useIsClient";
+import useIsClient from "../containers/hooks/useIsClient";
 // import Online from "../components/layout/online";
 // import ErrorBoundary from "../components/errorBoundary";
 

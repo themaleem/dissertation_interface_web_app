@@ -4,17 +4,17 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { Form, Field } from "react-final-form";
 
-import { getPath } from "../../../../config/urls";
-import { required } from "../../../../lib/objects";
-import ImageComponent from "../../../../components/image";
-import { FORM_SUBSCRIPTION } from "../../../../config/form";
+import { getPath } from "../../../../../config/urls";
+import { required } from "../../../../../lib/objects";
+import ImageComponent from "../../../../../components/image";
+import { FORM_SUBSCRIPTION } from "../../../../../config/form";
 import DepartmentSearch from "../departments/departmentSearch";
-import TextInput from "../../../../components/inputs/textInput";
-import BackArrowImage from "../../../../public/images/back-arrow.svg";
-import createCourse from "../../../../actions/systemConfig/course/createCourse";
-import { showNotification } from "../../../../reducers/notification/notificationReducer";
+import TextInput from "../../../../../components/inputs/textInput";
+import BackArrowImage from "../../../../../public/images/back-arrow.svg";
+import createCourse from "../../../../../actions/systemConfig/course/createCourse";
+import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
-const coursesPath = getPath("coursesPath").href;
+const coursesPath = `${getPath("systemConfigurationPath").href}#tab=courses`;
 
 const CreateCourse = ({ auth }) => {
   const router = useRouter();

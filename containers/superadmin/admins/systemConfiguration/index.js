@@ -4,8 +4,8 @@ import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import { useCallback, useState } from "react";
 
-import EditModal from "./editAcademicYear";
 import { getPath } from "../../../../config/urls";
+import DetailsModal from "./academicYear/detailsModal";
 import ModalWrapper from "../../../../components/modal";
 import Pagination from "../../../../components/pagination";
 import { toDayMonthYearLong } from "../../../../lib/dateUtils";
@@ -19,49 +19,52 @@ const newAcademicYearPath = getPath("newAcademicYearPath").href;
 const SystemConfiguration = ({ auth, getAcademicYears }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
+  const [modalType, setModalType] = useState("details");
+  const [openDetailsModal, setOpenDetailsModal] = useState(false);
   const [selectedAcademicYear, setSelectedAcademicYear] = useState();
 
   const handlePageChange = (pageNum) => setPageNumber(pageNum);
 
   const baseUrl = createStringifiedUrl(
     getPath("systemConfigurationPath").route,
-    {
-      pageSize,
-      PageNumber: pageNumber,
-    },
+    { pageSize, PageNumber: pageNumber },
   );
 
-  const [openEditModal, setOpenEditModal] = useState(false);
-
-  const toggleEditModal = useCallback((academicYear) => {
-    setSelectedAcademicYear(academicYear);
-    setOpenEditModal((open) => !open);
+  const toggleDetailsModal = useCallback((academicYear) => {
+    if (academicYear) {
+      setSelectedAcademicYear(academicYear);
+    } else {
+      setSelectedAcademicYear();
+    }
+    setModalType("details");
+    setOpenDetailsModal((open) => !open);
   }, []);
 
   const { data } = useSWR(baseUrl, getAcademicYears);
 
   const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
 
-  const renderEditModal = useCallback(() => {
+  const renderDetailsModal = useCallback(() => {
     return (
       <ModalWrapper
-        open={openEditModal}
-        closeModal={toggleEditModal}
+        open={openDetailsModal}
+        closeModal={toggleDetailsModal}
         options={{ closeOnEsc: false, closeOnOverlayClick: false }}
       >
-        <EditModal
-          auth={auth}
-          closeModal={toggleEditModal}
+        <DetailsModal
+          modalType={modalType}
+          setModalType={setModalType}
+          closeModal={toggleDetailsModal}
           mutateResources={mutateResources}
           academicYear={selectedAcademicYear}
         />
       </ModalWrapper>
     );
   }, [
-    auth,
-    openEditModal,
+    modalType,
     mutateResources,
-    toggleEditModal,
+    openDetailsModal,
+    toggleDetailsModal,
     selectedAcademicYear,
   ]);
 
@@ -86,7 +89,7 @@ const SystemConfiguration = ({ auth, getAcademicYears }) => {
                 <button
                   type="button"
                   className="button"
-                  onClick={() => toggleEditModal(academicYear)}
+                  onClick={() => toggleDetailsModal(academicYear)}
                 >
                   View Details
                 </button>
@@ -96,7 +99,7 @@ const SystemConfiguration = ({ auth, getAcademicYears }) => {
         })}
       </>
     );
-  }, [data?.result, toggleEditModal]);
+  }, [data?.result, toggleDetailsModal]);
 
   const renderPagination = useCallback(() => {
     if (!data?.result) return <PaginationSkeleton />;
@@ -113,7 +116,7 @@ const SystemConfiguration = ({ auth, getAcademicYears }) => {
 
   return (
     <>
-      {renderEditModal()}
+      {renderDetailsModal()}
       <section className="manage-admin-section">
         <div className="section-wrapper">
           <div className="container">

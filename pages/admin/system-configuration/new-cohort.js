@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import authWrapper from "../../../containers/hoc/authWrapper";
 import DashboardLayout from "../../../components/layout/dashboard";
 
-import CreateCohort from "../../../containers/superadmin/admins/cohorts/createCohort";
+import CreateCohort from "../../../containers/superadmin/admins/systemConfiguration/cohorts/createCohort";
 import SystemConfigurationHeader from "../../../components/layout/dashboard/systemConfigurationHeader";
 
 const CreateCohortPage = ({ auth }) => {

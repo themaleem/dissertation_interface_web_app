@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { required } from "../../../../lib/objects";
-import ImageComponent from "../../../../components/image";
-import TextInput from "../../../../components/inputs/textInput";
-import CloseSVGImage from "../../../../public/images/close.svg";
-import { FORM_WITH_DIRTY_VALUES } from "../../../../config/form";
-import { showNotification } from "../../../../reducers/notification/notificationReducer";
-import createDepartment from "../../../../actions/systemConfig/departments/createDepartment";
-import updateDepartment from "../../../../actions/systemConfig/departments/updateDepartment";
+import { required } from "../../../../../lib/objects";
+import ImageComponent from "../../../../../components/image";
+import TextInput from "../../../../../components/inputs/textInput";
+import CloseSVGImage from "../../../../../public/images/close.svg";
+import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
+import { showNotification } from "../../../../../reducers/notification/notificationReducer";
+import createDepartment from "../../../../../actions/systemConfig/departments/createDepartment";
+import updateDepartment from "../../../../../actions/systemConfig/departments/updateDepartment";
 
 const DepartmentModal = ({
   closeModal,

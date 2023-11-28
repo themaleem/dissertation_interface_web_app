@@ -4,16 +4,16 @@ import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import { useCallback, useState } from "react";
 
-import CohortModal from "./cohortModal";
-import { getPath } from "../../../../config/urls";
-import ModalWrapper from "../../../../components/modal";
-import Pagination from "../../../../components/pagination";
-import { createStringifiedUrl } from "../../../../lib/objects";
-import { toDayMonthYearLong } from "../../../../lib/dateUtils";
-import getCohorts from "../../../../actions/systemConfig/cohort/getCohorts";
-import PaginationSkeleton from "../../../../components/skeletons/pagination";
-import AdminUserSkeleton from "../../../../components/skeletons/superadmin/adminUsers";
-import { showNotification } from "../../../../reducers/notification/notificationReducer";
+import EditCohortModal from "./editCohortModal";
+import { getPath } from "../../../../../config/urls";
+import ModalWrapper from "../../../../../components/modal";
+import Pagination from "../../../../../components/pagination";
+import { createStringifiedUrl } from "../../../../../lib/objects";
+import { toDayMonthYearLong } from "../../../../../lib/dateUtils";
+import getCohorts from "../../../../../actions/systemConfig/cohort/getCohorts";
+import PaginationSkeleton from "../../../../../components/skeletons/pagination";
+import AdminUserSkeleton from "../../../../../components/skeletons/superadmin/adminUsers";
+import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
 const newDissertationCohortsPath = getPath("newDissertationCohortsPath").href;
 
@@ -40,14 +40,14 @@ const Cohorts = ({ auth, getCohorts }) => {
 
   const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
 
-  const renderEditModal = () => {
+  const renderEditModal = useCallback(() => {
     return (
       <ModalWrapper
         open={openEditModal}
         closeModal={toggleEditModal}
         options={{ closeOnEsc: false, closeOnOverlayClick: false }}
       >
-        <CohortModal
+        <EditCohortModal
           auth={auth}
           cohort={selectedCohort}
           closeModal={toggleEditModal}
@@ -55,9 +55,9 @@ const Cohorts = ({ auth, getCohorts }) => {
         />
       </ModalWrapper>
     );
-  };
+  }, [auth, mutateResources, openEditModal, selectedCohort, toggleEditModal]);
 
-  const renderCohortList = () => {
+  const renderCohortList = useCallback(() => {
     if (!data?.result) return <AdminUserSkeleton rows={3} />;
 
     return (
@@ -90,9 +90,9 @@ const Cohorts = ({ auth, getCohorts }) => {
         })}
       </>
     );
-  };
+  }, [data?.result, toggleEditModal]);
 
-  const renderPagination = () => {
+  const renderPagination = useCallback(() => {
     if (!data?.result) return <PaginationSkeleton />;
 
     return (
@@ -103,7 +103,7 @@ const Cohorts = ({ auth, getCohorts }) => {
         totalRecords={data.result.totalCount}
       />
     );
-  };
+  }, [data?.result, pageNumber, pageSize]);
 
   return (
     <>

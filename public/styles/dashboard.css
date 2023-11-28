@@ -92,6 +92,10 @@ main {
   margin: 0 64px 32px;
 }
 
+.request-section.has-top{
+  margin-top: 64px;
+}
+
 .overview-section {
   margin-top: 64px;
 }
@@ -194,6 +198,16 @@ main {
   font-weight: 700;
 }
 
+.custom-tag.green{
+  color: #247200;
+  background: #DDF3E9;
+}
+
+.custom-tag.red{
+  background: #EFCFDC;
+  color: #720134;
+}
+
 .request-card-list-card-header span.text {
   color: #333;
   font-size: 14px;
@@ -213,18 +227,24 @@ main {
 .list-section-list-card-item {
   padding: 24px;
   border-radius: 12px;
+  gap: 16px;
   background: rgba(255, 255, 255, 0.4);
   box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
 }
 
+.list-section-list-card-item.aligned-tp{
+  align-items: flex-start;
+}
+
 .list-section-list-card-item-inner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
 }
 
 .list-section-list-card-initials-wrapper {
   display: flex;
+  min-width: 48px;
   width: 48px;
   height: 48px;
   justify-content: center;
@@ -253,11 +273,25 @@ main {
   line-height: normal;
 }
 
+.list-section-list-card-item-inner p.sm {
+  font-size: 14px;
+}
+
+.list-section-list-card-item-inner p.lg {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+
 .list-section-list {
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px 0;
   padding: 0px 32px 32px 32px;
+}
+
+.list-section-list.no-header{
+  padding-top: 32px;
 }
 
 .list-section-left,
@@ -279,9 +313,13 @@ main {
   gap: 32px;
 }
 
-.list-section-right .list-section-list-card-initials-wrapper {
-  color: #396c92;
+.list-section-right .list-section-list-card-initials-wrapper, .list-section-list-card-initials-wrapper.blu-bg {
+  color: #396c92 !important;
   background: rgba(101, 172, 224, 0.12);
+}
+
+.list-section-list-card-initials-wrapper.is-grey{
+  background: rgba(0, 0, 0, 0.16) !important;
 }
 
 section.list-section {
@@ -302,7 +340,8 @@ section.list-section {
   padding-left: 32px;
 }
 
-.field .control.no-label.no-bts {
+.field .control.no-label.no-bts, 
+  .field .control.no-bts  {
   margin-bottom: 0;
 }
 
@@ -413,6 +452,11 @@ section.list-section {
 
 .table-pagination {
   padding-top: 32px;
+}
+
+.table-pagination.ext-one {
+  padding: 32px;
+  padding-top: 0px;
 }
 
 .pagination-btn-wrapper button.button {
@@ -725,5 +769,65 @@ box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 
 .btn-group {
   display: flex;
+  gap: 10px;
+}
+
+.request-card-list .btn-group{
+  padding-top: 24px;
+}
+
+.request-card-list.has-tp{
+padding-top: 32px;
+}
+
+.request-card-link{
+  color: #396C92;
+  font-weight: 700;
+  padding-top: 24px;
+  display: inline-block;
+}
+
+.request-card-list .btn-group .button {
+  border-radius: 8px;
+  outline: unset;
+  background: #fff;
+  color: #396C92;
+  text-align: center;
+  font-size: 16px;
+  border-color: #fff;
+  padding: 8px 16px;
+  font-weight: 700;
+  line-height: normal;
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
+}
+
+.request-card-list .btn-group .button:last-child{
+  color: #c7004e;
+}
+
+.list-section-list-card-item .button {
+  border-radius: 8px;
+  outline: unset;
+  background: #fff;
+  color: #396C92;
+  text-align: center;
+  font-size: 16px;
+  border-color: #fff;
+  padding: 8px 16px;
+  font-weight: 700;
+  line-height: normal;
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
+}
+
+.list-section-list-card-item-inner .sub{
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.field.is-grid{
+  display: grid;
+  grid-template-columns: 400px 147px;
   gap: 10px;
 }

@@ -2,17 +2,17 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { required } from "../../../../lib/objects";
-import ImageComponent from "../../../../components/image";
-import { dateWithSlashes } from "../../../../lib/dateUtils";
-import CloseSVGImage from "../../../../public/images/close.svg";
-import { FORM_WITH_DIRTY_VALUES } from "../../../../config/form";
-import CalendarInput from "../../../../components/inputs/calendarInput";
-import AcademicYearSearch from "../systemConfiguration/academicYearSearch";
-import updateCohort from "../../../../actions/systemConfig/cohort/updateCohort";
-import { showNotification } from "../../../../reducers/notification/notificationReducer";
+import { required } from "../../../../../lib/objects";
+import ImageComponent from "../../../../../components/image";
+import { dateWithSlashes } from "../../../../../lib/dateUtils";
+import CloseSVGImage from "../../../../../public/images/close.svg";
+import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
+import AcademicYearSearch from "../academicYear/academicYearSearch";
+import CalendarInput from "../../../../../components/inputs/calendarInput";
+import updateCohort from "../../../../../actions/systemConfig/cohort/updateCohort";
+import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
-const CohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
+const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
   const dispatch = useDispatch();
 
   const { academicYear } = cohort;
@@ -47,7 +47,10 @@ const CohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
         mutateResources();
       })
       .catch((err) => {
-        dispatch(showNotification(err.message));
+        const errorList = Object.values(err.data?.errors);
+        dispatch(
+          showNotification(errorList?.[0]?.[0] || "Something went wrong."),
+        );
       })
       .finally(closeModal);
   };
@@ -152,11 +155,11 @@ const CohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
   );
 };
 
-CohortModal.propTypes = {
+EditCohortModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   mutateResources: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
   cohort: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default CohortModal;
+export default EditCohortModal;

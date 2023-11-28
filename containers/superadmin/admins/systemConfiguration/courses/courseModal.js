@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { required } from "../../../../lib/objects";
-import ImageComponent from "../../../../components/image";
+import { required } from "../../../../../lib/objects";
+import ImageComponent from "../../../../../components/image";
 import DepartmentSearch from "../departments/departmentSearch";
-import TextInput from "../../../../components/inputs/textInput";
-import CloseSVGImage from "../../../../public/images/close.svg";
-import { FORM_WITH_DIRTY_VALUES } from "../../../../config/form";
-import updateCourse from "../../../../actions/systemConfig/course/updateCourse";
-import { showNotification } from "../../../../reducers/notification/notificationReducer";
+import TextInput from "../../../../../components/inputs/textInput";
+import CloseSVGImage from "../../../../../public/images/close.svg";
+import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
+import updateCourse from "../../../../../actions/systemConfig/course/updateCourse";
+import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
 const CourseModal = ({ auth, closeModal, mutateResources, course }) => {
   const dispatch = useDispatch();

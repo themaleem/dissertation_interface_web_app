@@ -3,17 +3,19 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { getPath } from "../../../../config/urls";
-import { required } from "../../../../lib/objects";
-import ImageComponent from "../../../../components/image";
-import { FORM_SUBSCRIPTION } from "../../../../config/form";
-import CalendarSVG from "../../../../public/images/calendar.svg";
-import BackArrowImage from "../../../../public/images/back-arrow.svg";
-import CalendarInput from "../../../../components/inputs/calendarInput";
-import createAcademicYear from "../../../../actions/systemConfig/createAcademicYear";
-import { showNotification } from "../../../../reducers/notification/notificationReducer";
+import { getPath } from "../../../../../config/urls";
+import { required } from "../../../../../lib/objects";
+import ImageComponent from "../../../../../components/image";
+import { FORM_SUBSCRIPTION } from "../../../../../config/form";
+import CalendarSVG from "../../../../../public/images/calendar.svg";
+import BackArrowImage from "../../../../../public/images/back-arrow.svg";
+import CalendarInput from "../../../../../components/inputs/calendarInput";
+import createAcademicYear from "../../../../../actions/systemConfig/createAcademicYear";
+import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
-const systemConfigurationPath = getPath("systemConfigurationPath").href;
+const systemConfigurationPath = `${
+  getPath("systemConfigurationPath").href
+}#tab=academic-year`;
 
 const CreateAcademicYear = () => {
   const router = useRouter();

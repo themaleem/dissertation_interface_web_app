@@ -4,17 +4,19 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { getPath } from "../../../../config/urls";
-import { required } from "../../../../lib/objects";
-import ImageComponent from "../../../../components/image";
-import { FORM_SUBSCRIPTION } from "../../../../config/form";
-import BackArrowImage from "../../../../public/images/back-arrow.svg";
-import CalendarInput from "../../../../components/inputs/calendarInput";
-import AcademicYearSearch from "../systemConfiguration/academicYearSearch";
-import createCohort from "../../../../actions/systemConfig/cohort/createCohort";
-import { showNotification } from "../../../../reducers/notification/notificationReducer";
+import { getPath } from "../../../../../config/urls";
+import { required } from "../../../../../lib/objects";
+import ImageComponent from "../../../../../components/image";
+import { FORM_SUBSCRIPTION } from "../../../../../config/form";
+import AcademicYearSearch from "../academicYear/academicYearSearch";
+import BackArrowImage from "../../../../../public/images/back-arrow.svg";
+import CalendarInput from "../../../../../components/inputs/calendarInput";
+import createCohort from "../../../../../actions/systemConfig/cohort/createCohort";
+import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
-const dissertationCohortsPath = getPath("dissertationCohortsPath").href;
+const dissertationCohortsPath = `${
+  getPath("systemConfigurationPath").href
+}#tab=cohorts`;
 
 const CreateCohort = ({ auth }) => {
   const router = useRouter();

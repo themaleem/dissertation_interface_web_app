@@ -97,7 +97,7 @@ const pathsByName = {
     href: "/admin/system-configuration/new-department",
   },
   dissertationCohortsPath: {
-    href: "",
+    href: "#tab=cohorts",
     metaTitle: "",
     type: "admin",
     metaDescription: "",

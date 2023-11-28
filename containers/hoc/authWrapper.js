@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import useSignOut from "../hooks/useSignOut";
+import useIsClient from "../hooks/useIsClient";
 import useWithSWR from "../../components/swr/withSwr";
 import { getPath, isPathType } from "../../config/urls";
 import { ONLY_FOCUS_REVALIDATION } from "../../config/swr";
-import useIsClient from "../../components/hooks/useIsClient";
 import getCurrentUser from "../../actions/user/getCurrentUser";
 
 const onAuthPath = (pathname) => isPathType(pathname, "auth");

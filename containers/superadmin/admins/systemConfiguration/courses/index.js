@@ -1,28 +1,28 @@
+import Router from "next/router";
 import PropTypes from "prop-types";
 import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
 
-import DepartmentModal from "./departmentModal";
-import { getPath } from "../../../../config/urls";
-import ModalWrapper from "../../../../components/modal";
-import ImageComponent from "../../../../components/image";
-import Pagination from "../../../../components/pagination";
-import { dateWithSlashes } from "../../../../lib/dateUtils";
-import { createStringifiedUrl } from "../../../../lib/objects";
-import SearchIconImage from "../../../../public/images/search-icon.svg";
-import PaginationSkeleton from "../../../../components/skeletons/pagination";
-import AdminUserSkeleton from "../../../../components/skeletons/superadmin/adminUsers";
-import getDepartments from "../../../../actions/systemConfig/departments/getDepartments";
+import EditModal from "./courseModal";
+import { getPath } from "../../../../../config/urls";
+import ModalWrapper from "../../../../../components/modal";
+import ImageComponent from "../../../../../components/image";
+import Pagination from "../../../../../components/pagination";
+import { createStringifiedUrl } from "../../../../../lib/objects";
+import SearchIconImage from "../../../../../public/images/search-icon.svg";
+import getCourses from "../../../../../actions/systemConfig/course/getCourses";
+import PaginationSkeleton from "../../../../../components/skeletons/pagination";
+import AdminUserSkeleton from "../../../../../components/skeletons/superadmin/adminUsers";
 
-const Departments = ({ getDepartments }) => {
+const newCoursePath = getPath("newCoursePath").href;
+
+const Courses = ({ auth, getCourses }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
-  const [openModal, setOpenModal] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState();
   const [searchValue, setSearchValue] = useState("");
-  const [actionType, setActionType] = useState("create");
-  const [selectedDepartment, setSelectedDepartment] = useState();
 
   const debouncedNameSearch = useCallback(
     debounce((value) => setSearchValue(value), 300),
@@ -37,73 +37,65 @@ const Departments = ({ getDepartments }) => {
 
   const handlePageChange = (pageNum) => setPageNumber(pageNum);
 
-  const baseUrl = createStringifiedUrl(getPath("departmentsPath").route, {
+  const baseUrl = createStringifiedUrl(getPath("coursesPath").route, {
     pageSize,
     PageNumber: pageNumber,
     SearchByName: searchValue,
   });
 
-  const toggleModal = useCallback((department = undefined) => {
-    if (department) {
-      setSelectedDepartment(department);
-      setActionType("edit");
-    } else {
-      setActionType("create");
-      setSelectedDepartment();
-    }
-    setOpenModal((state) => !state);
+  const [openEditModal, setOpenEditModal] = useState(false);
+
+  const toggleEditModal = useCallback((course) => {
+    setSelectedCourse(course);
+    setOpenEditModal((open) => !open);
   }, []);
 
-  const { data } = useSWR(baseUrl, getDepartments);
+  const { data } = useSWR(baseUrl, getCourses);
 
   const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
 
-  const renderDepartmentModal = useCallback(() => {
+  const renderEditModal = () => {
     return (
       <ModalWrapper
-        open={openModal}
-        closeModal={toggleModal}
+        open={openEditModal}
+        closeModal={toggleEditModal}
         options={{ closeOnEsc: false, closeOnOverlayClick: false }}
       >
-        <DepartmentModal
-          actionType={actionType}
-          closeModal={toggleModal}
-          department={selectedDepartment}
+        <EditModal
+          auth={auth}
+          course={selectedCourse}
+          closeModal={toggleEditModal}
           mutateResources={mutateResources}
         />
       </ModalWrapper>
     );
-  }, [actionType, openModal, toggleModal, mutateResources, selectedDepartment]);
+  };
 
-  const renderDepartmentsList = useCallback(() => {
+  const renderCourseList = useCallback(() => {
     if (!data?.result) return <AdminUserSkeleton rows={3} />;
 
     return (
       <>
-        {data.result.data.map((department, index) => {
+        {data.result.data.map((course, index) => {
           return (
             <div key={index} className="custom-table-row">
               <div className="custom-table-cell">
                 <span> {index + 1} </span>
               </div>
               <div className="custom-table-cell">
-                <span title={department.name}> {department.name} </span>
+                <span title="johndoe@sheffielduni.co">{course.name}</span>
               </div>
               <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">
-                  {department.createdBy}
-                </span>
+                <span> {course.createdBy} </span>
               </div>
               <div className="custom-table-cell">
-                <span title="John Doe">
-                  {dateWithSlashes(department.createdAt)}
-                </span>
+                <span title="John Doe">{course.department.name}</span>
               </div>
               <div className="custom-table-cell">
                 <button
                   type="button"
                   className="button"
-                  onClick={() => toggleModal(department)}
+                  onClick={() => toggleEditModal(course)}
                 >
                   Edit
                 </button>
@@ -113,7 +105,7 @@ const Departments = ({ getDepartments }) => {
         })}
       </>
     );
-  }, [data?.result, toggleModal]);
+  }, [data, toggleEditModal]);
 
   const renderPagination = () => {
     if (!data?.result) return <PaginationSkeleton />;
@@ -130,20 +122,20 @@ const Departments = ({ getDepartments }) => {
 
   return (
     <>
-      {renderDepartmentModal()}
+      {renderEditModal()}
       <section className="manage-admin-section">
         <div className="section-wrapper">
           <div className="container">
             <div className="request-block">
               <div className="dashboard-header">
                 <div className="dashboard-header-inner">
-                  <h3>Departments</h3>
+                  <h3>Courses</h3>
                   <button
                     type="button"
-                    onClick={() => toggleModal()}
                     className="button is-primary"
+                    onClick={() => Router.push(newCoursePath)}
                   >
-                    Add new department
+                    Add new course
                   </button>
                 </div>
               </div>
@@ -170,19 +162,19 @@ const Departments = ({ getDepartments }) => {
                     <span>S/N</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span> Name</span>
+                    <span>Name</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span>Email</span>
+                    <span>Created By</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span> Created At</span>
+                    <span>Dapartment</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span> Actions</span>
+                    <span>Actions</span>
                   </div>
                 </div>
-                {renderDepartmentsList()}
+                {renderCourseList()}
               </div>
               {renderPagination()}
             </div>
@@ -193,6 +185,9 @@ const Departments = ({ getDepartments }) => {
   );
 };
 
-Departments.propTypes = { getDepartments: PropTypes.func.isRequired };
+Courses.propTypes = {
+  getCourses: PropTypes.func.isRequired,
+  auth: PropTypes.instanceOf(Object).isRequired,
+};
 
-export default connect(null, { getDepartments })(Departments);
+export default connect(null, { getCourses })(Courses);
