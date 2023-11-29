@@ -89,11 +89,7 @@ const SignIn = () => {
                         <label htmlFor="email"> Enter valid SHU email </label>
                       </div>
                       <div className="control">
-                        <PasswordInput
-                          name="password"
-                          type="password"
-                          validatePasswordField
-                        />
+                        <PasswordInput name="password" type="password" />
                       </div>
                     </div>
 
