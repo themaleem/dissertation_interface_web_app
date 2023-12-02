@@ -167,7 +167,7 @@ const Courses = ({ auth, getCourses }) => {
                     <span>Name</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span>Dapartment</span>
+                    <span>Department</span>
                   </div>
                   <div className="custom-table-cell">
                     <span>Created By</span>
