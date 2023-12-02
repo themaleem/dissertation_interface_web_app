@@ -972,3 +972,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .sub-navigation a:hover{
   background: rgba(0, 0, 0, 0.08);
 }
+
+.field-group{
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 24px;
+}
+
+.field-group .field{
+  margin-bottom: 0;
+}

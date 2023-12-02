@@ -17,8 +17,17 @@ import { showNotification } from "../../reducers/notification/notificationReduce
 const homePath = getPath("homePath").href;
 const forgotPasswordPath = getPath("forgotPasswordPath").href;
 const adminDashboardPath = getPath("adminDashboardPath").href;
+const studentDashboardPath = getPath("studentDashboardPath").href;
+const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
 
-const SignIn = () => {
+const dashboardPaths = {
+  admin: adminDashboardPath,
+  student: studentDashboardPath,
+  superadmin: adminDashboardPath,
+  supervisor: supervisorDashboardPath,
+};
+
+const SignIn = ({ auth }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -26,16 +35,21 @@ const SignIn = () => {
     const data = { email: values.email, password: values.password };
 
     return dispatch(signIn(data))
-      .then(() => {
-        router.push(adminDashboardPath);
+      .then((res) => {
+        const {
+          data: {
+            result: { role },
+          },
+        } = res;
+
+        const userRole = role[0].toLowerCase();
+        router.push(dashboardPaths[userRole]);
       })
       .catch((err) => {
-        if (err?.data?.message) {
-          return dispatch(showNotification(err.data.message));
-        }
         return dispatch(
           showNotification(
-            "Something went wrong. Please try again or contact an admin ",
+            err.message ||
+              "Something went wrong. Please try again or contact an admin ",
           ),
         );
       });

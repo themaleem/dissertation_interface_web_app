@@ -5,7 +5,7 @@ import CustomTabs from "../../components/customTabs";
 import authWrapper from "../../containers/hoc/authWrapper";
 import SupervisorsList from "../../containers/supervisors";
 import DashboardLayout from "../../components/layout/dashboard";
-import StudentsInvitesList from "../../containers/students/invites";
+import SupervisorsInvitesList from "../../containers/supervisors/invites";
 
 const tabsObject = {
   supervisors: 0,
@@ -18,14 +18,14 @@ const SupervisorsPage = ({ auth }) => {
       {
         tabIndex: 0,
         disabled: false,
-        title: "Students",
+        title: "Supervisors",
         panel: <SupervisorsList auth={auth} />,
       },
       {
         tabIndex: 1,
         disabled: false,
-        title: "Invites",
-        panel: <StudentsInvitesList auth={auth} />,
+        title: "Pending Invites",
+        panel: <SupervisorsInvitesList auth={auth} />,
       },
     ];
   }, [auth]);
@@ -38,7 +38,11 @@ const SupervisorsPage = ({ auth }) => {
 
   return (
     <DashboardLayout>
-      <CustomTabs tabs={tabs} tabsObject={tabsObject} pathName="studentsPath" />
+      <CustomTabs
+        tabs={tabs}
+        tabsObject={tabsObject}
+        pathName="supervisorsPath"
+      />
     </DashboardLayout>
   );
 };

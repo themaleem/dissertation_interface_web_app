@@ -11,7 +11,9 @@ import Logo from "../../../public/images/logo.svg";
 import { getUserInitials } from "../../../lib/objects";
 
 const homePath = getPath("homePath").href;
+const studentsPath = getPath("studentsPath").href;
 const adminUsersPath = getPath("adminUsersPath").href;
+const supervisorsPath = getPath("supervisorsPath").href;
 const adminDashboardPath = getPath("adminDashboardPath").href;
 const systemConfigurationPath = getPath("systemConfigurationPath").href;
 
@@ -19,12 +21,12 @@ const paths = [
   { name: "Dashboard", path: adminDashboardPath },
   { name: "Manage Admins", path: adminUsersPath, type: "superadmin" },
   { name: "System configuration", path: systemConfigurationPath },
-  { name: "Students", path: "#" },
-  { name: "Supervisors", path: "#" },
+  { name: "Students", path: studentsPath },
+  { name: "Supervisors", path: supervisorsPath },
   { name: "Requests", path: "#" },
 ];
 
-const Header = ({ auth }) => {
+const AdminHeader = ({ auth }) => {
   const isSuperadmin = useMemo(() => {
     if (!auth.user) return undefined;
 
@@ -35,6 +37,14 @@ const Header = ({ auth }) => {
 
   const isSystemConfigPage = useMemo(() => {
     return systemConfigurationPath === router.pathname.split("/", 3).join("/");
+  }, [router.pathname]);
+
+  const isSupervisorPath = useMemo(() => {
+    return supervisorsPath === router.pathname.split("/", 2).join("/");
+  }, [router.pathname]);
+
+  const isStudentPath = useMemo(() => {
+    return studentsPath === router.pathname.split("/", 2).join("/");
   }, [router.pathname]);
 
   const renderInitial = () => (
@@ -82,6 +92,32 @@ const Header = ({ auth }) => {
                 );
               }
 
+              if (index === 3 && isStudentPath) {
+                return (
+                  <div key={item.name} className="navbar-item">
+                    <Link
+                      href={item.path}
+                      className="navbar-link is-arrowless is-active"
+                    >
+                      {item.name}
+                    </Link>
+                  </div>
+                );
+              }
+
+              if (index === 4 && isSupervisorPath) {
+                return (
+                  <div key={item.name} className="navbar-item">
+                    <Link
+                      href={item.path}
+                      className="navbar-link is-arrowless is-active"
+                    >
+                      {item.name}
+                    </Link>
+                  </div>
+                );
+              }
+
               return (
                 <div key={item.name} className="navbar-item">
                   <Link
@@ -107,6 +143,6 @@ const Header = ({ auth }) => {
   );
 };
 
-Header.propTypes = { auth: PropTypes.instanceOf(Object).isRequired };
+AdminHeader.propTypes = { auth: PropTypes.instanceOf(Object).isRequired };
 
-export default Header;
+export default AdminHeader;

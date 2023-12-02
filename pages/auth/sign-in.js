@@ -5,7 +5,7 @@ import authWrapper from "../../containers/hoc/authWrapper";
 const SignInPage = ({ auth }) => {
   return (
     <>
-      <SignIn />
+      <SignIn auth={auth} />
       <Footer />
     </>
   );

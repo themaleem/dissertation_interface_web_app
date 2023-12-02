@@ -8,10 +8,10 @@ import { getPath } from "../../../../../config/urls";
 import useWithSWR from "../../../../../components/swr/withSwr";
 import { createStringifiedUrl } from "../../../../../lib/objects";
 import SuspenseComponent from "../../../../../components/suspense";
+import getCourses from "../../../../../actions/systemConfig/course/getCourses";
 import AsyncSelectInput from "../../../../../components/inputs/asyncSelectInput";
-import getDepartments from "../../../../../actions/systemConfig/departments/getDepartments";
 
-const DepartmentSearch = ({
+const CourseSearch = ({
   id,
   auth,
   meta,
@@ -26,21 +26,21 @@ const DepartmentSearch = ({
   defaultValue,
   cacheOptions,
   getOptionValue,
-  getDepartments,
+  getCourses,
   getOptionLabel,
 }) => {
-  const baseUrl = createStringifiedUrl(getPath("activeDepartmentsPath").route);
+  const baseUrl = createStringifiedUrl(getPath("activeCoursesPath").route);
 
-  const { data } = useSWR(baseUrl, getDepartments);
+  const { data } = useSWR(baseUrl, getCourses);
 
-  const defaultOptions = (data?.result || []).map((department) => {
+  const defaultOptions = (data?.result || []).map((course) => {
     return {
-      value: department.id,
-      label: department.name,
+      value: course.id,
+      label: course.name,
     };
   });
 
-  let handleDepartmentSearch = (value, callback) => {
+  let handleCourseSearch = (value, callback) => {
     const name = value.trim();
     if (!name.length) {
       callback(defaultOptions);
@@ -49,13 +49,13 @@ const DepartmentSearch = ({
 
     const url = createStringifiedUrl(baseUrl, { SearchByName: name });
 
-    getDepartments(url)
+    getCourses(url)
       .then((response) => {
         let options = [];
         if (response.result) {
-          options = response.result.map((department) => ({
-            value: department.id,
-            label: department.name,
+          options = response.result.map((course) => ({
+            value: course.id,
+            label: course.name,
           }));
         }
         callback(options);
@@ -63,7 +63,7 @@ const DepartmentSearch = ({
       .catch();
   };
 
-  handleDepartmentSearch = debounce(handleDepartmentSearch, 300);
+  handleCourseSearch = debounce(handleCourseSearch, 300);
 
   const renderSkeleton = () => <Skeleton height={35} width={200} />;
 
@@ -84,7 +84,7 @@ const DepartmentSearch = ({
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
         defaultOptions={defaultOptions}
-        loadOptions={handleDepartmentSearch}
+        loadOptions={handleCourseSearch}
       />
     );
   };
@@ -101,7 +101,7 @@ const DepartmentSearch = ({
   );
 };
 
-DepartmentSearch.defaultProps = {
+CourseSearch.defaultProps = {
   multi: false,
   loading: false,
   meta: undefined,
@@ -116,7 +116,7 @@ DepartmentSearch.defaultProps = {
   getOptionLabel: undefined,
 };
 
-DepartmentSearch.propTypes = {
+CourseSearch.propTypes = {
   multi: PropTypes.bool,
   loading: PropTypes.bool,
   onChange: PropTypes.func,
@@ -127,10 +127,10 @@ DepartmentSearch.propTypes = {
   getOptionValue: PropTypes.func,
   getOptionLabel: PropTypes.func,
   input: PropTypes.instanceOf(Object),
-  getDepartments: PropTypes.func.isRequired,
+  getCourses: PropTypes.func.isRequired,
   meta: PropTypes.objectOf(PropTypes.any),
   defaultValue: PropTypes.instanceOf(Array),
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(null, { getDepartments })(DepartmentSearch);
+export default connect(null, { getCourses })(CourseSearch);

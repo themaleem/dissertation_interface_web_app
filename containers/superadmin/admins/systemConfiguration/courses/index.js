@@ -86,10 +86,12 @@ const Courses = ({ auth, getCourses }) => {
                 <span title="johndoe@sheffielduni.co">{course.name}</span>
               </div>
               <div className="custom-table-cell">
-                <span> {course.createdBy} </span>
+                <span title={course.department.name}>
+                  {course.department.name}
+                </span>
               </div>
               <div className="custom-table-cell">
-                <span title="John Doe">{course.department.name}</span>
+                <span> {course.createdBy} </span>
               </div>
               <div className="custom-table-cell">
                 <button
@@ -156,7 +158,7 @@ const Courses = ({ auth, getCourses }) => {
               </div>
             </div>
             <div className="custom-table-wrapper">
-              <div className="custom-table">
+              <div className="custom-table courses">
                 <div className="custom-table-row header">
                   <div className="custom-table-cell">
                     <span>S/N</span>
@@ -165,10 +167,10 @@ const Courses = ({ auth, getCourses }) => {
                     <span>Name</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span>Created By</span>
+                    <span>Dapartment</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span>Dapartment</span>
+                    <span>Created By</span>
                   </div>
                   <div className="custom-table-cell">
                     <span>Actions</span>

@@ -23,7 +23,7 @@ import resendConfirmationEmail from "../../actions/superadmin/resendConfirmation
 
 const newAdminPath = getPath("newAdminPath").href;
 
-const StudentsList = ({
+const SupervisorsList = ({
   auth,
   activateUser,
   getAdminUsers,
@@ -230,14 +230,20 @@ const StudentsList = ({
             <div className="request-block">
               <div className="dashboard-header">
                 <div className="dashboard-header-inner">
-                  <h3>Manage admins</h3>
-                  <button
-                    type="button"
-                    className="button is-primary"
-                    onClick={() => Router.push(newAdminPath)}
-                  >
-                    Add new admin
-                  </button>
+                  <h3>Supervisors</h3>
+
+                  <div className="btn-group">
+                    <button type="button" className="button">
+                      Upload a list
+                    </button>
+                    <button
+                      type="button"
+                      className="button is-primary"
+                      onClick={() => Router.push(newAdminPath)}
+                    >
+                      Invite new supervisor
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="search-block is-flex is-align-items-flex-end is-justify-content-space-between">
@@ -247,7 +253,7 @@ const StudentsList = ({
                       type="text"
                       className="input"
                       onChange={handleInputChange}
-                      placeholder="Search by Username"
+                      placeholder="Search by Staff ID"
                     />
                     <span className="searxh-icon-img">
                       <ImageComponent src={SearchIconImage} />
@@ -286,7 +292,7 @@ const StudentsList = ({
   );
 };
 
-StudentsList.propTypes = {
+SupervisorsList.propTypes = {
   activateUser: PropTypes.func.isRequired,
   getAdminUsers: PropTypes.func.isRequired,
   deactivateUser: PropTypes.func.isRequired,
@@ -301,4 +307,4 @@ export default connect(null, {
   deactivateUser,
   showNotification,
   resendConfirmationEmail,
-})(StudentsList);
+})(SupervisorsList);

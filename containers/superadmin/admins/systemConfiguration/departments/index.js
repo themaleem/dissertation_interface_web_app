@@ -164,7 +164,7 @@ const Departments = ({ getDepartments }) => {
               </div>
             </div>
             <div className="custom-table-wrapper">
-              <div className="custom-table">
+              <div className="custom-table dept">
                 <div className="custom-table-row header">
                   <div className="custom-table-cell">
                     <span>S/N</span>

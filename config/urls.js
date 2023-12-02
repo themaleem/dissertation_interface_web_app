@@ -45,6 +45,15 @@ const pathsByName = {
     href: "/user/[id]",
     route: "/user/[id]",
   },
+  confirmSupervisorInvite: {
+    type: "auth",
+    href: "/auth/supervisor/confirm-invite",
+  },
+  // supervisorregisterPath: {
+  //   type: "auth",
+  //   href: "/user/[id]",
+  //   route: "/user/[id]",
+  // },
   adminDashboardPath: {
     type: "admin",
     metaTitle: "",
@@ -53,9 +62,9 @@ const pathsByName = {
   },
   adminUsersPath: {
     metaTitle: "",
-    href: "/admin/list",
     type: "superadmin",
     metaDescription: "",
+    href: "/admin/manage-admins",
     route: "/user/get-admin-users",
   },
   newAdminPath: {
@@ -110,12 +119,77 @@ const pathsByName = {
     metaDescription: "",
     route: "/department",
   },
+  activeDepartmentsPath: {
+    href: "",
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/department/active",
+  },
+  activeCoursesPath: {
+    href: "",
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/course/active",
+  },
   coursesPath: {
     href: "",
     type: "admin",
     metaTitle: "",
     route: "/course",
     metaDescription: "",
+  },
+
+  studentsPath: {
+    type: "admin",
+    metaTitle: "",
+    metaDescription: "",
+    href: "/students",
+  },
+  studentInvitesPath: {
+    type: "admin",
+    metaTitle: "",
+    metaDescription: "",
+    href: "/studentinvite",
+  },
+  inviteStudentPath: {
+    type: "admin",
+    metaTitle: "",
+    metaDescription: "",
+    route: "/students",
+    href: "/students/invite",
+  },
+  studentDashboardPath: {
+    metaTitle: "",
+    type: "student",
+    metaDescription: "",
+    href: "/student/dashboard",
+  },
+  supervisorsPath: {
+    type: "admin",
+    metaTitle: "",
+    metaDescription: "",
+    href: "/supervisors",
+  },
+  supervisorInvitesPath: {
+    type: "admin",
+    metaTitle: "",
+    metaDescription: "",
+    href: "/supervisorinvite",
+  },
+  inviteSupervisorPath: {
+    type: "admin",
+    metaTitle: "",
+    metaDescription: "",
+    route: "/supervisors",
+    href: "/supervisors/invite",
+  },
+  supervisorDashboardPath: {
+    metaTitle: "",
+    type: "supervisor",
+    metaDescription: "",
+    href: "/supervisor/dashboard",
   },
 };
 

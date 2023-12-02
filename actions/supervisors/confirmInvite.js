@@ -1,12 +1,11 @@
-import { onSignIn } from "../../lib/auth";
+import { DISSERTATION_BASE_URL } from "../../config/urls";
 
-const signIn =
+const confirmInvite =
   (values) =>
   async (dispatch, _getState, { api }) => {
     function onSuccess(response) {
       if (response.data.isSuccess) {
-        onSignIn(response);
-        return response;
+        return response.data;
       }
       // @note explicitly throwing error
       throw { response: { message: response.data.message } };
@@ -17,11 +16,14 @@ const signIn =
     }
 
     try {
-      const response = await api.post("/auth/login", values);
+      const response = await api.post(
+        `${DISSERTATION_BASE_URL}/supervisorinvite/confirm-invite`,
+        values,
+      );
       return onSuccess(response);
     } catch (error) {
       return onError(error);
     }
   };
 
-export default signIn;
+export default confirmInvite;
