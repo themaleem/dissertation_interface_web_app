@@ -24,7 +24,7 @@ const SupervisorsPage = ({ auth }) => {
       {
         tabIndex: 1,
         disabled: false,
-        title: "Invites",
+        title: "Pending Invites",
         panel: <StudentsInvitesList auth={auth} />,
       },
     ];
