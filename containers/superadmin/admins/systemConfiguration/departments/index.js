@@ -90,12 +90,10 @@ const Departments = ({ getDepartments }) => {
                 <span title={department.name}> {department.name} </span>
               </div>
               <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">
-                  {department.createdBy}
-                </span>
+                <span title={department.createdBy}>{department.createdBy}</span>
               </div>
               <div className="custom-table-cell">
-                <span title="John Doe">
+                <span title={dateWithSlashes(department.createdAt)}>
                   {dateWithSlashes(department.createdAt)}
                 </span>
               </div>

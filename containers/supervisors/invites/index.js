@@ -131,18 +131,7 @@ const SupervisorsInvitesList = ({
               </div>
 
               <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">
-                  {invitation.email}
-                  {/* {invitation.status === "inactive" && (
-                    <a
-                      onClick={() =>
-                        handleResendConfirmationEmail(invitation.email)
-                      }
-                    >
-                      Resend invitation
-                    </a>
-                  )} */}
-                </span>
+                <span title={invitation.email}>{invitation.email}</span>
               </div>
               <div className="custom-table-cell">
                 <span title={invitation.staffId}>{invitation.staffId}</span>

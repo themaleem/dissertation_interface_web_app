@@ -149,12 +149,8 @@ const StudentsList = ({
               <div className="custom-table-cell">
                 <span title={user.userName}> {user.userName} </span>
               </div>
-              {/* <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">{user.email}</span>
-              </div> */}
-
               <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">
+                <span title={user.email}>
                   {user.email}
                   {!user.emailConfirmed && (
                     <a
@@ -167,7 +163,7 @@ const StudentsList = ({
               </div>
 
               <div className="custom-table-cell">
-                <span title="John Doe">
+                <span title={`${user.firstName} ${user.lastName}`}>
                   {user.firstName} {user.lastName}
                 </span>
               </div>
@@ -260,7 +256,7 @@ const StudentsList = ({
               <div className="custom-table">
                 <div className="custom-table-row header">
                   <div className="custom-table-cell">
-                    <span> User ID</span>
+                    <span> Student ID</span>
                   </div>
                   <div className="custom-table-cell">
                     <span> Email</span>
@@ -275,9 +271,9 @@ const StudentsList = ({
                     <span> Actions</span>
                   </div>
                 </div>
-                {renderAdminUserList()}
+                {/* {renderAdminUserList()} */}
               </div>
-              {renderPagination()}
+              {/* {renderPagination()} */}
             </div>
           </div>
         </div>

@@ -83,7 +83,7 @@ const Courses = ({ auth, getCourses }) => {
                 <span> {index + 1} </span>
               </div>
               <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">{course.name}</span>
+                <span title={course.name}>{course.name}</span>
               </div>
               <div className="custom-table-cell">
                 <span title={course.department.name}>

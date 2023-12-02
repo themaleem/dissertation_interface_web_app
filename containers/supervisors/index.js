@@ -149,12 +149,8 @@ const SupervisorsList = ({
               <div className="custom-table-cell">
                 <span title={user.userName}> {user.userName} </span>
               </div>
-              {/* <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">{user.email}</span>
-              </div> */}
-
               <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">
+                <span title={user.email}>
                   {user.email}
                   {!user.emailConfirmed && (
                     <a
@@ -167,7 +163,7 @@ const SupervisorsList = ({
               </div>
 
               <div className="custom-table-cell">
-                <span title="John Doe">
+                <span title={`${user.firstName} ${user.lastName}`}>
                   {user.firstName} {user.lastName}
                 </span>
               </div>
@@ -266,7 +262,7 @@ const SupervisorsList = ({
               <div className="custom-table">
                 <div className="custom-table-row header">
                   <div className="custom-table-cell">
-                    <span> User ID</span>
+                    <span> Staff ID</span>
                   </div>
                   <div className="custom-table-cell">
                     <span> Email</span>
@@ -281,9 +277,9 @@ const SupervisorsList = ({
                     <span> Actions</span>
                   </div>
                 </div>
-                {renderAdminUserList()}
+                {/* {renderAdminUserList()} */}
               </div>
-              {renderPagination()}
+              {/* {renderPagination()} */}
             </div>
           </div>
         </div>

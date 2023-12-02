@@ -130,7 +130,7 @@ const StudentsInvitesList = ({
               </div>
 
               <div className="custom-table-cell">
-                <span title="johndoe@sheffielduni.co">
+                <span title={invitation.email}>
                   {invitation.email}
                   {/* {invitation.status === "inactive" && (
                     <a
