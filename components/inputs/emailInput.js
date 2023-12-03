@@ -16,6 +16,7 @@ const EmailInput = ({
   disabled,
   validate,
   className,
+  labelText,
   isShuEmail,
   placeholder,
   defaultValue,
@@ -34,6 +35,7 @@ const EmailInput = ({
       onChange={onChange}
       disabled={disabled}
       component={TextInput}
+      labelText={labelText}
       className={className}
       placeholder={placeholder}
       defaultValue={defaultValue || undefined}
@@ -72,6 +74,7 @@ EmailInput.propTypes = {
   validateField: PropTypes.bool,
   defaultValue: PropTypes.string,
   change: PropTypes.func.isRequired,
+  labelText: PropTypes.string.isRequired,
 };
 
 export default EmailInput;

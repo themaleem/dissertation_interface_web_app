@@ -63,17 +63,15 @@ const CourseModal = ({ auth, closeModal, mutateResources, course }) => {
               <section className="modal-card-body">
                 <div className="modal-form-content">
                   <div className="field">
-                    <div className="control">
-                      <Field
-                        id="name"
-                        name="name"
-                        type="text"
-                        className="input"
-                        validate={required}
-                        component={TextInput}
-                      />
-                      <label htmlFor="name"> Name </label>
-                    </div>
+                    <Field
+                      id="name"
+                      name="name"
+                      type="text"
+                      labelText="Name"
+                      className="input"
+                      validate={required}
+                      component={TextInput}
+                    />
                   </div>
                   <div className="field">
                     <div className="control">

@@ -16,6 +16,17 @@ const onAdminPath = (pathname) => isPathType(pathname, "admin");
 const onStaticPath = (pathname) => isPathType(pathname, "static");
 const onSuperadminPath = (pathname) => isPathType(pathname, "superadmin");
 
+const adminDashboardPath = getPath("adminDashboardPath").href;
+const studentDashboardPath = getPath("studentDashboardPath").href;
+const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
+
+const dashboardPaths = {
+  admin: adminDashboardPath,
+  student: studentDashboardPath,
+  superadmin: adminDashboardPath,
+  supervisor: supervisorDashboardPath,
+};
+
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;
 
@@ -80,7 +91,8 @@ const authWrapper = (WrappedComponent) => {
           window.location.origin.length,
         );
 
-        return (redirectTo = homePath);
+        const userRole = user.role.toLowerCase();
+        return (redirectTo = dashboardPaths[userRole]);
       }
       return undefined;
     };

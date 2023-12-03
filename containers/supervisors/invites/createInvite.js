@@ -75,56 +75,48 @@ const CreateSupervisorInvite = () => {
                   <form className="form-container" autoComplete="off">
                     <div className="field-group">
                       <div className="field">
-                        <div className="control">
-                          <Field
-                            type="text"
-                            id="firstName"
-                            className="input"
-                            name="first_name"
-                            validate={required}
-                            component={TextInput}
-                          />
-                          <label htmlFor="firstName"> First name</label>
-                        </div>
-                      </div>
-                      <div className="field">
-                        <div className="control">
-                          <Field
-                            type="text"
-                            id="lastName"
-                            name="last_name"
-                            className="input"
-                            validate={required}
-                            component={TextInput}
-                          />
-                          <label htmlFor="lastName"> Last name </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="field">
-                      <div className="control">
-                        <EmailInput
-                          id="email"
-                          isShuEmail
-                          validateField
-                          className="input"
-                          change={form.change}
-                        />
-                        <label htmlFor> Enter email address </label>
-                      </div>
-                    </div>
-                    <div className="field">
-                      <div className="control">
                         <Field
                           type="text"
-                          id="staff_id"
-                          name="staff_id"
+                          id="firstName"
+                          className="input"
+                          name="first_name"
+                          validate={required}
+                          component={TextInput}
+                          labelText="First Name"
+                        />
+                      </div>
+                      <div className="field">
+                        <Field
+                          type="text"
+                          id="lastName"
+                          name="last_name"
                           className="input"
                           validate={required}
                           component={TextInput}
+                          labelText="Last Name"
                         />
-                        <label htmlFor="staff_id"> Staff ID </label>
                       </div>
+                    </div>
+                    <div className="field">
+                      <EmailInput
+                        id="email"
+                        isShuEmail
+                        validateField
+                        className="input"
+                        change={form.change}
+                        labelText="Enter email address"
+                      />
+                    </div>
+                    <div className="field">
+                      <Field
+                        type="text"
+                        id="staff_id"
+                        name="staff_id"
+                        className="input"
+                        validate={required}
+                        component={TextInput}
+                        labelText="Staff ID"
+                      />
                     </div>
                     <div className="is-flex is-align-items-center is-justify-content-flex-end form-card-footer">
                       <button

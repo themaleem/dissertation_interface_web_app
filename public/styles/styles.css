@@ -517,6 +517,21 @@ footer {
   margin-bottom: 24px;
 }
 
+.field .control.has-error{
+  border: 1px solid #C10000;
+}
+
+.field .control.has-text-below{
+  margin-bottom: 44px;
+}
+
+.field .control p.is-danger.help {
+  position: absolute;
+  bottom: -30px;
+  font-size: 1rem;
+  left: 0px;
+}
+
 .field .control label {
   position: absolute;
   left: 24px;
@@ -705,6 +720,29 @@ footer {
   font-weight: 700;
   line-height: normal;
 }
+
+.p-inputtext {
+  border: unset;
+ }
+ 
+ .p-inputtext:enabled:focus {
+  box-shadow: unset;
+ }
+ 
+ .calendar-icon {
+  position: absolute;
+  right: 26px;
+ }
+ 
+ .p-datepicker-trigger.p-button.p-component.p-button-icon-only {
+  opacity: 0;
+ }
+ 
+ .p-inputtext {
+  padding: 0;
+ }
+
+
 
 @media only screen and (min-width: 768px) {
   .menu-burger {
@@ -971,35 +1009,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .sub-navigation a:hover{
   background: rgba(0, 0, 0, 0.08);
-}
-
-.field-group{
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: 24px;
-}
-
-.field-group .field{
-  margin-bottom: 0;
-}
-
-.p-inputtext {
-	border: unset;
-}
-
-.p-inputtext:enabled:focus {
-	box-shadow: unset;
-}
-
-.calendar-icon {
-	position: absolute;
-	right: 26px;
-}
-
-.p-datepicker-trigger.p-button.p-component.p-button-icon-only {
-	opacity: 0;
-}
-
-.p-inputtext {
-	padding: 0;
 }

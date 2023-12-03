@@ -48,7 +48,8 @@ const SignIn = ({ auth }) => {
       .catch((err) => {
         return dispatch(
           showNotification(
-            err.message ||
+            err?.data?.message ||
+              err?.message ||
               "Something went wrong. Please try again or contact an admin ",
           ),
         );
@@ -91,20 +92,16 @@ const SignIn = ({ auth }) => {
                 return (
                   <form className="form-container" autoComplete="off">
                     <div className="field">
-                      <div className="control">
-                        <EmailInput
-                          id="email"
-                          isShuEmail
-                          name="email"
-                          validateField
-                          className="input"
-                          change={form.change}
-                        />
-                        <label htmlFor="email"> Enter valid SHU email </label>
-                      </div>
-                      <div className="control">
-                        <PasswordInput name="password" type="password" />
-                      </div>
+                      <EmailInput
+                        id="email"
+                        isShuEmail
+                        name="email"
+                        validateField
+                        className="input"
+                        change={form.change}
+                        labelText="Enter valid SHU email"
+                      />
+                      <PasswordInput name="password" type="password" />
                     </div>
 
                     <div className="is-flex is-justify-content-flex-end form-card-fp-link">

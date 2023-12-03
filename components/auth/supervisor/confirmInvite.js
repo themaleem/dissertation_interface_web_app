@@ -149,45 +149,39 @@ const ConfirmSupervisorInvite = ({ auth }) => {
                     <form className="form-container" autoComplete="off">
                       <div className="field-group">
                         <div className="field">
-                          <div className="control">
-                            <Field
-                              type="text"
-                              id="firstName"
-                              className="input"
-                              name="first_name"
-                              validate={required}
-                              component={TextInput}
-                            />
-                            <label htmlFor="firstName"> First name</label>
-                          </div>
+                          <Field
+                            type="text"
+                            id="firstName"
+                            className="input"
+                            name="first_name"
+                            validate={required}
+                            component={TextInput}
+                            labelText="First Name"
+                          />
                         </div>
                         <div className="field">
-                          <div className="control">
-                            <Field
-                              type="text"
-                              id="lastName"
-                              name="last_name"
-                              className="input"
-                              validate={required}
-                              component={TextInput}
-                            />
-                            <label htmlFor="lastName"> Last name </label>
-                          </div>
+                          <Field
+                            type="text"
+                            id="lastName"
+                            name="last_name"
+                            className="input"
+                            validate={required}
+                            component={TextInput}
+                            labelText="Last Name"
+                          />
                         </div>
                       </div>
                       <div className="field-group">
                         <div className="field">
-                          <div className="control">
-                            <Field
-                              type="text"
-                              id="staffId"
-                              name="staff_id"
-                              className="input"
-                              validate={required}
-                              component={TextInput}
-                            />
-                            <label htmlFor="staffId"> Staff ID </label>
-                          </div>
+                          <Field
+                            type="text"
+                            id="staffId"
+                            name="staff_id"
+                            className="input"
+                            validate={required}
+                            labelText="Staff ID"
+                            component={TextInput}
+                          />
                         </div>
                         <div className="field">
                           <div className="control">
@@ -206,26 +200,22 @@ const ConfirmSupervisorInvite = ({ auth }) => {
                         </div>
                       </div>
                       <div className="field">
-                        <div className="control">
-                          <PasswordInput
-                            id="password"
-                            name="password"
-                            type="password"
-                            validatePasswordField
-                            labelText="New password"
-                          />
-                        </div>
+                        <PasswordInput
+                          id="password"
+                          name="password"
+                          type="password"
+                          validatePasswordField
+                          labelText="New password"
+                        />
                       </div>
                       <div className="field">
-                        <div className="control">
-                          <PasswordInput
-                            type="password"
-                            validatePasswordField
-                            id="password_confirmation"
-                            labelText="Confirm password"
-                            name="password_confirmation"
-                          />
-                        </div>
+                        <PasswordInput
+                          type="password"
+                          validatePasswordField
+                          id="password_confirmation"
+                          labelText="Confirm password"
+                          name="password_confirmation"
+                        />
                       </div>
                       <div className="is-flex is-align-items-center is-justify-content-space-between form-card-footer">
                         <span />

@@ -66,17 +66,15 @@ const CreateCourse = ({ auth }) => {
                 return (
                   <form className="form-container" autoComplete="off">
                     <div className="field">
-                      <div className="control">
-                        <Field
-                          id="name"
-                          name="name"
-                          type="text"
-                          className="input"
-                          validate={required}
-                          component={TextInput}
-                        />
-                        <label htmlFor="lastName"> Course Name </label>
-                      </div>
+                      <Field
+                        id="name"
+                        name="name"
+                        type="text"
+                        className="input"
+                        validate={required}
+                        component={TextInput}
+                        labelText="Course Name"
+                      />
                     </div>
                     <div className="field">
                       <div className="control">

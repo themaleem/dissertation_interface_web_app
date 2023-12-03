@@ -72,57 +72,49 @@ const EditModal = ({ auth, closeModal, mutateResources, user }) => {
                 <div className="modal-form-content">
                   <div className="field-group">
                     <div className="field">
-                      <div className="control">
-                        <Field
-                          type="text"
-                          id="firstName"
-                          className="input"
-                          name="first_name"
-                          validate={required}
-                          component={TextInput}
-                        />
-                        <label htmlFor="firstName"> First name </label>
-                      </div>
-                    </div>
-                    <div className="field">
-                      <div className="control">
-                        <Field
-                          type="text"
-                          id="lastName"
-                          name="last_name"
-                          className="input"
-                          validate={required}
-                          component={TextInput}
-                        />
-                        <label htmlFor="lastName"> Last name </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <div className="control">
-                      <EmailInput
-                        id="email"
-                        isShuEmail
-                        validateField
-                        className="input"
-                        change={form.change}
-                        disabled={user.emailConfirmed}
-                      />
-                      <label htmlFor="email"> Enter email address </label>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <div className="control">
                       <Field
                         type="text"
-                        id="username"
-                        name="username"
+                        id="firstName"
+                        className="input"
+                        name="first_name"
+                        validate={required}
+                        component={TextInput}
+                        labelText="First Name"
+                      />
+                    </div>
+                    <div className="field">
+                      <Field
+                        type="text"
+                        id="lastName"
+                        name="last_name"
                         className="input"
                         validate={required}
                         component={TextInput}
+                        labelText="Last Name"
                       />
-                      <label htmlFor="username"> Staff ID </label>
                     </div>
+                  </div>
+                  <div className="field">
+                    <EmailInput
+                      id="email"
+                      isShuEmail
+                      validateField
+                      className="input"
+                      change={form.change}
+                      disabled={user.emailConfirmed}
+                      labelText="Enter email address"
+                    />
+                  </div>
+                  <div className="field">
+                    <Field
+                      type="text"
+                      id="username"
+                      name="username"
+                      className="input"
+                      validate={required}
+                      labelText="Staff ID"
+                      component={TextInput}
+                    />
                   </div>
                 </div>
               </section>

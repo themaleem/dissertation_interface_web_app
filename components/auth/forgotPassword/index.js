@@ -85,15 +85,13 @@ const ForgotPassword = () => {
                           <strong>reset code</strong>.
                         </p>
                         <div className="field">
-                          <div className="control">
-                            <EmailInput
-                              id="email"
-                              validateField
-                              className="input"
-                              change={form.change}
-                            />
-                            <label htmlFor="email"> Email address </label>
-                          </div>
+                          <EmailInput
+                            id="email"
+                            validateField
+                            className="input"
+                            change={form.change}
+                            labelText="Email Address"
+                          />
                         </div>
                         <div className="is-flex is-align-items-center is-justify-content-space-between form-card-footer">
                           <span />

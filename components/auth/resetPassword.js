@@ -77,24 +77,21 @@ const ResetPassword = () => {
                       Enter your new password in the field below.
                     </p>
                     <div className="field">
-                      <div className="control">
-                        <PasswordInput
-                          id="password"
-                          name="password"
-                          type="password"
-                          validatePasswordField
-                          labelText="New password"
-                        />
-                      </div>
-                      <div className="control">
-                        <PasswordInput
-                          type="password"
-                          validatePasswordField
-                          id="password_confirmation"
-                          labelText="Confirm password"
-                          name="password_confirmation"
-                        />
-                      </div>
+                      <PasswordInput
+                        id="password"
+                        name="password"
+                        type="password"
+                        validatePasswordField
+                        labelText="New password"
+                      />
+
+                      <PasswordInput
+                        type="password"
+                        validatePasswordField
+                        id="password_confirmation"
+                        labelText="Confirm password"
+                        name="password_confirmation"
+                      />
                     </div>
                     <div className="is-flex is-align-items-center is-justify-content-space-between form-card-footer">
                       <span />

@@ -11,6 +11,9 @@ import TextInput from "./textInput";
 import ImageComponent from "../image";
 import EyesOnImage from "../../public/images/eye-on.svg";
 import EyesOffImage from "../../public/images/eye-off.svg";
+import Portal from "../portal";
+
+const passwordIconNodeId = "password-icon";
 
 const PasswordInput = ({
   id = "password",
@@ -27,33 +30,36 @@ const PasswordInput = ({
     <>
       <Field
         id={id || "password"}
+        labelText={labelText}
         component={TextInput}
         name={name || "password"}
         className="input js-handle"
         type={inputType || "password"}
+        passwordIconNodeId={passwordIconNodeId}
         validate={
           validatePasswordField
             ? composeValidators(required, validateStrongPassword)
             : required
         }
       />
-      <label htmlFor={id}> {labelText} </label>
 
-      <span onClick={onShowText}>
-        {inputType === "text" ? (
-          <ImageComponent
-            src={EyesOffImage}
-            className="eye-on"
-            alt="hide password"
-          />
-        ) : (
-          <ImageComponent
-            className="eye-on"
-            alt="show password"
-            src={EyesOnImage}
-          />
-        )}
-      </span>
+      <Portal id={passwordIconNodeId}>
+        <span onClick={onShowText}>
+          {inputType === "text" ? (
+            <ImageComponent
+              src={EyesOffImage}
+              className="eye-on"
+              alt="hide password"
+            />
+          ) : (
+            <ImageComponent
+              src={EyesOnImage}
+              className="eye-on"
+              alt="show password"
+            />
+          )}
+        </span>
+      </Portal>
     </>
   );
 };

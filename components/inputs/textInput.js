@@ -17,8 +17,10 @@ const TextInput = ({
   tabIndex,
   fieldType,
   className,
+  labelText,
   placeholder,
   hideErrorText,
+  passwordIconNodeId,
 }) => {
   const inputRef = useRef();
 
@@ -57,7 +59,11 @@ const TextInput = ({
   );
 
   return (
-    <>
+    <div
+      className={`control${
+        meta.error && meta.touched ? " has-error has-text-below" : ""
+      }`}
+    >
       <input
         id={id}
         onBlur={blur}
@@ -76,14 +82,16 @@ const TextInput = ({
         className={`${className}${getErrorClass()}`}
       />
       {meta.error && meta.error.trim() && meta.touched && !hideErrorText && (
-        <p className="error-message">{meta.error}</p>
+        <p className="help is-danger">{meta.error}</p>
       )}
+      <label htmlFor={id}> {labelText}</label>
+      <span id={passwordIconNodeId} />
 
       {meta.submitError && !meta.dirtySinceLastSubmit && (
         <p className="error-messager">{meta.submitError}</p>
       )}
       {invalid.trim().length > 1 && <p className="error-messager">{invalid}</p>}
-    </>
+    </div>
   );
 };
 
@@ -105,6 +113,7 @@ TextInput.defaultProps = {
   onChange: undefined,
   fieldType: undefined,
   hideErrorText: false,
+  passwordIconNodeId: "",
 };
 
 TextInput.propTypes = {
@@ -123,6 +132,8 @@ TextInput.propTypes = {
   fieldType: PropTypes.string,
   hideErrorText: PropTypes.bool,
   placeholder: PropTypes.string,
+  passwordIconNodeId: PropTypes.string,
+  labelText: PropTypes.string.isRequired,
   meta: PropTypes.objectOf(PropTypes.any),
   input: PropTypes.objectOf(PropTypes.any),
 };

@@ -75,56 +75,48 @@ const CreateStudentInvite = () => {
                   <form className="form-container" autoComplete="off">
                     <div className="field-group">
                       <div className="field">
-                        <div className="control">
-                          <Field
-                            type="text"
-                            id="firstName"
-                            className="input"
-                            name="first_name"
-                            validate={required}
-                            component={TextInput}
-                          />
-                          <label htmlFor="firstName"> First name</label>
-                        </div>
-                      </div>
-                      <div className="field">
-                        <div className="control">
-                          <Field
-                            type="text"
-                            id="lastName"
-                            name="last_name"
-                            className="input"
-                            validate={required}
-                            component={TextInput}
-                          />
-                          <label htmlFor="lastName"> Last name </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="field">
-                      <div className="control">
-                        <EmailInput
-                          id="email"
-                          isShuEmail
-                          validateField
-                          className="input"
-                          change={form.change}
-                        />
-                        <label htmlFor> Enter email address </label>
-                      </div>
-                    </div>
-                    <div className="field">
-                      <div className="control">
                         <Field
                           type="text"
-                          id="studentId"
-                          name="student_id"
+                          id="firstName"
                           className="input"
+                          name="first_name"
                           validate={required}
                           component={TextInput}
+                          labelText="First Name"
                         />
-                        <label htmlFor="studentId"> Student ID </label>
                       </div>
+                      <div className="field">
+                        <Field
+                          type="text"
+                          id="lastName"
+                          name="last_name"
+                          className="input"
+                          validate={required}
+                          labelText="Last Name"
+                          component={TextInput}
+                        />
+                      </div>
+                    </div>
+                    <div className="field">
+                      <EmailInput
+                        id="email"
+                        isShuEmail
+                        validateField
+                        className="input"
+                        labelText="Enter email address"
+                        change={form.change}
+                      />
+                    </div>
+                    <div className="field">
+                      <Field
+                        type="text"
+                        id="studentId"
+                        name="student_id"
+                        className="input"
+                        validate={required}
+                        component={TextInput}
+                        labelText="Student ID"
+                      />
                     </div>
                     <div className="is-flex is-align-items-center is-justify-content-flex-end form-card-footer">
                       <button
