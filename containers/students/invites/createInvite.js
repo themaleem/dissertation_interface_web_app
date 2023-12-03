@@ -54,7 +54,7 @@ const CreateStudentInvite = () => {
                 href={studentsPath}
                 className="form-card-nav-link is-flex is-align-items-center"
               >
-                <ImageComponent src={BackArrowImage} />
+                <ImageComponent src={BackArrowImage} alt="back arrow" />
                 Back to students list
               </Link>
 

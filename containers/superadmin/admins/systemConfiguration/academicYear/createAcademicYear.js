@@ -56,7 +56,7 @@ const CreateAcademicYear = () => {
                 href={systemConfigurationPath}
                 className="form-card-nav-link is-flex is-align-items-center"
               >
-                <ImageComponent src={BackArrowImage} />
+                <ImageComponent src={BackArrowImage} alt="back arrow" />
                 Back to academic year list
               </Link>
 
@@ -71,7 +71,6 @@ const CreateAcademicYear = () => {
                 return (
                   <form className="form-container" autoComplete="off">
                     <div className="field">
-                      <label htmlFor="startDate"> Start date</label>
                       <div className="control">
                         <Field
                           showIcon
@@ -82,20 +81,35 @@ const CreateAcademicYear = () => {
                           validate={required}
                           component={CalendarInput}
                         />
-                        {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                        <label htmlFor="startDate" className="is-active">
+                          Start date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
                       </div>
-                      <label htmlFor="endDate"> End date</label>
+                    </div>
+                    <div className="field">
                       <div className="control">
                         <Field
                           showIcon
                           type="text"
+                          name="end_date"
                           id="start_date"
                           className="input"
-                          name="end_date"
                           validate={required}
                           component={CalendarInput}
                         />
-                        {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                        <label htmlFor="endDate" className="is-active">
+                          End date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
                       </div>
                     </div>
 

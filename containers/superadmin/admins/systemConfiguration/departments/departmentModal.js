@@ -50,7 +50,7 @@ const DepartmentModal = ({
           className="close-btn"
           onClick={() => closeModal()}
         >
-          <ImageComponent src={CloseSVGImage} />
+          <ImageComponent src={CloseSVGImage} alt="close icon" />
         </button>
       </header>
       <Form

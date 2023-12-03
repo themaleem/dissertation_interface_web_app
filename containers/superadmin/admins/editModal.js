@@ -51,7 +51,7 @@ const EditModal = ({ auth, closeModal, mutateResources, user }) => {
           className="close-btn"
           aria-label="close"
         >
-          <ImageComponent src={CloseSVGImage} />
+          <ImageComponent src={CloseSVGImage} alt="close icon" />
         </button>
       </header>
 

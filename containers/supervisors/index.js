@@ -252,7 +252,7 @@ const SupervisorsList = ({
                       placeholder="Search by Staff ID"
                     />
                     <span className="searxh-icon-img">
-                      <ImageComponent src={SearchIconImage} />
+                      <ImageComponent src={SearchIconImage} alt="search icon" />
                     </span>
                   </p>
                 </div>

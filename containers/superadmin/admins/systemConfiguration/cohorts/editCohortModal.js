@@ -7,6 +7,7 @@ import ImageComponent from "../../../../../components/image";
 import { dateWithSlashes } from "../../../../../lib/dateUtils";
 import CloseSVGImage from "../../../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
+import CalendarSVG from "../../../../../public/images/calendar.svg";
 import AcademicYearSearch from "../academicYear/academicYearSearch";
 import CalendarInput from "../../../../../components/inputs/calendarInput";
 import updateCohort from "../../../../../actions/systemConfig/cohort/updateCohort";
@@ -27,6 +28,8 @@ const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
       )}`,
     },
   };
+
+  console.log(initialValues);
 
   const onSubmit = (values) => {
     const data = {
@@ -65,7 +68,7 @@ const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
           onClick={closeModal}
           className="close-btn"
         >
-          <ImageComponent src={CloseSVGImage} />
+          <ImageComponent src={CloseSVGImage} alt="close icon" />
         </button>
       </header>
 
@@ -86,48 +89,68 @@ const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
                         type="text"
                         className="input"
                         id="academic_year"
-                        name="academic_year"
                         validate={required}
+                        name="academic_year"
                         component={AcademicYearSearch}
                       />
                     </div>
-                    <label htmlFor="startDate"> Start date</label>
                     <div className="control">
                       <Field
                         showIcon
                         type="text"
-                        id="start_date"
+                        id="startDate"
                         name="start_date"
                         className="input"
                         validate={required}
                         component={CalendarInput}
                       />
-                      {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                      <label htmlFor="startDate" className="is-active">
+                        Start date
+                      </label>
+                      <ImageComponent
+                        src={CalendarSVG}
+                        alt="calendar icon"
+                        className="calendar-icon"
+                      />
                     </div>
-                    <label htmlFor="deadline_date"> Deadline date</label>
                     <div className="control">
                       <Field
                         showIcon
                         type="text"
                         className="input"
-                        id="deadline_date"
+                        id="deadlineDate"
                         validate={required}
                         name="deadline_date"
                         component={CalendarInput}
                       />
+                      <label htmlFor="deadlineDate" className="is-active">
+                        Deadline date
+                      </label>
+                      <ImageComponent
+                        src={CalendarSVG}
+                        alt="calendar icon"
+                        className="calendar-icon"
+                      />
                     </div>
-                    <label htmlFor="end_date"> End date</label>
+
                     <div className="control">
                       <Field
                         showIcon
                         type="text"
-                        id="end_date"
+                        id="endDate"
                         name="end_date"
                         className="input"
                         validate={required}
                         component={CalendarInput}
                       />
-                      {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                      <label htmlFor="endDate" className="is-active">
+                        End date
+                      </label>
+                      <ImageComponent
+                        src={CalendarSVG}
+                        alt="calendar icon"
+                        className="calendar-icon"
+                      />
                     </div>
                   </div>
                 </div>

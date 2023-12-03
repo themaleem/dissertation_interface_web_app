@@ -8,7 +8,6 @@ import { toDayMonthYearLong } from "../../../../../lib/dateUtils";
 import CloseSVGImage from "../../../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
 import CalendarSVG from "../../../../../public/images/calendar.svg";
-import EmailInput from "../../../../../components/inputs/emailInput";
 import CalendarInput from "../../../../../components/inputs/calendarInput";
 import updateAcademicYear from "../../../../../actions/systemConfig/updateAcademicYear";
 import { showNotification } from "../../../../../reducers/notification/notificationReducer";
@@ -144,31 +143,45 @@ const DetailsModal = ({
               <>
                 <section className="modal-card-body">
                   <div className="modal-form-content">
-                    <div className="control">
-                      <Field
-                        showIcon
-                        id="start_date"
-                        className="input"
-                        name="start_date"
-                        validate={required}
-                        component={CalendarInput}
-                      />
-                      <label htmlFor="startDate"> Start date</label>
-
-                      {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                    <div className="field">
+                      <div className="control">
+                        <Field
+                          showIcon
+                          id="start_date"
+                          className="input"
+                          name="start_date"
+                          validate={required}
+                          component={CalendarInput}
+                        />
+                        <label htmlFor="startDate" className="is-active">
+                          Start date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
+                      </div>
                     </div>
-                    <div className="control">
-                      <Field
-                        showIcon
-                        id="end_date"
-                        name="end_date"
-                        className="input"
-                        validate={required}
-                        component={CalendarInput}
-                      />
-                      <label htmlFor="endDate"> End date</label>
-
-                      {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                    <div className="field">
+                      <div className="control">
+                        <Field
+                          showIcon
+                          id="end_date"
+                          name="end_date"
+                          className="input"
+                          validate={required}
+                          component={CalendarInput}
+                        />
+                        <label htmlFor="endDate" className="is-active">
+                          End date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
+                      </div>
                     </div>
                   </div>
                 </section>

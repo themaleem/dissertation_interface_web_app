@@ -215,7 +215,7 @@ const StudentsInvitesList = ({
                       placeholder="Search by Username"
                     />
                     <span className="searxh-icon-img">
-                      <ImageComponent src={SearchIconImage} />
+                      <ImageComponent alt="Search Icon" src={SearchIconImage} />
                     </span>
                   </p>
                 </div>

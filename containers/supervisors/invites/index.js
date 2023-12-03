@@ -205,7 +205,7 @@ const SupervisorsInvitesList = ({
                       placeholder="Search by Username"
                     />
                     <span className="searxh-icon-img">
-                      <ImageComponent src={SearchIconImage} />
+                      <ImageComponent src={SearchIconImage} alt="search icon" />
                     </span>
                   </p>
                 </div>

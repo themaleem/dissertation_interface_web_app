@@ -49,7 +49,7 @@ const CourseModal = ({ auth, closeModal, mutateResources, course }) => {
           onClick={closeModal}
           className="close-btn"
         >
-          <ImageComponent src={CloseSVGImage} />
+          <ImageComponent src={CloseSVGImage} alt="close icon" />
         </button>
       </header>
 

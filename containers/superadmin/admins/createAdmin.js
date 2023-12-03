@@ -62,7 +62,7 @@ const CreateAdminUser = () => {
                 href={adminUsersPath}
                 className="form-card-nav-link is-flex is-align-items-center"
               >
-                <ImageComponent src={BackArrowImage} />
+                <ImageComponent src={BackArrowImage} alt="back arrow" />
                 Back to manage admin
               </Link>
 

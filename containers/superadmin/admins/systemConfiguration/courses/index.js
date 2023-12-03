@@ -151,7 +151,7 @@ const Courses = ({ auth, getCourses }) => {
                       placeholder="Search by name"
                     />
                     <span className="searxh-icon-img">
-                      <ImageComponent src={SearchIconImage} />
+                      <ImageComponent src={SearchIconImage} alt="search icon" />
                     </span>
                   </p>
                 </div>

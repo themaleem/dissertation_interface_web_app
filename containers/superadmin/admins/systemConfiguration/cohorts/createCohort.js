@@ -9,6 +9,7 @@ import { required } from "../../../../../lib/objects";
 import ImageComponent from "../../../../../components/image";
 import { FORM_SUBSCRIPTION } from "../../../../../config/form";
 import AcademicYearSearch from "../academicYear/academicYearSearch";
+import CalendarSVG from "../../../../../public/images/calendar.svg";
 import BackArrowImage from "../../../../../public/images/back-arrow.svg";
 import CalendarInput from "../../../../../components/inputs/calendarInput";
 import createCohort from "../../../../../actions/systemConfig/cohort/createCohort";
@@ -61,7 +62,7 @@ const CreateCohort = ({ auth }) => {
                 href={dissertationCohortsPath}
                 className="form-card-nav-link is-flex is-align-items-center"
               >
-                <ImageComponent src={BackArrowImage} />
+                <ImageComponent src={BackArrowImage} alt="back arrow" />
                 Back to Dissertation Cohort List
               </Link>
 
@@ -88,43 +89,62 @@ const CreateCohort = ({ auth }) => {
                           component={AcademicYearSearch}
                         />
                       </div>
-                      <label htmlFor="startDate"> Start date</label>
                       <div className="control">
                         <Field
                           showIcon
                           type="text"
-                          id="start_date"
+                          id="startDate"
                           className="input"
                           name="start_date"
                           validate={required}
                           component={CalendarInput}
                         />
-                        {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                        <label htmlFor="startDate" className="is-active">
+                          Start date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
                       </div>
-                      <label htmlFor="startDate"> Deadline date</label>
                       <div className="control">
                         <Field
                           showIcon
                           type="text"
                           className="input"
-                          id="deadline_date"
+                          id="deadlineDate"
                           validate={required}
                           name="deadline_date"
                           component={CalendarInput}
                         />
+                        <label htmlFor="deadlineDate" className="is-active">
+                          Deadline date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
                       </div>
-                      <label htmlFor="startDate"> End date</label>
                       <div className="control">
                         <Field
                           showIcon
                           type="text"
+                          id="endDate"
                           name="end_date"
-                          id="start_date"
                           className="input"
                           validate={required}
                           component={CalendarInput}
                         />
-                        {/* <ImageComponent src={CalendarSVG} alt="calendar icon" /> */}
+                        <label htmlFor="endDate" className="is-active">
+                          End date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
                       </div>
                     </div>
 
