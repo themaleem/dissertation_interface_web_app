@@ -11,11 +11,11 @@ import { getPath } from "../../../config/urls";
 import ModalWrapper from "../../../components/modal";
 import ImageComponent from "../../../components/image";
 import Pagination from "../../../components/pagination";
-import { createStringifiedUrl } from "../../../lib/objects";
 import activateUser from "../../../actions/superadmin/activateUser";
 import SearchIconImage from "../../../public/images/search-icon.svg";
 import getAdminUsers from "../../../actions/superadmin/getAdminUsers";
 import deactivateUser from "../../../actions/superadmin/deactivateUser";
+import { capitalize, createStringifiedUrl } from "../../../lib/objects";
 import PaginationSkeleton from "../../../components/skeletons/pagination";
 import AdminUserSkeleton from "../../../components/skeletons/superadmin/adminUsers";
 import { showNotification } from "../../../reducers/notification/notificationReducer";
@@ -169,7 +169,7 @@ const AdminUsersList = ({
               </div>
 
               <div className="custom-table-cell">
-                <span> {user.isLockedOut ? "Inactive" : "Active"} </span>
+                <span> {capitalize(user.status)} </span>
               </div>
               <div className="custom-table-cell">
                 <button

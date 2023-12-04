@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Field } from "react-final-form";
 
 import {
-  composeValidators,
   required,
+  composeValidators,
   validateStrongPassword,
 } from "../../lib/objects";
 import TextInput from "./textInput";
@@ -13,8 +13,6 @@ import EyesOnImage from "../../public/images/eye-on.svg";
 import EyesOffImage from "../../public/images/eye-off.svg";
 import Portal from "../portal";
 
-const passwordIconNodeId = "password-icon";
-
 const PasswordInput = ({
   id = "password",
   name = "password",
@@ -22,6 +20,8 @@ const PasswordInput = ({
   validatePasswordField,
 }) => {
   const [inputType, setInputType] = useState("password");
+
+  const passwordIconNodeId = `passwordicon${id}`;
 
   const onShowText = () =>
     setInputType(inputType === "text" ? "password" : "text");
