@@ -14,22 +14,20 @@ import EditModal from "../superadmin/admins/editModal";
 import { createStringifiedUrl } from "../../lib/objects";
 import activateUser from "../../actions/superadmin/activateUser";
 import SearchIconImage from "../../public/images/search-icon.svg";
-import getAdminUsers from "../../actions/superadmin/getAdminUsers";
 import deactivateUser from "../../actions/superadmin/deactivateUser";
+import getSupervisors from "../../actions/supervisors/getSupervisors";
 import PaginationSkeleton from "../../components/skeletons/pagination";
 import AdminUserSkeleton from "../../components/skeletons/superadmin/adminUsers";
 import { showNotification } from "../../reducers/notification/notificationReducer";
-import resendConfirmationEmail from "../../actions/superadmin/resendConfirmationEmail";
 
-const newAdminPath = getPath("newAdminPath").href;
+const inviteSupervisorPath = getPath("inviteSupervisorPath").href;
 
 const SupervisorsList = ({
   auth,
   activateUser,
-  getAdminUsers,
+  getSupervisors,
   deactivateUser,
   showNotification,
-  resendConfirmationEmail,
 }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
@@ -49,7 +47,7 @@ const SupervisorsList = ({
 
   const handlePageChange = (pageNum) => setPageNumber(pageNum);
 
-  const baseUrl = createStringifiedUrl(getPath("adminUsersPath").route, {
+  const baseUrl = createStringifiedUrl(getPath("supervisorsPath").route, {
     pageSize,
     PageNumber: pageNumber,
     SearchByUserName: searchValue,
@@ -62,7 +60,7 @@ const SupervisorsList = ({
     setOpenEditModal((open) => !open);
   }, []);
 
-  const { data, error, isLoading } = useSWR(baseUrl, getAdminUsers);
+  const { data, error, isLoading } = useSWR(baseUrl, getSupervisors);
 
   const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
 
@@ -113,14 +111,6 @@ const SupervisorsList = ({
     });
   };
 
-  const handleResendConfirmationEmail = (email) => {
-    return resendConfirmationEmail({ email })
-      .then(() => {
-        showNotification("Email confirmation link has been sent");
-      })
-      .catch();
-  };
-
   const renderEditModal = () => {
     return (
       <ModalWrapper
@@ -138,7 +128,7 @@ const SupervisorsList = ({
     );
   };
 
-  const renderAdminUserList = () => {
+  const renderSupervisorsList = () => {
     if (!data?.result) return <AdminUserSkeleton rows={3} />;
 
     return (
@@ -150,16 +140,7 @@ const SupervisorsList = ({
                 <span title={user.userName}> {user.userName} </span>
               </div>
               <div className="custom-table-cell">
-                <span title={user.email}>
-                  {user.email}
-                  {!user.emailConfirmed && (
-                    <a
-                      onClick={() => handleResendConfirmationEmail(user.email)}
-                    >
-                      Resend confirm email
-                    </a>
-                  )}
-                </span>
+                <span title={user.email}>{user.email}</span>
               </div>
 
               <div className="custom-table-cell">
@@ -235,7 +216,7 @@ const SupervisorsList = ({
                     <button
                       type="button"
                       className="button is-primary"
-                      onClick={() => Router.push(newAdminPath)}
+                      onClick={() => Router.push(inviteSupervisorPath)}
                     >
                       Invite new supervisor
                     </button>
@@ -277,9 +258,9 @@ const SupervisorsList = ({
                     <span> Actions</span>
                   </div>
                 </div>
-                {/* {renderAdminUserList()} */}
+                {renderSupervisorsList()}
               </div>
-              {/* {renderPagination()} */}
+              {renderPagination()}
             </div>
           </div>
         </div>
@@ -290,17 +271,15 @@ const SupervisorsList = ({
 
 SupervisorsList.propTypes = {
   activateUser: PropTypes.func.isRequired,
-  getAdminUsers: PropTypes.func.isRequired,
+  getSupervisors: PropTypes.func.isRequired,
   deactivateUser: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
-  resendConfirmationEmail: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
   activateUser,
-  getAdminUsers,
+  getSupervisors,
   deactivateUser,
   showNotification,
-  resendConfirmationEmail,
 })(SupervisorsList);

@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 
+import StudentsList from "../../containers/students";
 import CustomTabs from "../../components/customTabs";
 import authWrapper from "../../containers/hoc/authWrapper";
-import SupervisorsList from "../../containers/supervisors";
 import DashboardLayout from "../../components/layout/dashboard";
 import StudentsInvitesList from "../../containers/students/invites";
 
@@ -19,7 +19,7 @@ const SupervisorsPage = ({ auth }) => {
         tabIndex: 0,
         disabled: false,
         title: "Students",
-        panel: <SupervisorsList auth={auth} />,
+        panel: <StudentsList auth={auth} />,
       },
       {
         tabIndex: 1,

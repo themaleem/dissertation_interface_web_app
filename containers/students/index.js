@@ -12,24 +12,22 @@ import ImageComponent from "../../components/image";
 import Pagination from "../../components/pagination";
 import EditModal from "../superadmin/admins/editModal";
 import { createStringifiedUrl } from "../../lib/objects";
+import getStudents from "../../actions/students/getStudents";
 import activateUser from "../../actions/superadmin/activateUser";
 import SearchIconImage from "../../public/images/search-icon.svg";
-import getAdminUsers from "../../actions/superadmin/getAdminUsers";
 import deactivateUser from "../../actions/superadmin/deactivateUser";
 import PaginationSkeleton from "../../components/skeletons/pagination";
 import AdminUserSkeleton from "../../components/skeletons/superadmin/adminUsers";
 import { showNotification } from "../../reducers/notification/notificationReducer";
-import resendConfirmationEmail from "../../actions/superadmin/resendConfirmationEmail";
 
-const newAdminPath = getPath("newAdminPath").href;
+const inviteStudentPath = getPath("inviteStudentPath").href;
 
 const StudentsList = ({
   auth,
+  getStudents,
   activateUser,
-  getAdminUsers,
   deactivateUser,
   showNotification,
-  resendConfirmationEmail,
 }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
@@ -49,7 +47,7 @@ const StudentsList = ({
 
   const handlePageChange = (pageNum) => setPageNumber(pageNum);
 
-  const baseUrl = createStringifiedUrl(getPath("adminUsersPath").route, {
+  const baseUrl = createStringifiedUrl(getPath("studentsPath").route, {
     pageSize,
     PageNumber: pageNumber,
     SearchByUserName: searchValue,
@@ -62,7 +60,7 @@ const StudentsList = ({
     setOpenEditModal((open) => !open);
   }, []);
 
-  const { data, error, isLoading } = useSWR(baseUrl, getAdminUsers);
+  const { data } = useSWR(baseUrl, getStudents);
 
   const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
 
@@ -71,7 +69,7 @@ const StudentsList = ({
       return activateUser({ email })
         .then(() => {
           mutateResources();
-          showNotification("Admin has been activated successfully");
+          showNotification("Student has been activated successfully");
         })
         .catch((err) => {
           showNotification(err.message);
@@ -85,7 +83,7 @@ const StudentsList = ({
       return deactivateUser({ email })
         .then(() => {
           mutateResources();
-          showNotification("Admin has been deactivated successfully");
+          showNotification("Student has been deactivated successfully");
         })
         .catch((err) => {
           showNotification(err.message);
@@ -97,7 +95,7 @@ const StudentsList = ({
   const onDeactivateUser = (email) => {
     confirmDialog({
       icon: "pi pi-info-circle",
-      header: "Deactivate Admin",
+      header: "Deactivate Student",
       acceptClassName: "button is-primary",
       accept: () => handleDeactivateUser(email),
       message: "Are you sure you want to deactivate account?",
@@ -111,14 +109,6 @@ const StudentsList = ({
       accept: () => handleActivateUser(email),
       message: "Are you sure you want to activate account?",
     });
-  };
-
-  const handleResendConfirmationEmail = (email) => {
-    return resendConfirmationEmail({ email })
-      .then(() => {
-        showNotification("Email confirmation link has been sent");
-      })
-      .catch();
   };
 
   const renderEditModal = () => {
@@ -138,7 +128,7 @@ const StudentsList = ({
     );
   };
 
-  const renderAdminUserList = () => {
+  const renderStudentsList = () => {
     if (!data?.result) return <AdminUserSkeleton rows={3} />;
 
     return (
@@ -150,16 +140,7 @@ const StudentsList = ({
                 <span title={user.userName}> {user.userName} </span>
               </div>
               <div className="custom-table-cell">
-                <span title={user.email}>
-                  {user.email}
-                  {!user.emailConfirmed && (
-                    <a
-                      onClick={() => handleResendConfirmationEmail(user.email)}
-                    >
-                      Resend confirm email
-                    </a>
-                  )}
-                </span>
+                <span title={user.email}>{user.email}</span>
               </div>
 
               <div className="custom-table-cell">
@@ -226,14 +207,20 @@ const StudentsList = ({
             <div className="request-block">
               <div className="dashboard-header">
                 <div className="dashboard-header-inner">
-                  <h3>Manage admins</h3>
-                  <button
-                    type="button"
-                    className="button is-primary"
-                    onClick={() => Router.push(newAdminPath)}
-                  >
-                    Add new admin
-                  </button>
+                  <h3>Students</h3>
+
+                  <div className="btn-group">
+                    <button type="button" className="button">
+                      Upload a list
+                    </button>
+                    <button
+                      type="button"
+                      className="button is-primary"
+                      onClick={() => Router.push(inviteStudentPath)}
+                    >
+                      Invite new student
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="search-block is-flex is-align-items-flex-end is-justify-content-space-between">
@@ -271,9 +258,9 @@ const StudentsList = ({
                     <span> Actions</span>
                   </div>
                 </div>
-                {/* {renderAdminUserList()} */}
+                {renderStudentsList()}
               </div>
-              {/* {renderPagination()} */}
+              {renderPagination()}
             </div>
           </div>
         </div>
@@ -283,18 +270,16 @@ const StudentsList = ({
 };
 
 StudentsList.propTypes = {
+  getStudents: PropTypes.func.isRequired,
   activateUser: PropTypes.func.isRequired,
-  getAdminUsers: PropTypes.func.isRequired,
   deactivateUser: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
-  resendConfirmationEmail: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
+  getStudents,
   activateUser,
-  getAdminUsers,
   deactivateUser,
   showNotification,
-  resendConfirmationEmail,
 })(StudentsList);

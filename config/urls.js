@@ -140,12 +140,12 @@ const pathsByName = {
     route: "/course",
     metaDescription: "",
   },
-
   studentsPath: {
     type: "admin",
     metaTitle: "",
-    metaDescription: "",
+    route: "/student",
     href: "/students",
+    metaDescription: "",
   },
   studentInvitesPath: {
     type: "admin",
@@ -170,6 +170,7 @@ const pathsByName = {
     type: "admin",
     metaTitle: "",
     metaDescription: "",
+    route: "/supervisor",
     href: "/supervisors",
   },
   supervisorInvitesPath: {
