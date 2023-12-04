@@ -4,7 +4,10 @@ import { Form, Field } from "react-final-form";
 
 import { required } from "../../../../../lib/objects";
 import ImageComponent from "../../../../../components/image";
-import { toDayMonthYearLong } from "../../../../../lib/dateUtils";
+import {
+  dayMonthYearTimeWithSlashes,
+  toDayMonthYearLong,
+} from "../../../../../lib/dateUtils";
 import CloseSVGImage from "../../../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
 import CalendarSVG from "../../../../../public/images/calendar.svg";
@@ -87,7 +90,9 @@ const DetailsModal = ({
                 </div>
                 <div className="is-flex text-declartn is-align-item-center">
                   <p className="text-key">Date created:</p>
-                  <p className="text-val">{academicYear.createdAt}</p>
+                  <p className="text-val">
+                    {dayMonthYearTimeWithSlashes(academicYear.createdAt)}
+                  </p>
                 </div>
                 <div className="is-flex text-declartn is-align-item-center">
                   <p className="text-key">Created by:</p>
