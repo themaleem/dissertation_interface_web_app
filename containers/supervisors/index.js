@@ -3,7 +3,7 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { confirmDialog } from "primereact/confirmdialog";
 
 import { getPath } from "../../config/urls";
@@ -20,6 +20,7 @@ import PaginationSkeleton from "../../components/skeletons/pagination";
 import AdminUserSkeleton from "../../components/skeletons/superadmin/adminUsers";
 import { showNotification } from "../../reducers/notification/notificationReducer";
 
+const USER_TYPE = "Student";
 const inviteSupervisorPath = getPath("inviteSupervisorPath").href;
 
 const SupervisorsList = ({
@@ -47,11 +48,15 @@ const SupervisorsList = ({
 
   const handlePageChange = (pageNum) => setPageNumber(pageNum);
 
-  const baseUrl = createStringifiedUrl(getPath("supervisorsPath").route, {
-    pageSize,
-    PageNumber: pageNumber,
-    SearchByUserName: searchValue,
-  });
+  const baseUrl = useMemo(() => {
+    const params = {
+      pageSize,
+      PageNumber: pageNumber,
+    };
+
+    if (searchValue) params.SearchByUserName = searchValue;
+    return createStringifiedUrl(getPath("supervisorsPath").route, params);
+  }, [pageNumber, pageSize, searchValue]);
 
   const [openEditModal, setOpenEditModal] = useState(false);
 
@@ -60,7 +65,7 @@ const SupervisorsList = ({
     setOpenEditModal((open) => !open);
   }, []);
 
-  const { data, error, isLoading } = useSWR(baseUrl, getSupervisors);
+  const { data } = useSWR(baseUrl, getSupervisors);
 
   const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
 
@@ -121,6 +126,7 @@ const SupervisorsList = ({
         <EditModal
           auth={auth}
           user={selectedUser}
+          userType={USER_TYPE}
           closeModal={toggleEditModal}
           mutateResources={mutateResources}
         />

@@ -11,7 +11,7 @@ import EmailInput from "../../../components/inputs/emailInput";
 import updateAdminUser from "../../../actions/superadmin/updateAdminUser";
 import { showNotification } from "../../../reducers/notification/notificationReducer";
 
-const EditModal = ({ auth, closeModal, mutateResources, user }) => {
+const EditModal = ({ auth, closeModal, userType, mutateResources, user }) => {
   const dispatch = useDispatch();
 
   const initialValues = {
@@ -32,7 +32,9 @@ const EditModal = ({ auth, closeModal, mutateResources, user }) => {
 
     return dispatch(updateAdminUser(data))
       .then(() => {
-        dispatch(showNotification("Admin account has updated successfully!"));
+        dispatch(
+          showNotification(`${userType} account has updated successfully!`),
+        );
         mutateResources();
       })
       .catch((err) => {
@@ -44,7 +46,7 @@ const EditModal = ({ auth, closeModal, mutateResources, user }) => {
   return (
     <div className="modal-card">
       <header className="modal-card-head">
-        <p className="modal-card-title">Edit admin</p>
+        <p className="modal-card-title">Edit {userType}</p>
         <button
           type="button"
           onClick={closeModal}
@@ -141,7 +143,12 @@ const EditModal = ({ auth, closeModal, mutateResources, user }) => {
   );
 };
 
+EditModal.defaultProps = {
+  userType: "Admin",
+};
+
 EditModal.propTypes = {
+  userType: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
   mutateResources: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
