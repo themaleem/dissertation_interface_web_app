@@ -174,7 +174,7 @@ const Departments = ({ getDepartments }) => {
                     <span>Email</span>
                   </div>
                   <div className="custom-table-cell">
-                    <span> Created At</span>
+                    <span> Date Created</span>
                   </div>
                   <div className="custom-table-cell">
                     <span> Actions</span>
