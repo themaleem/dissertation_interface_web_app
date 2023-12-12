@@ -1,0 +1,16 @@
+/* EMTPY STATE STYLES */
+
+.empty-state {
+  text-align: center;
+  padding: 50px;
+}
+
+.empty-state img {
+  width: 300px; 
+  margin-bottom: 20px;
+}
+
+.empty-state p {
+  font-size: 1.2em;
+  color: #666; 
+}

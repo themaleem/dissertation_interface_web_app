@@ -7,13 +7,14 @@ import { useCallback, useState } from "react";
 import EditCohortModal from "./editCohortModal";
 import { getPath } from "../../../../../config/urls";
 import ModalWrapper from "../../../../../components/modal";
+import ImageComponent from "../../../../../components/image";
 import Pagination from "../../../../../components/pagination";
 import { createStringifiedUrl } from "../../../../../lib/objects";
 import { toDayMonthYearLong } from "../../../../../lib/dateUtils";
 import getCohorts from "../../../../../actions/systemConfig/cohort/getCohorts";
-import PaginationSkeleton from "../../../../../components/skeletons/pagination";
-import AdminUserSkeleton from "../../../../../components/skeletons/superadmin/adminUsers";
+import AcademicYearSkeleton from "../../../../../components/skeletons/academicYear";
 import { showNotification } from "../../../../../reducers/notification/notificationReducer";
+import EmptyStateSVG from "../../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const newDissertationCohortsPath = getPath("newDissertationCohortsPath").href;
 
@@ -57,54 +58,71 @@ const Cohorts = ({ auth, getCohorts }) => {
     );
   }, [auth, mutateResources, openEditModal, selectedCohort, toggleEditModal]);
 
-  const renderCohortList = useCallback(() => {
-    if (!data?.result) return <AdminUserSkeleton rows={3} />;
+  const renderCohortList = () => {
+    if (!data?.result) return <AcademicYearSkeleton rows={5} />;
+
+    if (data.result.totalCount === 0) {
+      return (
+        <div className="empty-state">
+          <ImageComponent src={EmptyStateSVG} alt="empty state image" />
+          <p>No results found. Please try a different search.</p>
+        </div>
+      );
+    }
 
     return (
       <>
-        {data.result.data.map((cohort, index) => {
-          return (
-            <div key={index} className="custom-table-row">
-              <div className="custom-table-cell">
-                <span> {toDayMonthYearLong(cohort.startDate)} </span>
-              </div>
-              <div className="custom-table-cell">
-                <span>
-                  {toDayMonthYearLong(cohort.supervisionChoiceDeadline)}
-                </span>
-              </div>
-              <div className="custom-table-cell">
-                <span> {toDayMonthYearLong(cohort.endDate)}</span>
-              </div>
-              <div className="custom-table-cell">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => toggleEditModal(cohort)}
-                >
-                  Edit
-                </button>
-              </div>
+        <div className="custom-table acayr">
+          <div className="custom-table-row header">
+            <div className="custom-table-cell">
+              <span> Start Date</span>
             </div>
-          );
-        })}
+            <div className="custom-table-cell">
+              <span> Supervision Deadline</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> End Date</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Actions</span>
+            </div>
+          </div>
+          {data.result.data.map((cohort, index) => {
+            return (
+              <div key={index} className="custom-table-row">
+                <div className="custom-table-cell">
+                  <span> {toDayMonthYearLong(cohort.startDate)} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span>
+                    {toDayMonthYearLong(cohort.supervisionChoiceDeadline)}
+                  </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span> {toDayMonthYearLong(cohort.endDate)}</span>
+                </div>
+                <div className="custom-table-cell">
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => toggleEditModal(cohort)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Pagination
+          pageSize={pageSize}
+          currentPageNumber={pageNumber}
+          onPageChange={handlePageChange}
+          totalRecords={data.result.totalCount}
+        />
       </>
     );
-  }, [data?.result, toggleEditModal]);
-
-  const renderPagination = useCallback(() => {
-    if (!data?.result) return <PaginationSkeleton />;
-
-    return (
-      <Pagination
-        pageSize={pageSize}
-        currentPageNumber={pageNumber}
-        onPageChange={handlePageChange}
-        totalRecords={data.result.totalCount}
-      />
-    );
-  }, [data?.result, pageNumber, pageSize]);
-
+  };
   return (
     <>
       {renderEditModal()}
@@ -125,26 +143,7 @@ const Cohorts = ({ auth, getCohorts }) => {
                 </div>
               </div>
             </div>
-            <div className="custom-table-wrapper">
-              <div className="custom-table acayr">
-                <div className="custom-table-row header">
-                  <div className="custom-table-cell">
-                    <span> Start Date</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Supervision Deadline</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> End Date</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Actions</span>
-                  </div>
-                </div>
-                {renderCohortList()}
-              </div>
-              {renderPagination()}
-            </div>
+            <div className="custom-table-wrapper">{renderCohortList()}</div>
           </div>
         </div>
       </section>

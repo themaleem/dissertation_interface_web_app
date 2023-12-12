@@ -7,12 +7,13 @@ import { useCallback, useState } from "react";
 import { getPath } from "../../../../config/urls";
 import DetailsModal from "./academicYear/detailsModal";
 import ModalWrapper from "../../../../components/modal";
+import ImageComponent from "../../../../components/image";
 import Pagination from "../../../../components/pagination";
 import { toDayMonthYearLong } from "../../../../lib/dateUtils";
 import { capitalize, createStringifiedUrl } from "../../../../lib/objects";
-import PaginationSkeleton from "../../../../components/skeletons/pagination";
+import AcademicYearSkeleton from "../../../../components/skeletons/academicYear";
 import getAcademicYears from "../../../../actions/systemConfig/getAcademicYears";
-import AdminUserSkeleton from "../../../../components/skeletons/superadmin/adminUsers";
+import EmptyStateSVG from "../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const newAcademicYearPath = getPath("newAcademicYearPath").href;
 
@@ -68,51 +69,69 @@ const SystemConfiguration = ({ auth, getAcademicYears }) => {
     selectedAcademicYear,
   ]);
 
-  const renderAcademicYears = useCallback(() => {
-    if (!data?.result) return <AdminUserSkeleton rows={3} />;
+  const renderAcademicYears = () => {
+    if (!data?.result) return <AcademicYearSkeleton rows={5} />;
+
+    if (data.result.totalCount === 0) {
+      return (
+        <div className="empty-state">
+          <ImageComponent src={EmptyStateSVG} alt="empty state image" />
+          <p>No results found. Please try a different search.</p>
+        </div>
+      );
+    }
 
     return (
       <>
-        {data.result.data.map((academicYear, index) => {
-          return (
-            <div key={index} className="custom-table-row">
-              <div className="custom-table-cell">
-                <span>{toDayMonthYearLong(academicYear.startDate)}</span>
-              </div>
-              <div className="custom-table-cell">
-                <span>{toDayMonthYearLong(academicYear.endDate)}</span>
-              </div>
-              <div className="custom-table-cell">
-                <span>{capitalize(academicYear.status)} </span>
-              </div>
-              <div className="custom-table-cell">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => toggleDetailsModal(academicYear)}
-                >
-                  View Details
-                </button>
-              </div>
+        <div className="custom-table acayr">
+          <div className="custom-table-row header">
+            <div className="custom-table-cell">
+              <span> Start Date</span>
             </div>
-          );
-        })}
+            <div className="custom-table-cell">
+              <span> End Date</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Status</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Actions</span>
+            </div>
+          </div>
+          {data.result.data.map((academicYear, index) => {
+            return (
+              <div key={index} className="custom-table-row">
+                <div className="custom-table-cell">
+                  <span>{toDayMonthYearLong(academicYear.startDate)}</span>
+                </div>
+                <div className="custom-table-cell">
+                  <span>{toDayMonthYearLong(academicYear.endDate)}</span>
+                </div>
+                <div className="custom-table-cell">
+                  <span>{capitalize(academicYear.status)} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => toggleDetailsModal(academicYear)}
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Pagination
+          pageSize={pageSize}
+          currentPageNumber={pageNumber}
+          onPageChange={handlePageChange}
+          totalRecords={data.result.totalCount}
+        />
       </>
     );
-  }, [data?.result, toggleDetailsModal]);
-
-  const renderPagination = useCallback(() => {
-    if (!data?.result) return <PaginationSkeleton />;
-
-    return (
-      <Pagination
-        pageSize={pageSize}
-        currentPageNumber={pageNumber}
-        onPageChange={handlePageChange}
-        totalRecords={data.result.totalCount}
-      />
-    );
-  }, [data?.result, pageNumber, pageSize]);
+  };
 
   return (
     <>
@@ -134,26 +153,7 @@ const SystemConfiguration = ({ auth, getAcademicYears }) => {
                 </div>
               </div>
             </div>
-            <div className="custom-table-wrapper">
-              <div className="custom-table acayr">
-                <div className="custom-table-row header">
-                  <div className="custom-table-cell">
-                    <span> Start Date</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> End Date</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Status</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Actions</span>
-                  </div>
-                </div>
-                {renderAcademicYears()}
-              </div>
-              {renderPagination()}
-            </div>
+            <div className="custom-table-wrapper">{renderAcademicYears()}</div>
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
 
-const AdminUsersSkeleton = ({ rows }) => {
+const SupervisorsInvitesSkeleton = ({ rows }) => {
   return (
     <>
       <div className="custom-table">
@@ -28,7 +28,6 @@ const AdminUsersSkeleton = ({ rows }) => {
           </div>
           <div className="custom-table-cell">
             <span>
-              {" "}
               <Skeleton width={60} height={15} />
             </span>
           </div>
@@ -89,8 +88,8 @@ const AdminUsersSkeleton = ({ rows }) => {
   );
 };
 
-AdminUsersSkeleton.propTypes = {
+SupervisorsInvitesSkeleton.propTypes = {
   rows: PropTypes.number.isRequired,
 };
 
-export default AdminUsersSkeleton;
+export default SupervisorsInvitesSkeleton;

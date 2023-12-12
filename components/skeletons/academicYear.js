@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
 
-const AdminUsersSkeleton = ({ rows }) => {
+const AcademicYearSkeleton = ({ rows }) => {
   return (
     <>
-      <div className="custom-table">
+      <div className="custom-table acayr">
         <div className="custom-table-row header">
           <div className="custom-table-cell">
             <span>
@@ -23,12 +23,6 @@ const AdminUsersSkeleton = ({ rows }) => {
           </div>
           <div className="custom-table-cell">
             <span>
-              <Skeleton width={60} height={15} />
-            </span>
-          </div>
-          <div className="custom-table-cell">
-            <span>
-              {" "}
               <Skeleton width={60} height={15} />
             </span>
           </div>
@@ -57,12 +51,6 @@ const AdminUsersSkeleton = ({ rows }) => {
                   <Skeleton width={60} height={15} />{" "}
                 </span>
               </div>
-              <div className="custom-table-cell">
-                <button type="button" className="button">
-                  <Skeleton width={60} height={15} />
-                </button>
-                <Skeleton width={60} height={15} />
-              </div>
             </div>
           ))}
       </div>
@@ -89,8 +77,8 @@ const AdminUsersSkeleton = ({ rows }) => {
   );
 };
 
-AdminUsersSkeleton.propTypes = {
+AcademicYearSkeleton.propTypes = {
   rows: PropTypes.number.isRequired,
 };
 
-export default AdminUsersSkeleton;
+export default AcademicYearSkeleton;

@@ -1,6 +1,6 @@
-import useSWR, { mutate } from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
+import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
@@ -16,9 +16,9 @@ import SearchIconImage from "../../../public/images/search-icon.svg";
 import getAdminUsers from "../../../actions/superadmin/getAdminUsers";
 import deactivateUser from "../../../actions/superadmin/deactivateUser";
 import { capitalize, createStringifiedUrl } from "../../../lib/objects";
-import PaginationSkeleton from "../../../components/skeletons/pagination";
 import AdminUserSkeleton from "../../../components/skeletons/superadmin/adminUsers";
 import { showNotification } from "../../../reducers/notification/notificationReducer";
+import EmptyStateSVG from "../../../public/images/038-drawkit-nature-man-monochrome.svg";
 import resendConfirmationEmail from "../../../actions/superadmin/resendConfirmationEmail";
 
 const newAdminPath = getPath("newAdminPath").href;
@@ -62,7 +62,7 @@ const AdminUsersList = ({
     setOpenEditModal((open) => !open);
   }, []);
 
-  const { data, error, isLoading } = useSWR(baseUrl, getAdminUsers);
+  const { data } = useSWR(baseUrl, getAdminUsers);
 
   const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
 
@@ -139,81 +139,104 @@ const AdminUsersList = ({
   };
 
   const renderAdminUserList = () => {
-    if (!data?.result) return <AdminUserSkeleton rows={3} />;
+    if (!data?.result) return <AdminUserSkeleton rows={5} />;
+
+    if (data.result.totalCount === 0) {
+      return (
+        <div className="empty-state">
+          <ImageComponent src={EmptyStateSVG} alt="empty state image" />
+          <p>No results found. Please try a different search.</p>
+        </div>
+      );
+    }
 
     return (
       <>
-        {data.result.data.map((user, index) => {
-          return (
-            <div key={index} className="custom-table-row">
-              <div className="custom-table-cell">
-                <span title={user.userName}> {user.userName} </span>
-              </div>
-              <div className="custom-table-cell">
-                <span title={user.email}>
-                  {user.email}
-                  {!user.emailConfirmed && (
-                    <a
-                      onClick={() => handleResendConfirmationEmail(user.email)}
-                    >
-                      Resend confirm email
-                    </a>
-                  )}
-                </span>
-              </div>
-
-              <div className="custom-table-cell">
-                <span title={`${user.firstName} ${user.lastName}`}>
-                  {user.firstName} {user.lastName}
-                </span>
-              </div>
-
-              <div className="custom-table-cell">
-                <span> {capitalize(user.status)} </span>
-              </div>
-              <div className="custom-table-cell">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => toggleEditModal(user)}
-                >
-                  Edit
-                </button>
-                {user.isLockedOut ? (
-                  <button
-                    type="button"
-                    className="button has-text-green"
-                    onClick={() => onActivateUser(user.email)}
-                  >
-                    Activate
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="button has-text-red"
-                    onClick={() => onDeactivateUser(user.email)}
-                  >
-                    Deactivate
-                  </button>
-                )}
-              </div>
+        <div className="custom-table">
+          <div className="custom-table-row header">
+            <div className="custom-table-cell">
+              <span> User ID</span>
             </div>
-          );
-        })}
+            <div className="custom-table-cell">
+              <span> Email</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Name</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Status</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Actions</span>
+            </div>
+          </div>
+          {data.result.data.map((user, index) => {
+            return (
+              <div key={index} className="custom-table-row">
+                <div className="custom-table-cell">
+                  <span title={user.userName}> {user.userName} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span title={user.email}>
+                    {user.email}
+                    {!user.emailConfirmed && (
+                      <a
+                        onClick={() =>
+                          handleResendConfirmationEmail(user.email)
+                        }
+                      >
+                        Resend confirm email
+                      </a>
+                    )}
+                  </span>
+                </div>
+
+                <div className="custom-table-cell">
+                  <span title={`${user.firstName} ${user.lastName}`}>
+                    {user.firstName} {user.lastName}
+                  </span>
+                </div>
+
+                <div className="custom-table-cell">
+                  <span> {capitalize(user.status)} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => toggleEditModal(user)}
+                  >
+                    Edit
+                  </button>
+                  {user.isLockedOut ? (
+                    <button
+                      type="button"
+                      className="button has-text-green"
+                      onClick={() => onActivateUser(user.email)}
+                    >
+                      Activate
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="button has-text-red"
+                      onClick={() => onDeactivateUser(user.email)}
+                    >
+                      Deactivate
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Pagination
+          pageSize={pageSize}
+          currentPageNumber={pageNumber}
+          onPageChange={handlePageChange}
+          totalRecords={data.result.totalCount}
+        />
       </>
-    );
-  };
-
-  const renderPagination = () => {
-    if (!data?.result) return <PaginationSkeleton />;
-
-    return (
-      <Pagination
-        pageSize={pageSize}
-        currentPageNumber={pageNumber}
-        onPageChange={handlePageChange}
-        totalRecords={data.result.totalCount}
-      />
     );
   };
 
@@ -252,29 +275,7 @@ const AdminUsersList = ({
                 </div>
               </div>
             </div>
-            <div className="custom-table-wrapper">
-              <div className="custom-table">
-                <div className="custom-table-row header">
-                  <div className="custom-table-cell">
-                    <span> User ID</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Email</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Name</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Status</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Actions</span>
-                  </div>
-                </div>
-                {renderAdminUserList()}
-              </div>
-              {renderPagination()}
-            </div>
+            <div className="custom-table-wrapper">{renderAdminUserList()}</div>
           </div>
         </div>
       </section>

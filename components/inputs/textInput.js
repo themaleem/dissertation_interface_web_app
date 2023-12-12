@@ -4,6 +4,7 @@ import { useRef, useCallback } from "react";
 const TextInput = ({
   id,
   meta,
+  type,
   name,
   value,
   input,
@@ -15,7 +16,6 @@ const TextInput = ({
   readOnly,
   onChange,
   tabIndex,
-  fieldType,
   className,
   labelText,
   placeholder,
@@ -78,7 +78,7 @@ const TextInput = ({
         placeholder={placeholder}
         name={input?.name || name}
         value={input?.value || value}
-        type={fieldType || input.type || "text"}
+        type={type || input.type || "text"}
         className={`${className}${getErrorClass()}`}
       />
       {meta.error && meta.error.trim() && meta.touched && !hideErrorText && (
@@ -106,12 +106,12 @@ TextInput.defaultProps = {
   placeholder: "",
   disabled: false,
   readOnly: false,
+  type: undefined,
   onBlur: undefined,
   onFocus: undefined,
   onClick: undefined,
   tabIndex: undefined,
   onChange: undefined,
-  fieldType: undefined,
   hideErrorText: false,
   passwordIconNodeId: "",
 };
@@ -119,6 +119,7 @@ TextInput.defaultProps = {
 TextInput.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
+  type: PropTypes.string,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   value: PropTypes.string,
@@ -129,7 +130,6 @@ TextInput.propTypes = {
   invalid: PropTypes.string,
   tabIndex: PropTypes.string,
   className: PropTypes.string,
-  fieldType: PropTypes.string,
   hideErrorText: PropTypes.bool,
   placeholder: PropTypes.string,
   passwordIconNodeId: PropTypes.string,

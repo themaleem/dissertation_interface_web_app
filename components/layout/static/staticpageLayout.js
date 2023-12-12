@@ -6,11 +6,11 @@ import Footer from "./footer";
 
 const StaticPageLayout = ({ children, auth }) => {
   return (
-    <>
+    <main>
       <Header auth={auth} />
       {children}
       <Footer />
-    </>
+    </main>
   );
 };
 StaticPageLayout.propTypes = {

@@ -11,10 +11,10 @@ import ModalWrapper from "../../../../../components/modal";
 import ImageComponent from "../../../../../components/image";
 import Pagination from "../../../../../components/pagination";
 import { createStringifiedUrl } from "../../../../../lib/objects";
+import CourseSkeleton from "../../../../../components/skeletons/course";
 import SearchIconImage from "../../../../../public/images/search-icon.svg";
 import getCourses from "../../../../../actions/systemConfig/course/getCourses";
-import PaginationSkeleton from "../../../../../components/skeletons/pagination";
-import AdminUserSkeleton from "../../../../../components/skeletons/superadmin/adminUsers";
+import EmptyStateSVG from "../../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const newCoursePath = getPath("newCoursePath").href;
 
@@ -71,54 +71,77 @@ const Courses = ({ auth, getCourses }) => {
     );
   };
 
-  const renderCourseList = useCallback(() => {
-    if (!data?.result) return <AdminUserSkeleton rows={3} />;
+  const renderCourseList = () => {
+    if (!data?.result) return <CourseSkeleton rows={5} />;
+
+    if (data.result.totalCount === 0) {
+      return (
+        <div className="empty-state">
+          <ImageComponent src={EmptyStateSVG} alt="empty state image" />
+          <p>No results found. Please try a different search.</p>
+        </div>
+      );
+    }
 
     return (
       <>
-        {data.result.data.map((course, index) => {
-          return (
-            <div key={index} className="custom-table-row">
+        <div className="custom-table dept">
+          <div className="custom-table courses">
+            <div className="custom-table-row header">
               <div className="custom-table-cell">
-                <span> {index + 1} </span>
+                <span>S/N</span>
               </div>
               <div className="custom-table-cell">
-                <span title={course.name}>{course.name}</span>
+                <span>Name</span>
               </div>
               <div className="custom-table-cell">
-                <span title={course.department.name}>
-                  {course.department.name}
-                </span>
+                <span>Department</span>
               </div>
               <div className="custom-table-cell">
-                <span> {course.createdBy} </span>
+                <span>Created By</span>
               </div>
               <div className="custom-table-cell">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => toggleEditModal(course)}
-                >
-                  Edit
-                </button>
+                <span>Actions</span>
               </div>
             </div>
-          );
-        })}
+          </div>
+          {data.result.data.map((course, index) => {
+            return (
+              <div key={index} className="custom-table-row">
+                <div className="custom-table-cell">
+                  <span> {index + 1} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span title={course.name}>{course.name}</span>
+                </div>
+                <div className="custom-table-cell">
+                  <span title={course.department.name}>
+                    {course.department.name}
+                  </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span> {course.createdBy} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => toggleEditModal(course)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Pagination
+          pageSize={pageSize}
+          currentPageNumber={pageNumber}
+          onPageChange={handlePageChange}
+          totalRecords={data.result.totalCount}
+        />
       </>
-    );
-  }, [data, toggleEditModal]);
-
-  const renderPagination = () => {
-    if (!data?.result) return <PaginationSkeleton />;
-
-    return (
-      <Pagination
-        pageSize={pageSize}
-        currentPageNumber={pageNumber}
-        onPageChange={handlePageChange}
-        totalRecords={data.result.totalCount}
-      />
     );
   };
 
@@ -157,29 +180,7 @@ const Courses = ({ auth, getCourses }) => {
                 </div>
               </div>
             </div>
-            <div className="custom-table-wrapper">
-              <div className="custom-table courses">
-                <div className="custom-table-row header">
-                  <div className="custom-table-cell">
-                    <span>S/N</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span>Name</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span>Department</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span>Created By</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span>Actions</span>
-                  </div>
-                </div>
-                {renderCourseList()}
-              </div>
-              {renderPagination()}
-            </div>
+            <div className="custom-table-wrapper">{renderCourseList()}</div>
           </div>
         </div>
       </section>

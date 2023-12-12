@@ -12,9 +12,9 @@ import Pagination from "../../../../../components/pagination";
 import { dateWithSlashes } from "../../../../../lib/dateUtils";
 import { createStringifiedUrl } from "../../../../../lib/objects";
 import SearchIconImage from "../../../../../public/images/search-icon.svg";
-import PaginationSkeleton from "../../../../../components/skeletons/pagination";
-import AdminUserSkeleton from "../../../../../components/skeletons/superadmin/adminUsers";
+import DepartmentSkeleton from "../../../../../components/skeletons/department";
 import getDepartments from "../../../../../actions/systemConfig/departments/getDepartments";
+import EmptyStateSVG from "../../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const Departments = ({ getDepartments }) => {
   const [pageSize] = useState(10);
@@ -75,54 +75,77 @@ const Departments = ({ getDepartments }) => {
     );
   }, [actionType, openModal, toggleModal, mutateResources, selectedDepartment]);
 
-  const renderDepartmentsList = useCallback(() => {
-    if (!data?.result) return <AdminUserSkeleton rows={3} />;
+  const renderDepartmentsList = () => {
+    if (!data?.result) return <DepartmentSkeleton rows={5} />;
+
+    if (data.result.totalCount === 0) {
+      return (
+        <div className="empty-state">
+          <ImageComponent src={EmptyStateSVG} alt="empty state image" />
+          <p>No results found. Please try a different search.</p>
+        </div>
+      );
+    }
 
     return (
       <>
-        {data.result.data.map((department, index) => {
-          return (
-            <div key={index} className="custom-table-row">
-              <div className="custom-table-cell">
-                <span> {index + 1} </span>
-              </div>
-              <div className="custom-table-cell">
-                <span title={department.name}> {department.name} </span>
-              </div>
-              <div className="custom-table-cell">
-                <span title={department.createdBy}>{department.createdBy}</span>
-              </div>
-              <div className="custom-table-cell">
-                <span title={dateWithSlashes(department.createdAt)}>
-                  {dateWithSlashes(department.createdAt)}
-                </span>
-              </div>
-              <div className="custom-table-cell">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => toggleModal(department)}
-                >
-                  Edit
-                </button>
-              </div>
+        <div className="custom-table dept">
+          <div className="custom-table-row header">
+            <div className="custom-table-cell">
+              <span>S/N</span>
             </div>
-          );
-        })}
+            <div className="custom-table-cell">
+              <span> Name</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Email</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Date Created</span>
+            </div>
+            <div className="custom-table-cell">
+              <span> Actions</span>
+            </div>
+          </div>
+          {data.result.data.map((department, index) => {
+            return (
+              <div key={index} className="custom-table-row">
+                <div className="custom-table-cell">
+                  <span> {index + 1} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span title={department.name}> {department.name} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span title={department.createdBy}>
+                    {department.createdBy}
+                  </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span title={dateWithSlashes(department.createdAt)}>
+                    {dateWithSlashes(department.createdAt)}
+                  </span>
+                </div>
+                <div className="custom-table-cell">
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => toggleModal(department)}
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Pagination
+          pageSize={pageSize}
+          currentPageNumber={pageNumber}
+          onPageChange={handlePageChange}
+          totalRecords={data.result.totalCount}
+        />
       </>
-    );
-  }, [data?.result, toggleModal]);
-
-  const renderPagination = () => {
-    if (!data?.result) return <PaginationSkeleton />;
-
-    return (
-      <Pagination
-        pageSize={pageSize}
-        currentPageNumber={pageNumber}
-        onPageChange={handlePageChange}
-        totalRecords={data.result.totalCount}
-      />
     );
   };
 
@@ -162,27 +185,7 @@ const Departments = ({ getDepartments }) => {
               </div>
             </div>
             <div className="custom-table-wrapper">
-              <div className="custom-table dept">
-                <div className="custom-table-row header">
-                  <div className="custom-table-cell">
-                    <span>S/N</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Name</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span>Email</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Date Created</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Actions</span>
-                  </div>
-                </div>
-                {renderDepartmentsList()}
-              </div>
-              {renderPagination()}
+              {renderDepartmentsList()}
             </div>
           </div>
         </div>

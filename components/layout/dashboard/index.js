@@ -7,6 +7,7 @@ import StudentHeader from "./studentHeader";
 import SupervisorHeader from "./supervisorHeader";
 
 import "../../../public/styles/dashboard.css";
+import "../../../public/styles/empty-state.css";
 
 const headers = {
   admin: AdminHeader,
@@ -26,10 +27,10 @@ const DashboardLayout = ({ auth, children }) => {
   const Header = headers[role] || SupervisorHeader;
 
   return (
-    <>
+    <main>
       <Header auth={auth} />
       {children}
-    </>
+    </main>
   );
 };
 

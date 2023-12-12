@@ -8,7 +8,7 @@ import DashboardLayout from "../../components/layout/dashboard";
 import StudentsInvitesList from "../../containers/students/invites";
 
 const tabsObject = {
-  supervisors: 0,
+  students: 0,
   invites: 1,
 };
 
