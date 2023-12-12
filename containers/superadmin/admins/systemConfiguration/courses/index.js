@@ -85,24 +85,22 @@ const Courses = ({ auth, getCourses }) => {
 
     return (
       <>
-        <div className="custom-table dept">
-          <div className="custom-table courses">
-            <div className="custom-table-row header">
-              <div className="custom-table-cell">
-                <span>S/N</span>
-              </div>
-              <div className="custom-table-cell">
-                <span>Name</span>
-              </div>
-              <div className="custom-table-cell">
-                <span>Department</span>
-              </div>
-              <div className="custom-table-cell">
-                <span>Created By</span>
-              </div>
-              <div className="custom-table-cell">
-                <span>Actions</span>
-              </div>
+        <div className="custom-table courses">
+          <div className="custom-table-row header">
+            <div className="custom-table-cell">
+              <span>S/N</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Name</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Department</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Created By</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Actions</span>
             </div>
           </div>
           {data.result.data.map((course, index) => {
