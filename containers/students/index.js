@@ -16,9 +16,9 @@ import getStudents from "../../actions/students/getStudents";
 import activateUser from "../../actions/superadmin/activateUser";
 import SearchIconImage from "../../public/images/search-icon.svg";
 import deactivateUser from "../../actions/superadmin/deactivateUser";
-import PaginationSkeleton from "../../components/skeletons/pagination";
-import AdminUserSkeleton from "../../components/skeletons/superadmin/adminUsers";
 import { showNotification } from "../../reducers/notification/notificationReducer";
+import EmptyStateSVG from "../../public/images/038-drawkit-nature-man-monochrome.svg";
+import SupervisorsInvitesSkeleton from "../../components/skeletons/supervisors/invites";
 
 const USER_TYPE = "Student";
 const inviteStudentPath = getPath("inviteStudentPath").href;
@@ -135,72 +135,93 @@ const StudentsList = ({
   };
 
   const renderStudentsList = () => {
-    if (!data?.result) return <AdminUserSkeleton rows={3} />;
+    if (!data?.result) return <SupervisorsInvitesSkeleton rows={5} />;
+
+    if (data.result.totalCount === 0) {
+      return (
+        <div className="empty-state">
+          <ImageComponent src={EmptyStateSVG} alt="empty state image" />
+          <p>No results found. Please try a different search.</p>
+        </div>
+      );
+    }
 
     return (
       <>
-        {data.result.data.map((user, index) => {
-          return (
-            <div key={index} className="custom-table-row">
-              <div className="custom-table-cell">
-                <span title={user.userName}> {user.userName} </span>
-              </div>
-              <div className="custom-table-cell">
-                <span title={user.email}>{user.email}</span>
-              </div>
-
-              <div className="custom-table-cell">
-                <span title={`${user.firstName} ${user.lastName}`}>
-                  {user.firstName} {user.lastName}
-                </span>
-              </div>
-
-              <div className="custom-table-cell">
-                <span> {user.isLockedOut ? "Inactive" : "Active"} </span>
-              </div>
-              <div className="custom-table-cell">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => toggleEditModal(user)}
-                >
-                  Edit
-                </button>
-                {user.isLockedOut ? (
-                  <button
-                    type="button"
-                    className="button has-text-green"
-                    onClick={() => onActivateUser(user.email)}
-                  >
-                    Activate
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="button has-text-red"
-                    onClick={() => onDeactivateUser(user.email)}
-                  >
-                    Deactivate
-                  </button>
-                )}
-              </div>
+        <div className="custom-table">
+          <div className="custom-table-row header">
+            <div className="custom-table-cell">
+              <span>Student ID</span>
             </div>
-          );
-        })}
+            <div className="custom-table-cell">
+              <span>Email</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Name</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Status</span>
+            </div>
+            <div className="custom-table-cell">
+              <span>Actions</span>
+            </div>
+          </div>
+          {data.result.data.map((user, index) => {
+            return (
+              <div key={index} className="custom-table-row">
+                <div className="custom-table-cell">
+                  <span title={user.userName}> {user.userName} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <span title={user.email}>{user.email}</span>
+                </div>
+
+                <div className="custom-table-cell">
+                  <span title={`${user.firstName} ${user.lastName}`}>
+                    {user.firstName} {user.lastName}
+                  </span>
+                </div>
+
+                <div className="custom-table-cell">
+                  <span> {user.isLockedOut ? "Inactive" : "Active"} </span>
+                </div>
+                <div className="custom-table-cell">
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => toggleEditModal(user)}
+                  >
+                    Edit
+                  </button>
+                  {user.isLockedOut ? (
+                    <button
+                      type="button"
+                      className="button has-text-green"
+                      onClick={() => onActivateUser(user.email)}
+                    >
+                      Activate
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="button has-text-red"
+                      onClick={() => onDeactivateUser(user.email)}
+                    >
+                      Deactivate
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Pagination
+          pageSize={pageSize}
+          currentPageNumber={pageNumber}
+          onPageChange={handlePageChange}
+          totalRecords={data.result.totalCount}
+        />
       </>
-    );
-  };
-
-  const renderPagination = () => {
-    if (!data?.result) return <PaginationSkeleton />;
-
-    return (
-      <Pagination
-        pageSize={pageSize}
-        currentPageNumber={pageNumber}
-        onPageChange={handlePageChange}
-        totalRecords={data.result.totalCount}
-      />
     );
   };
 
@@ -245,29 +266,7 @@ const StudentsList = ({
                 </div>
               </div>
             </div>
-            <div className="custom-table-wrapper">
-              <div className="custom-table">
-                <div className="custom-table-row header">
-                  <div className="custom-table-cell">
-                    <span> Student ID</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Email</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Name</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Status</span>
-                  </div>
-                  <div className="custom-table-cell">
-                    <span> Actions</span>
-                  </div>
-                </div>
-                {renderStudentsList()}
-              </div>
-              {renderPagination()}
-            </div>
+            <div className="custom-table-wrapper">{renderStudentsList()}</div>
           </div>
         </div>
       </section>
