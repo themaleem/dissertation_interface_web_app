@@ -11,8 +11,8 @@ import { FORM_SUBSCRIPTION } from "../../../../../config/form";
 import DepartmentSearch from "../departments/departmentSearch";
 import TextInput from "../../../../../components/inputs/textInput";
 import BackArrowImage from "../../../../../public/images/back-arrow.svg";
+import { showNotification } from "../../../../../components/notification";
 import createCourse from "../../../../../actions/systemConfig/course/createCourse";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
 const coursesPath = `${getPath("systemConfigurationPath").href}#tab=courses`;
 
@@ -30,14 +30,17 @@ const CreateCourse = ({ auth }) => {
 
     return dispatch(createCourse(data))
       .then(() => {
-        dispatch(showNotification("Course has been created successfully!"));
+        showNotification({
+          severity: "success",
+          detail: "Course has been created successfully!",
+        });
         navToCourseListPage();
       })
       .catch((err) => {
         // @note dispatching only the very first error i encounter on create
         // instead of multiple
         // const errorList = err.data.errors.Custom;
-        // dispatch(showNotification(errorList[0]));
+        // showNotification({detailerrorList[0]})
       });
   };
 

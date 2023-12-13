@@ -11,9 +11,9 @@ import {
 import CloseSVGImage from "../../../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
 import CalendarSVG from "../../../../../public/images/calendar.svg";
+import { showNotification } from "../../../../../components/notification";
 import CalendarInput from "../../../../../components/inputs/calendarInput";
 import updateAcademicYear from "../../../../../actions/systemConfig/updateAcademicYear";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
 const DetailsModal = ({
   modalType,
@@ -38,16 +38,17 @@ const DetailsModal = ({
 
     return dispatch(updateAcademicYear(data))
       .then(() => {
-        dispatch(
-          showNotification("Academic Year has been updated successfully!"),
-        );
+        showNotification({
+          severity: "success",
+          detail: "Academic Year has been updated successfully!",
+        });
         mutateResources();
       })
       .catch((err) => {
         const errorList = Object.values(err.data?.errors);
-        dispatch(
-          showNotification(errorList?.[0]?.[0] || "Something went wrong."),
-        );
+        showNotification({
+          detail: errorList?.[0]?.[0] || "Something went wrong.",
+        });
       })
       .finally(closeModal);
   };

@@ -10,7 +10,7 @@ import { FORM_SUBSCRIPTION } from "../../../config/form";
 import TextInput from "../../../components/inputs/textInput";
 import EmailInput from "../../../components/inputs/emailInput";
 import BackArrowImage from "../../../public/images/back-arrow.svg";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
+import { showNotification } from "../../../components/notification";
 import createSupervisorInvite from "../../../actions/supervisors/createSupervisorInvite";
 
 const supervisorsPath = `${getPath("supervisorsPath").href}#tab=invites`;
@@ -31,16 +31,19 @@ const CreateSupervisorInvite = () => {
 
     return dispatch(createSupervisorInvite(data))
       .then(() => {
-        dispatch(showNotification("Invite has been sent successfully!"));
+        showNotification({
+          severity: "success",
+          detail: "Invite has been sent successfully!",
+        });
         navToSupervisorListPage();
       })
       .catch((err) => {
         // @note dispatching only the very first error i encounter on create
         // instead of multiple
         const errorList = Object.values(err.data?.errors);
-        dispatch(
-          showNotification(errorList?.[0]?.[0] || "Something went wrong."),
-        );
+        showNotification({
+          detail: errorList?.[0]?.[0] || "Something went wrong.",
+        });
       });
   };
 

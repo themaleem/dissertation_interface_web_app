@@ -6,12 +6,12 @@ import { useDispatch } from "react-redux";
 import ImageComponent from "../image";
 import { getPath } from "../../config/urls";
 import Logo from "../../public/images/logo.svg";
+import { showNotification } from "../notification";
 import PasswordInput from "../inputs/passwordInput";
 import { FORM_SUBSCRIPTION } from "../../config/form";
 import resetPassword from "../../actions/auth/resetPassword";
 import { validateConfirmationPassword } from "../../lib/objects";
 import BackArrowImage from "../../public/images/back-arrow.svg";
-import { showNotification } from "../../reducers/notification/notificationReducer";
 
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;
@@ -30,15 +30,15 @@ const ResetPassword = () => {
       .then((res) => {
         if (!res) return undefined;
 
-        dispatch(
-          showNotification(
+        showNotification({
+          severity: "success",
+          detail:
             "Your new password has been set successfully. You can now sign in",
-          ),
-        );
+        });
         return router.push(signInPath);
       })
       .catch(() => {
-        dispatch(showNotification("Something went wrong"));
+        showNotification();
       });
   };
 

@@ -12,12 +12,12 @@ import ModalWrapper from "../../../components/modal";
 import ImageComponent from "../../../components/image";
 import Pagination from "../../../components/pagination";
 import activateUser from "../../../actions/superadmin/activateUser";
+import { showNotification } from "../../../components/notification";
 import SearchIconImage from "../../../public/images/search-icon.svg";
 import getAdminUsers from "../../../actions/superadmin/getAdminUsers";
 import deactivateUser from "../../../actions/superadmin/deactivateUser";
 import { capitalize, createStringifiedUrl } from "../../../lib/objects";
 import AdminUserSkeleton from "../../../components/skeletons/superadmin/adminUsers";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 import EmptyStateSVG from "../../../public/images/038-drawkit-nature-man-monochrome.svg";
 import resendConfirmationEmail from "../../../actions/superadmin/resendConfirmationEmail";
 
@@ -28,7 +28,6 @@ const AdminUsersList = ({
   activateUser,
   getAdminUsers,
   deactivateUser,
-  showNotification,
   resendConfirmationEmail,
 }) => {
   const [pageSize] = useState(10);
@@ -71,13 +70,16 @@ const AdminUsersList = ({
       return activateUser({ email })
         .then(() => {
           mutateResources();
-          showNotification("Admin has been activated successfully");
+          showNotification({
+            severity: "success",
+            detail: "Admin has been activated successfully",
+          });
         })
         .catch((err) => {
-          showNotification(err.message);
+          showNotification({ detail: err.message });
         });
     },
-    [activateUser, mutateResources, showNotification],
+    [activateUser, mutateResources],
   );
 
   const handleDeactivateUser = useCallback(
@@ -85,13 +87,16 @@ const AdminUsersList = ({
       return deactivateUser({ email })
         .then(() => {
           mutateResources();
-          showNotification("Admin has been deactivated successfully");
+          showNotification({
+            severity: "success",
+            detail: "Admin has been deactivated successfully",
+          });
         })
         .catch((err) => {
-          showNotification(err.message);
+          showNotification({ detail: err.message });
         });
     },
-    [deactivateUser, mutateResources, showNotification],
+    [deactivateUser, mutateResources],
   );
 
   const onDeactivateUser = (email) => {
@@ -116,7 +121,10 @@ const AdminUsersList = ({
   const handleResendConfirmationEmail = (email) => {
     return resendConfirmationEmail({ email })
       .then(() => {
-        showNotification("Email confirmation link has been sent");
+        showNotification({
+          severity: "success",
+          detail: "Email confirmation link has been sent",
+        });
       })
       .catch();
   };
@@ -287,7 +295,6 @@ AdminUsersList.propTypes = {
   activateUser: PropTypes.func.isRequired,
   getAdminUsers: PropTypes.func.isRequired,
   deactivateUser: PropTypes.func.isRequired,
-  showNotification: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
   resendConfirmationEmail: PropTypes.func.isRequired,
 };
@@ -296,6 +303,5 @@ export default connect(null, {
   activateUser,
   getAdminUsers,
   deactivateUser,
-  showNotification,
   resendConfirmationEmail,
 })(AdminUsersList);

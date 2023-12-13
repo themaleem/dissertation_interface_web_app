@@ -12,7 +12,7 @@ import PasswordInput from "../inputs/passwordInput";
 import { FORM_SUBSCRIPTION } from "../../config/form";
 import BackArrowImage from "../../public/images/back-arrow.svg";
 import FrontArrowImage from "../../public/images/front-arrow.svg";
-import { showNotification } from "../../reducers/notification/notificationReducer";
+import { showNotification } from "../../components/notification";
 
 const homePath = getPath("homePath").href;
 const forgotPasswordPath = getPath("forgotPasswordPath").href;
@@ -46,13 +46,12 @@ const SignIn = ({ auth }) => {
         router.push(dashboardPaths[userRole]);
       })
       .catch((err) => {
-        return dispatch(
-          showNotification(
+        return showNotification({
+          detail:
             err?.data?.message ||
-              err?.message ||
-              "Something went wrong. Please try again or contact an admin ",
-          ),
-        );
+            err?.message ||
+            "Something went wrong. Please try again or contact an admin ",
+        });
       });
   };
 

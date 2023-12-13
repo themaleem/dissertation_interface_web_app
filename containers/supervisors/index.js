@@ -13,10 +13,10 @@ import Pagination from "../../components/pagination";
 import EditModal from "../superadmin/admins/editModal";
 import { createStringifiedUrl } from "../../lib/objects";
 import activateUser from "../../actions/superadmin/activateUser";
+import { showNotification } from "../../components/notification";
 import SearchIconImage from "../../public/images/search-icon.svg";
 import deactivateUser from "../../actions/superadmin/deactivateUser";
 import getSupervisors from "../../actions/supervisors/getSupervisors";
-import { showNotification } from "../../reducers/notification/notificationReducer";
 import EmptyStateSVG from "../../public/images/038-drawkit-nature-man-monochrome.svg";
 import SupervisorsInvitesSkeleton from "../../components/skeletons/supervisors/invites";
 
@@ -28,7 +28,6 @@ const SupervisorsList = ({
   activateUser,
   getSupervisors,
   deactivateUser,
-  showNotification,
 }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
@@ -74,13 +73,16 @@ const SupervisorsList = ({
       return activateUser({ email })
         .then(() => {
           mutateResources();
-          showNotification("Admin has been activated successfully");
+          showNotification({
+            severity: "success",
+            detail: "Admin has been activated successfully",
+          });
         })
         .catch((err) => {
-          showNotification(err.message);
+          showNotification({ detail: err.message });
         });
     },
-    [activateUser, mutateResources, showNotification],
+    [activateUser, mutateResources],
   );
 
   const handleDeactivateUser = useCallback(
@@ -88,13 +90,16 @@ const SupervisorsList = ({
       return deactivateUser({ email })
         .then(() => {
           mutateResources();
-          showNotification("Admin has been deactivated successfully");
+          showNotification({
+            severity: "success",
+            detail: "Admin has been deactivated successfully",
+          });
         })
         .catch((err) => {
-          showNotification(err.message);
+          showNotification({ detail: err.message });
         });
     },
-    [deactivateUser, mutateResources, showNotification],
+    [deactivateUser, mutateResources],
   );
 
   const onDeactivateUser = (email) => {
@@ -280,13 +285,9 @@ SupervisorsList.propTypes = {
   activateUser: PropTypes.func.isRequired,
   getSupervisors: PropTypes.func.isRequired,
   deactivateUser: PropTypes.func.isRequired,
-  showNotification: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(null, {
-  activateUser,
-  getSupervisors,
-  deactivateUser,
-  showNotification,
-})(SupervisorsList);
+export default connect(null, { activateUser, getSupervisors, deactivateUser })(
+  SupervisorsList,
+);

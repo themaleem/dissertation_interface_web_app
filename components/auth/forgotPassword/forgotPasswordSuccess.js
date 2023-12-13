@@ -2,8 +2,8 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
+import { showNotification } from "../../notification";
 import forgotPassword from "../../../actions/auth/forgotPassword";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 
 const ForgotPasswordSuccess = ({ values }) => {
   const dispatch = useDispatch();
@@ -17,10 +17,13 @@ const ForgotPasswordSuccess = ({ values }) => {
       .then((res) => {
         if (!res) return undefined;
 
-        return dispatch(showNotification("Email has been resent!"));
+        return showNotification({
+          severity: "success",
+          detail: "Email has been resent!",
+        });
       })
       .catch(() => {
-        dispatch(showNotification("Something went wrong"));
+        showNotification();
       })
       .finally(() => {
         setSubmitting(false);

@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import { useCallback, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 import EditCohortModal from "./editCohortModal";
 import { getPath } from "../../../../../config/urls";
+import Suspense from "../../../../../components/suspense";
 import ModalWrapper from "../../../../../components/modal";
 import ImageComponent from "../../../../../components/image";
 import Pagination from "../../../../../components/pagination";
@@ -13,12 +15,15 @@ import { createStringifiedUrl } from "../../../../../lib/objects";
 import { toDayMonthYearLong } from "../../../../../lib/dateUtils";
 import getCohorts from "../../../../../actions/systemConfig/cohort/getCohorts";
 import AcademicYearSkeleton from "../../../../../components/skeletons/academicYear";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
+import getActiveCohort from "../../../../../actions/systemConfig/cohort/getActiveCohort";
 import EmptyStateSVG from "../../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const newDissertationCohortsPath = getPath("newDissertationCohortsPath").href;
+const activeDissertationCohortPath = getPath(
+  "activeDissertationCohortPath",
+).href;
 
-const Cohorts = ({ auth, getCohorts }) => {
+const Cohorts = ({ auth, getCohorts, getActiveCohort }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedCohort, setCohort] = useState();
@@ -29,6 +34,12 @@ const Cohorts = ({ auth, getCohorts }) => {
     getPath("dissertationCohortsPath").route,
     { PageNumber: pageNumber },
   );
+
+  const activeCohortUrl = createStringifiedUrl(
+    getPath("activeDissertationCohortPath").route,
+  );
+
+  const { data: activeCohortData } = useSWR(activeCohortUrl, getActiveCohort);
 
   const [openEditModal, setOpenEditModal] = useState(false);
 
@@ -123,6 +134,31 @@ const Cohorts = ({ auth, getCohorts }) => {
       </>
     );
   };
+
+  const activeCohortButtonSkeleton = () => <Skeleton width={120} height={50} />;
+
+  const activeCohortButton = () => (
+    <button
+      type="button"
+      className="button"
+      onClick={() => Router.push(activeDissertationCohortPath)}
+    >
+      Go to Active Cohort
+    </button>
+  );
+
+  const renderActiveCohortButton = () => {
+    return (
+      <Suspense
+        auth={auth}
+        data={activeCohortData}
+        component={activeCohortButton}
+        hasData={activeCohortData?.isSuccess}
+        skeleton={activeCohortButtonSkeleton}
+      />
+    );
+  };
+
   return (
     <>
       {renderEditModal()}
@@ -133,13 +169,17 @@ const Cohorts = ({ auth, getCohorts }) => {
               <div className="dashboard-header">
                 <div className="dashboard-header-inner">
                   <h3>Cohorts</h3>
-                  <button
-                    type="button"
-                    className="button is-primary"
-                    onClick={() => Router.push(newDissertationCohortsPath)}
-                  >
-                    New Dissertation Cohort
-                  </button>
+
+                  <div className="btn-group">
+                    {renderActiveCohortButton()}
+                    <button
+                      type="button"
+                      className="button is-primary"
+                      onClick={() => Router.push(newDissertationCohortsPath)}
+                    >
+                      Create New Cohort
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -153,7 +193,8 @@ const Cohorts = ({ auth, getCohorts }) => {
 
 Cohorts.propTypes = {
   getCohorts: PropTypes.func.isRequired,
+  getActiveCohort: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(null, { showNotification, getCohorts })(Cohorts);
+export default connect(null, { getCohorts, getActiveCohort })(Cohorts);

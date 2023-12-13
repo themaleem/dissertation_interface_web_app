@@ -7,12 +7,12 @@ import ImageComponent from "../../image";
 import { getPath } from "../../../config/urls";
 import EmailInput from "../../inputs/emailInput";
 import Logo from "../../../public/images/logo.svg";
+import { showNotification } from "../../notification";
 import { FORM_WITH_VALUES } from "../../../config/form";
 import ForgotPasswordSuccess from "./forgotPasswordSuccess";
 import forgotPassword from "../../../actions/auth/forgotPassword";
 import BackArrowImage from "../../../public/images/back-arrow.svg";
 import FrontArrowImage from "../../../public/images/front-arrow.svg";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 
 const signInPath = getPath("signInPath").href;
 
@@ -27,11 +27,14 @@ const ForgotPassword = () => {
       .then((res) => {
         if (!res) return undefined;
 
-        dispatch(showNotification("Email sent!."));
         setSuccessful(true);
+        return showNotification({
+          severity: "success",
+          detail: "Email sent!.",
+        });
       })
       .catch(() => {
-        dispatch(showNotification("Something went wrong"));
+        showNotification();
       });
   };
 

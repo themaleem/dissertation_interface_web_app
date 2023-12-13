@@ -1,6 +1,6 @@
+import useSWR, { mutate } from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
-import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useMemo, useState } from "react";
@@ -23,7 +23,13 @@ import SupervisorsInvitesSkeleton from "../../components/skeletons/supervisors/i
 const USER_TYPE = "Student";
 const inviteStudentPath = getPath("inviteStudentPath").href;
 
-const StudentsList = ({ auth, getStudents, activateUser, deactivateUser }) => {
+const CohortStudentList = ({
+  auth,
+  cohortId,
+  getStudents,
+  activateUser,
+  deactivateUser,
+}) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedUser, setSelectedUser] = useState();
@@ -46,11 +52,12 @@ const StudentsList = ({ auth, getStudents, activateUser, deactivateUser }) => {
     const params = {
       pageSize,
       PageNumber: pageNumber,
+      FilterByCohort: cohortId,
     };
 
     if (searchValue) params.SearchByUserName = searchValue;
     return createStringifiedUrl(getPath("studentsPath").route, params);
-  }, [pageNumber, pageSize, searchValue]);
+  }, [cohortId, pageNumber, pageSize, searchValue]);
 
   const [openEditModal, setOpenEditModal] = useState(false);
 
@@ -234,7 +241,7 @@ const StudentsList = ({ auth, getStudents, activateUser, deactivateUser }) => {
             <div className="request-block">
               <div className="dashboard-header">
                 <div className="dashboard-header-inner">
-                  <h3>Students</h3>
+                  <h3>Active Cohort Students</h3>
 
                   <div className="btn-group">
                     <button type="button" className="button">
@@ -274,7 +281,7 @@ const StudentsList = ({ auth, getStudents, activateUser, deactivateUser }) => {
   );
 };
 
-StudentsList.propTypes = {
+CohortStudentList.propTypes = {
   getStudents: PropTypes.func.isRequired,
   activateUser: PropTypes.func.isRequired,
   deactivateUser: PropTypes.func.isRequired,
@@ -285,4 +292,4 @@ export default connect(null, {
   getStudents,
   activateUser,
   deactivateUser,
-})(StudentsList);
+})(CohortStudentList);

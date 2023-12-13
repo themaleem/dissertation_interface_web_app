@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import ImageComponent from "../image";
 import { getPath } from "../../config/urls";
 import Logo from "../../public/images/logo.svg";
+import { showNotification } from "../notification";
 import { createStringifiedUrl } from "../../lib/objects";
 import confirmEmail from "../../actions/auth/confirmEmail";
 import BackArrowImage from "../../public/images/back-arrow.svg";
 import FrontArrowImage from "../../public/images/front-arrow.svg";
-import { showNotification } from "../../reducers/notification/notificationReducer";
 
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;
@@ -35,9 +35,10 @@ const ConfirmEmail = () => {
           return undefined;
         }
 
-        dispatch(
-          showNotification("Your email has been confirmed successfully"),
-        );
+        showNotification({
+          severity: "success",
+          detail: "Your email has been confirmed successfully",
+        });
 
         const { passwordResetToken } = res;
         const passwordResetUrl = createStringifiedUrl(resetPasswordPath, {

@@ -11,9 +11,9 @@ import { FORM_SUBSCRIPTION } from "../../../../../config/form";
 import AcademicYearSearch from "../academicYear/academicYearSearch";
 import CalendarSVG from "../../../../../public/images/calendar.svg";
 import BackArrowImage from "../../../../../public/images/back-arrow.svg";
+import { showNotification } from "../../../../../components/notification";
 import CalendarInput from "../../../../../components/inputs/calendarInput";
 import createCohort from "../../../../../actions/systemConfig/cohort/createCohort";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
 const dissertationCohortsPath = `${
   getPath("systemConfigurationPath").href
@@ -35,20 +35,20 @@ const CreateCohort = ({ auth }) => {
 
     return dispatch(createCohort(data))
       .then(() => {
-        dispatch(
-          showNotification(
-            "Dissertation Cohort has been created successfully!",
-          ),
-        );
+        showNotification({
+          severity: "success",
+          detail: "Dissertation Cohort has been created successfully!",
+        });
+
         navToCohortListPage();
       })
       .catch((err) => {
         // @note dispatching only the very first error i encounter on create
         // instead of multiple
         const errorList = Object.values(err.data?.errors);
-        dispatch(
-          showNotification(errorList?.[0]?.[0] || "Something went wrong."),
-        );
+        showNotification({
+          detail: errorList?.[0]?.[0] || "Something went wrong.",
+        });
       });
   };
 

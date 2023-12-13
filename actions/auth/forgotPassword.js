@@ -1,4 +1,4 @@
-import { showNotification } from "../../reducers/notification/notificationReducer";
+import { showNotification } from "../../components/notification";
 
 const forgotPassword =
   (values) =>
@@ -8,7 +8,7 @@ const forgotPassword =
         // @note  edge-case where result is null returning true here
         return true;
       }
-      dispatch(showNotification(response.data.message));
+      showNotification({ detail: response.data.message });
       return undefined;
     }
 

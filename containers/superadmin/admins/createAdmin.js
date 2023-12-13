@@ -9,11 +9,10 @@ import ImageComponent from "../../../components/image";
 import { FORM_SUBSCRIPTION } from "../../../config/form";
 import TextInput from "../../../components/inputs/textInput";
 import EmailInput from "../../../components/inputs/emailInput";
-import createAdminUser from "../../../actions/superadmin/createAdminUser";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
-
-import BackArrowImage from "../../../public/images/back-arrow.svg";
 import RadioInput from "../../../components/inputs/radioInput";
+import BackArrowImage from "../../../public/images/back-arrow.svg";
+import { showNotification } from "../../../components/notification";
+import createAdminUser from "../../../actions/superadmin/createAdminUser";
 
 const adminUsersPath = getPath("adminUsersPath").href;
 
@@ -39,16 +38,18 @@ const CreateAdminUser = () => {
 
     return dispatch(createAdminUser(data))
       .then(() => {
-        dispatch(
-          showNotification("Admin account has been created successfully!"),
-        );
+        showNotification({
+          severity: "success",
+          detail: "Admin account has been created successfully!",
+        });
+
         navToAdminListPage();
       })
       .catch((err) => {
         // @note dispatching only the very first error i encounter on create
         // instead of multiple
         const errorList = err.data.errors.Custom;
-        dispatch(showNotification(errorList[0]));
+        showNotification({ detail: errorList[0] });
       });
   };
 

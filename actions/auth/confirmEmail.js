@@ -1,4 +1,4 @@
-import { showNotification } from "../../reducers/notification/notificationReducer";
+import { showNotification } from "../../components/notification";
 
 const confirmEmail =
   (values) =>
@@ -7,7 +7,7 @@ const confirmEmail =
       if (response.data.isSuccess) {
         return response.data.result;
       }
-      dispatch(showNotification(response.data.message));
+      showNotification({ detail: response.data.message });
       return undefined;
     }
 

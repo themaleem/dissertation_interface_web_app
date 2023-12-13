@@ -7,7 +7,7 @@ import ImageComponent from "../../../../../components/image";
 import TextInput from "../../../../../components/inputs/textInput";
 import CloseSVGImage from "../../../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
+import { showNotification } from "../../../../../components/notification";
 import createDepartment from "../../../../../actions/systemConfig/departments/createDepartment";
 import updateDepartment from "../../../../../actions/systemConfig/departments/updateDepartment";
 
@@ -28,12 +28,15 @@ const DepartmentModal = ({
     const action = isEdit ? updateDepartment : createDepartment;
     return dispatch(action(data))
       .then(() => {
-        dispatch(showNotification("Department has been updated successfully!"));
+        showNotification({
+          severity: "success",
+          detail: "Department has been updated successfully!",
+        });
         mutateResources();
         closeModal();
       })
       .catch((err) => {
-        dispatch(showNotification(err.message));
+        showNotification({ detail: err.message });
       })
       .finally();
   };

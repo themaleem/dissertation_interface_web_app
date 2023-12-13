@@ -8,8 +8,8 @@ import TextInput from "../../../components/inputs/textInput";
 import CloseSVGImage from "../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../config/form";
 import EmailInput from "../../../components/inputs/emailInput";
+import { showNotification } from "../../../components/notification";
 import updateAdminUser from "../../../actions/superadmin/updateAdminUser";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 
 const EditModal = ({ auth, closeModal, userType, mutateResources, user }) => {
   const dispatch = useDispatch();
@@ -32,13 +32,14 @@ const EditModal = ({ auth, closeModal, userType, mutateResources, user }) => {
 
     return dispatch(updateAdminUser(data))
       .then(() => {
-        dispatch(
-          showNotification(`${userType} account has updated successfully!`),
-        );
+        showNotification({
+          severity: "success",
+          detail: `${userType} account has updated successfully!`,
+        });
         mutateResources();
       })
       .catch((err) => {
-        dispatch(showNotification(err.message));
+        showNotification(err.message);
       })
       .finally(closeModal);
   };

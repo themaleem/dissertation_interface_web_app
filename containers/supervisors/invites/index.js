@@ -12,9 +12,9 @@ import ModalWrapper from "../../../components/modal";
 import ImageComponent from "../../../components/image";
 import Pagination from "../../../components/pagination";
 import { createStringifiedUrl } from "../../../lib/objects";
+import { showNotification } from "../../../components/notification";
 import SearchIconImage from "../../../public/images/search-icon.svg";
 import getSupervisorInvites from "../../../actions/supervisors/getInvites";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 import deleteSupervisorInvite from "../../../actions/supervisors/deleteSupervisorInvite";
 import EmptyStateSVG from "../../../public/images/038-drawkit-nature-man-monochrome.svg";
 import SupervisorsInvitesSkeleton from "../../../components/skeletons/supervisors/invites";
@@ -23,7 +23,6 @@ const inviteSupervisorPath = getPath("inviteSupervisorPath").href;
 
 const SupervisorsInvitesList = ({
   auth,
-  showNotification,
   getSupervisorInvites,
   deleteSupervisorInvite,
 }) => {
@@ -72,13 +71,16 @@ const SupervisorsInvitesList = ({
       return deleteSupervisorInvite(invitationId)
         .then(() => {
           mutateResources();
-          showNotification("Invitation has been deleted successfully");
+          showNotification({
+            severity: "success",
+            detail: "Invitation has been deleted successfully",
+          });
         })
         .catch((err) => {
-          showNotification(err.message);
+          showNotification({ detail: err.message });
         });
     },
-    [deleteSupervisorInvite, mutateResources, showNotification],
+    [deleteSupervisorInvite, mutateResources],
   );
 
   const onDeleteInvitation = (invitationId) => {
@@ -240,14 +242,11 @@ const SupervisorsInvitesList = ({
 };
 
 SupervisorsInvitesList.propTypes = {
-  showNotification: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
   getSupervisorInvites: PropTypes.func.isRequired,
   deleteSupervisorInvite: PropTypes.func.isRequired,
 };
 
-export default connect(null, {
-  showNotification,
-  getSupervisorInvites,
-  deleteSupervisorInvite,
-})(SupervisorsInvitesList);
+export default connect(null, { getSupervisorInvites, deleteSupervisorInvite })(
+  SupervisorsInvitesList,
+);

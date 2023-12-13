@@ -5,22 +5,18 @@ import { useDispatch } from "react-redux";
 import { Field, Form } from "react-final-form";
 import { useEffect, useMemo, useState } from "react";
 
-import {
-  required,
-  createStringifiedUrl,
-  validateConfirmationPassword,
-} from "../../../lib/objects";
 import ImageComponent from "../../image";
 import { getPath } from "../../../config/urls";
 import TextInput from "../../inputs/textInput";
 import Logo from "../../../public/images/logo.svg";
+import { showNotification } from "../../notification";
 import PasswordInput from "../../inputs/passwordInput";
 import { FORM_SUBSCRIPTION } from "../../../config/form";
 import BackArrowImage from "../../../public/images/back-arrow.svg";
 import FrontArrowImage from "../../../public/images/front-arrow.svg";
 import confirmInvite from "../../../actions/supervisors/confirmInvite";
+import { required, validateConfirmationPassword } from "../../../lib/objects";
 import registerSupervisor from "../../../actions/supervisors/registerSupervisor";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 import departmentSearch from "../../../containers/superadmin/admins/systemConfiguration/departments/departmentSearch";
 
 const homePath = getPath("homePath").href;
@@ -58,13 +54,15 @@ const ConfirmSupervisorInvite = ({ auth }) => {
           }
           setInivitation(res.result);
           setFormType("accept");
-          dispatch(
-            showNotification("Your invite has been confirmed successfully"),
-          );
+
+          return showNotification({
+            severity: "success",
+            detail: "Your invite has been confirmed successfully",
+          });
         })
         .catch((err) => {
           setShowError(true);
-          dispatch(showNotification(err.message));
+          showNotification({ detail: err.message });
         })
         .finally(setiInvitationFetched(true));
     }
@@ -84,11 +82,14 @@ const ConfirmSupervisorInvite = ({ auth }) => {
       .then((res) => {
         if (!res) return undefined;
 
-        dispatch(showNotification("Invitation accepted. You can now sign in"));
+        showNotification({
+          severity: "success",
+          detail: "Invitation accepted. You can now sign in",
+        });
         return router.push(signInPath);
       })
       .catch(() => {
-        dispatch(showNotification("Something went wrong"));
+        showNotification();
       });
   };
 

@@ -8,8 +8,10 @@ import DepartmentSearch from "../departments/departmentSearch";
 import TextInput from "../../../../../components/inputs/textInput";
 import CloseSVGImage from "../../../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
+import { showNotification } from "../../../../../components/notification";
 import updateCourse from "../../../../../actions/systemConfig/course/updateCourse";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
+
+// import AcademicYearSearchB from "../../../../../components/inputs/selectInputB";
 
 const CourseModal = ({ auth, closeModal, mutateResources, course }) => {
   const dispatch = useDispatch();
@@ -30,11 +32,14 @@ const CourseModal = ({ auth, closeModal, mutateResources, course }) => {
 
     return dispatch(updateCourse(data))
       .then(() => {
-        dispatch(showNotification("Course has been updated successfully!"));
+        showNotification({
+          severity: "success",
+          detail: "Course has been updated successfully!",
+        });
         mutateResources();
       })
       .catch((err) => {
-        dispatch(showNotification(err.message));
+        showNotification({ detail: err.message });
       })
       .finally(closeModal);
   };
@@ -87,6 +92,21 @@ const CourseModal = ({ auth, closeModal, mutateResources, course }) => {
                       <label htmlFor="department"> Department </label>
                     </div>
                   </div>
+                  {/* <div className="field">
+                    <div className="control">
+                      <Field
+                        auth={auth}
+                        searchable
+                        type="text"
+                        id="department"
+                        className="input"
+                        name="departments"
+                        validate={required}
+                        component={AcademicYearSearchB}
+                      />
+                      <label htmlFor="department"> Department </label>
+                    </div>
+                  </div> */}
                 </div>
               </section>
               <footer className="modal-card-foot">

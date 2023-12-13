@@ -1,6 +1,6 @@
 import Router from "next/router";
-import useSWR, { mutate } from "swr";
 import PropTypes from "prop-types";
+import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
@@ -12,21 +12,16 @@ import ModalWrapper from "../../../components/modal";
 import ImageComponent from "../../../components/image";
 import Pagination from "../../../components/pagination";
 import { createStringifiedUrl } from "../../../lib/objects";
+import { showNotification } from "../../../components/notification";
 import SearchIconImage from "../../../public/images/search-icon.svg";
 import getStudentInvites from "../../../actions/students/getInvites";
 import deleteStudentInvite from "../../../actions/students/deleteStudentInvite";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 import EmptyStateSVG from "../../../public/images/038-drawkit-nature-man-monochrome.svg";
 import SupervisorsInvitesSkeleton from "../../../components/skeletons/supervisors/invites";
 
 const inviteStudentPath = getPath("inviteStudentPath").href;
 
-const StudentsInvitesList = ({
-  auth,
-  showNotification,
-  getStudentInvites,
-  deleteStudentInvite,
-}) => {
+const StudentsInvitesList = ({ getStudentInvites, deleteStudentInvite }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [searchValue, setSearchValue] = useState("");
@@ -72,13 +67,16 @@ const StudentsInvitesList = ({
       return deleteStudentInvite(invitationId)
         .then(() => {
           mutateResources();
-          showNotification("Invitation has been deleted successfully");
+          showNotification({
+            severity: "success",
+            detail: "Invitation has been deleted successfully",
+          });
         })
         .catch((err) => {
-          showNotification(err.message);
+          showNotification({ detail: err.message });
         });
     },
-    [deleteStudentInvite, mutateResources, showNotification],
+    [deleteStudentInvite, mutateResources],
   );
 
   const onDeleteInvitation = (invitationId) => {
@@ -242,14 +240,10 @@ const StudentsInvitesList = ({
 };
 
 StudentsInvitesList.propTypes = {
-  showNotification: PropTypes.func.isRequired,
-  auth: PropTypes.instanceOf(Object).isRequired,
   getStudentInvites: PropTypes.func.isRequired,
   deleteStudentInvite: PropTypes.func.isRequired,
 };
 
-export default connect(null, {
-  showNotification,
-  getStudentInvites,
-  deleteStudentInvite,
-})(StudentsInvitesList);
+export default connect(null, { getStudentInvites, deleteStudentInvite })(
+  StudentsInvitesList,
+);

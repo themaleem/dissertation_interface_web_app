@@ -9,6 +9,7 @@ import ImageComponent from "../../image";
 import { getPath } from "../../../config/urls";
 import TextInput from "../../inputs/textInput";
 import Logo from "../../../public/images/logo.svg";
+import { showNotification } from "../../notification";
 import PasswordInput from "../../inputs/passwordInput";
 import { FORM_SUBSCRIPTION } from "../../../config/form";
 import BackArrowImage from "../../../public/images/back-arrow.svg";
@@ -16,7 +17,6 @@ import confirmInvite from "../../../actions/students/confirmInvite";
 import FrontArrowImage from "../../../public/images/front-arrow.svg";
 import registerStudent from "../../../actions/students/registerStudent";
 import { required, validateConfirmationPassword } from "../../../lib/objects";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 import CourseSearch from "../../../containers/superadmin/admins/systemConfiguration/courses/courseSearch";
 
 const homePath = getPath("homePath").href;
@@ -54,13 +54,15 @@ const ConfirmStudentInvite = ({ auth }) => {
           }
           setInivitation(res.result);
           setFormType("accept");
-          dispatch(
-            showNotification("Your invite has been confirmed successfully"),
-          );
+
+          return showNotification({
+            severity: "success",
+            detail: "Your invite has been confirmed successfully",
+          });
         })
         .catch((err) => {
           setShowError(true);
-          dispatch(showNotification(err.message));
+          showNotification({ detail: err.message });
         })
         .finally(setiInvitationFetched(true));
     }
@@ -80,11 +82,14 @@ const ConfirmStudentInvite = ({ auth }) => {
       .then((res) => {
         if (!res) return undefined;
 
-        dispatch(showNotification("Invitation accepted. You can now sign in"));
+        showNotification({
+          severity: "success",
+          detail: "Invitation accepted. You can now sign in",
+        });
         return router.push(signInPath);
       })
       .catch(() => {
-        dispatch(showNotification("Something went wrong"));
+        showNotification();
       });
   };
 

@@ -49,11 +49,6 @@ const pathsByName = {
     type: "auth",
     href: "/auth/supervisor/confirm-invite",
   },
-  // supervisorregisterPath: {
-  //   type: "auth",
-  //   href: "/user/[id]",
-  //   route: "/user/[id]",
-  // },
   adminDashboardPath: {
     type: "admin",
     metaTitle: "",
@@ -112,6 +107,25 @@ const pathsByName = {
     metaDescription: "",
     route: "/dissertationcohort",
   },
+  activeDissertationCohortPath: {
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/dissertationCohort/active",
+    href: "/admin/system-configuration/active-cohort",
+  },
+  assignedCohortSupevisors: {
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/supervisioncohort/assigned-supervisors",
+  },
+  unassignedCohortSupevisors: {
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/supervisioncohort/unassigned-supervisors",
+  },
   departmentsPath: {
     href: "",
     metaTitle: "",
@@ -165,6 +179,13 @@ const pathsByName = {
     type: "student",
     metaDescription: "",
     href: "/student/dashboard",
+  },
+  availableSupervisorsPath: {
+    metaTitle: "",
+    type: "student",
+    metaDescription: "",
+    href: "/student/available-supervisors",
+    route: "/student/available-supervisors",
   },
   supervisorsPath: {
     type: "admin",

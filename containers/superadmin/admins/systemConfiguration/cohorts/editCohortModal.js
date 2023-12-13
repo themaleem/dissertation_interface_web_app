@@ -9,9 +9,9 @@ import CloseSVGImage from "../../../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
 import CalendarSVG from "../../../../../public/images/calendar.svg";
 import AcademicYearSearch from "../academicYear/academicYearSearch";
+import { showNotification } from "../../../../../components/notification";
 import CalendarInput from "../../../../../components/inputs/calendarInput";
 import updateCohort from "../../../../../actions/systemConfig/cohort/updateCohort";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
 const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
   const dispatch = useDispatch();
@@ -29,8 +29,6 @@ const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
     },
   };
 
-  console.log(initialValues);
-
   const onSubmit = (values) => {
     const data = {
       id: cohort.id,
@@ -42,18 +40,17 @@ const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
 
     return dispatch(updateCohort(data))
       .then(() => {
-        dispatch(
-          showNotification(
-            "Dissertation Cohort has been updated successfully!",
-          ),
-        );
+        showNotification({
+          severity: "success",
+          detail: "Dissertation Cohort has been updated successfully!",
+        });
         mutateResources();
       })
       .catch((err) => {
         const errorList = Object.values(err.data?.errors);
-        dispatch(
-          showNotification(errorList?.[0]?.[0] || "Something went wrong."),
-        );
+        showNotification({
+          detail: errorList?.[0]?.[0] || "Something went wrong.",
+        });
       })
       .finally(closeModal);
   };

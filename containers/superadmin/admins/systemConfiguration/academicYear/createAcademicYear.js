@@ -9,9 +9,9 @@ import ImageComponent from "../../../../../components/image";
 import { FORM_SUBSCRIPTION } from "../../../../../config/form";
 import CalendarSVG from "../../../../../public/images/calendar.svg";
 import BackArrowImage from "../../../../../public/images/back-arrow.svg";
+import { showNotification } from "../../../../../components/notification";
 import CalendarInput from "../../../../../components/inputs/calendarInput";
 import createAcademicYear from "../../../../../actions/systemConfig/createAcademicYear";
-import { showNotification } from "../../../../../reducers/notification/notificationReducer";
 
 const systemConfigurationPath = `${
   getPath("systemConfigurationPath").href
@@ -31,18 +31,19 @@ const CreateAcademicYear = () => {
 
     return dispatch(createAcademicYear(data))
       .then(() => {
-        dispatch(
-          showNotification("Academic year has been created successfully!"),
-        );
+        showNotification({
+          severity: "success",
+          detail: "Academic year has been created successfully!",
+        });
         navToAcademicYearsPage();
       })
       .catch((err) => {
         // @note dispatching only the very first error i encounter on create
         // instead of multiple
         const errorList = Object.values(err.data?.errors);
-        dispatch(
-          showNotification(errorList?.[0]?.[0] || "Something went wrong."),
-        );
+        showNotification({
+          detail: errorList?.[0]?.[0] || "Something went wrong.",
+        });
       });
   };
 

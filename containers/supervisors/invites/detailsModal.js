@@ -9,8 +9,8 @@ import CloseSVGImage from "../../../public/images/close.svg";
 import { FORM_WITH_DIRTY_VALUES } from "../../../config/form";
 import TextInput from "../../../components/inputs/textInput";
 import EmailInput from "../../../components/inputs/emailInput";
-import { showNotification } from "../../../reducers/notification/notificationReducer";
 import updateSupervisorInvite from "../../../actions/supervisors/updateSupervisorInvite";
+import { showNotification } from "../../../components/notification";
 
 const DetailsModal = ({
   modalType,
@@ -39,17 +39,16 @@ const DetailsModal = ({
 
     return dispatch(updateSupervisorInvite(data))
       .then(() => {
-        dispatch(
-          showNotification("Invitation has been modified successfully!"),
-        );
+        showNotification({
+          severity: "success",
+          detail: "Invitation has been modified successfully!",
+        });
         mutateResources();
       })
       .catch((err) => {
         console.log(err);
         // const errorList = Object.values(err.data?.errors);
-        // dispatch(
-        //   showNotification(errorList?.[0]?.[0] || "Something went wrong."),
-        // );
+        //   showNotification({detail:errorList?.[0]?.[0] || "Something went wrong."})
       })
       .finally(closeModal);
   };
