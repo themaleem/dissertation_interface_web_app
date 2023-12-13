@@ -69,7 +69,7 @@ const DissertationCohort = ({ auth, getActiveCohort }) => {
     <CustomTabs
       tabs={tabs}
       tabsObject={tabsObject}
-      pathName="showDissertationCohortPath"
+      pathName="activeDissertationCohortPath"
     />
   );
 };
