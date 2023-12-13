@@ -45,9 +45,13 @@ const pathsByName = {
     href: "/user/[id]",
     route: "/user/[id]",
   },
-  confirmSupervisorInvite: {
+  confirmSupervisorInvitePath: {
     type: "auth",
     href: "/auth/supervisor/confirm-invite",
+  },
+  confirmStudentInvitePath: {
+    type: "auth",
+    href: "/auth/student/confirm-invite",
   },
   adminDashboardPath: {
     type: "admin",

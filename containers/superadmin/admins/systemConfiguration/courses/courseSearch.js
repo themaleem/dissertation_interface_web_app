@@ -5,7 +5,6 @@ import debounce from "lodash/debounce";
 import Skeleton from "react-loading-skeleton";
 
 import { getPath } from "../../../../../config/urls";
-import useWithSWR from "../../../../../components/swr/withSwr";
 import { createStringifiedUrl } from "../../../../../lib/objects";
 import SuspenseComponent from "../../../../../components/suspense";
 import getCourses from "../../../../../actions/systemConfig/course/getCourses";
@@ -22,11 +21,11 @@ const CourseSearch = ({
   clearable,
   className,
   searchable,
+  getCourses,
   placeholder,
   defaultValue,
   cacheOptions,
   getOptionValue,
-  getCourses,
   getOptionLabel,
 }) => {
   const baseUrl = createStringifiedUrl(getPath("activeCoursesPath").route);

@@ -10,7 +10,7 @@ import TextInput from "../../../components/inputs/textInput";
 import { FORM_WITH_DIRTY_VALUES } from "../../../config/form";
 import EmailInput from "../../../components/inputs/emailInput";
 import { showNotification } from "../../../components/notification";
-import updateSupervisorInvite from "../../../actions/supervisors/updateSupervisorInvite";
+import updateStudentInvite from "../../../actions/students/updateStudentInvite";
 
 const DetailsModal = ({
   modalType,
@@ -23,8 +23,8 @@ const DetailsModal = ({
 
   const initialValues = {
     email: invitation.email,
-    staff_id: invitation.staffId,
     last_name: invitation.lastName,
+    student_id: invitation.studentId,
     first_name: invitation.firstName,
   };
 
@@ -32,12 +32,12 @@ const DetailsModal = ({
     const data = {
       id: invitation.id,
       email: values.email,
-      staffId: values.staff_id,
       lastName: values.last_name,
+      studentId: values.student_id,
       firstName: values.first_name,
     };
 
-    return dispatch(updateSupervisorInvite(data))
+    return dispatch(updateStudentInvite(data))
       .then(() => {
         showNotification({
           severity: "success",
@@ -58,8 +58,8 @@ const DetailsModal = ({
       <header className="modal-card-head">
         <p className="modal-card-title">
           {modalType === "details"
-            ? "Supervisor Invitation"
-            : "Edit Supervisor Invitation"}
+            ? "Student Invitation"
+            : "Edit Student Invitation"}
         </p>
         <button
           type="button"
@@ -82,8 +82,8 @@ const DetailsModal = ({
                   </p>
                 </div>
                 <div className="is-flex text-declartn is-align-item-center">
-                  <p className="text-key">Staff ID:</p>
-                  <p className="text-val">{invitation.staffId}</p>
+                  <p className="text-key">Student ID:</p>
+                  <p className="text-val">{invitation.studentId}</p>
                 </div>
                 <div className="is-flex text-declartn is-align-item-center">
                   <p className="text-key">Email:</p>
@@ -168,12 +168,12 @@ const DetailsModal = ({
                     <div className="field">
                       <Field
                         type="text"
-                        id="staffId"
-                        name="staff_id"
+                        id="studentId"
+                        name="student_id"
                         className="input"
                         validate={required}
-                        labelText="Staff ID"
                         component={TextInput}
+                        labelText="Student ID"
                       />
                     </div>
                   </div>

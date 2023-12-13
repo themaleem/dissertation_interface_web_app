@@ -14,6 +14,8 @@ import getCurrentUser from "../../actions/user/getCurrentUser";
 const onAuthPath = (pathname) => isPathType(pathname, "auth");
 const onAdminPath = (pathname) => isPathType(pathname, "admin");
 const onStaticPath = (pathname) => isPathType(pathname, "static");
+const onStudentPath = (pathname) => isPathType(pathname, "student");
+const onSupervisorPath = (pathname) => isPathType(pathname, "supervisor");
 const onSuperadminPath = (pathname) => isPathType(pathname, "superadmin");
 
 const adminDashboardPath = getPath("adminDashboardPath").href;
@@ -27,7 +29,6 @@ const dashboardPaths = {
   supervisor: supervisorDashboardPath,
 };
 
-const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;
 
 const authWrapper = (WrappedComponent) => {
@@ -115,11 +116,21 @@ const authWrapper = (WrappedComponent) => {
     // if you're not admin, and you visit admin path
     const isForbidden = () => {
       if (!isSuperAdmin() && onSuperadminPath(pathname)) {
-        return (redirectTo = homePath);
+        const userRole = user.role.toLowerCase();
+        return (redirectTo = dashboardPaths[userRole]);
       }
 
       if ((isStudent() || isSupervisor()) && onAdminPath(pathname)) {
-        return (redirectTo = homePath);
+        const userRole = user.role.toLowerCase();
+        return (redirectTo = dashboardPaths[userRole]);
+      }
+
+      if (isStudent() && !onStudentPath(pathname)) {
+        return (redirectTo = studentDashboardPath);
+      }
+
+      if (isSupervisor() && !onSupervisorPath(pathname)) {
+        return (redirectTo = supervisorDashboardPath);
       }
 
       return undefined;

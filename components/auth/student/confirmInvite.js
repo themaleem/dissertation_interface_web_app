@@ -32,7 +32,7 @@ const ConfirmStudentInvite = ({ auth }) => {
   const [showError, setShowError] = useState(false);
   const [invitation, setInivitation] = useState({});
   const [formType, setFormType] = useState("confirm");
-  const [invitationFetched, setiInvitationFetched] = useState(false);
+  const [invitationFetched, setInvitationFetched] = useState(false);
 
   const initialValues = useMemo(() => {
     return {
@@ -64,7 +64,7 @@ const ConfirmStudentInvite = ({ auth }) => {
           setShowError(true);
           showNotification({ detail: err.message });
         })
-        .finally(setiInvitationFetched(true));
+        .finally(setInvitationFetched(true));
     }
   }, [code, dispatch, invitationFetched, router, studentId]);
 
@@ -180,8 +180,8 @@ const ConfirmStudentInvite = ({ auth }) => {
                             name="student_id"
                             className="input"
                             validate={required}
-                            labelText="Student ID"
                             component={TextInput}
+                            labelText="Student ID"
                           />
                         </div>
                         <div className="field">
