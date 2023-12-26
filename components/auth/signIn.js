@@ -1,34 +1,36 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { Form } from "react-final-form";
 import { useDispatch } from "react-redux";
 
 import ImageComponent from "../image";
+import { onSignIn } from "../../lib/auth";
 import { getPath } from "../../config/urls";
 import EmailInput from "../inputs/emailInput";
 import signIn from "../../actions/auth/signIn";
 import Logo from "../../public/images/logo.svg";
+import { showNotification } from "../notification";
 import PasswordInput from "../inputs/passwordInput";
 import { FORM_SUBSCRIPTION } from "../../config/form";
 import BackArrowImage from "../../public/images/back-arrow.svg";
-import FrontArrowImage from "../../public/images/front-arrow.svg";
-import { showNotification } from "../../components/notification";
 
 const homePath = getPath("homePath").href;
+// const chooseRolePath = getPath("chooseRolePath").href;
 const forgotPasswordPath = getPath("forgotPasswordPath").href;
-const adminDashboardPath = getPath("adminDashboardPath").href;
-const studentDashboardPath = getPath("studentDashboardPath").href;
-const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
 
-const dashboardPaths = {
-  admin: adminDashboardPath,
-  student: studentDashboardPath,
-  superadmin: adminDashboardPath,
-  supervisor: supervisorDashboardPath,
-};
+// const adminDashboardPath = getPath("adminDashboardPath").href;
+// const studentDashboardPath = getPath("studentDashboardPath").href;
+// const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
+
+// const dashboardPaths = {
+//   admin: adminDashboardPath,
+//   student: studentDashboardPath,
+//   superadmin: adminDashboardPath,
+//   supervisor: supervisorDashboardPath,
+// };
 
 const SignIn = ({ auth }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
@@ -37,13 +39,25 @@ const SignIn = ({ auth }) => {
     return dispatch(signIn(data))
       .then((res) => {
         const {
-          data: {
-            result: { role },
-          },
+          result: { user, role, accessToken, refreshToken },
         } = res;
 
-        const userRole = role[0].toLowerCase();
-        router.push(dashboardPaths[userRole]);
+        const payload = { user, accessToken, refreshToken };
+
+        return onSignIn({ ...payload, role: role[0].toLowerCase() });
+
+        // if (role.length === 1) {
+        //   onSignIn({ ...payload, role: role[0].toLowerCase() });
+        // } else {
+        //   // console.log("dd");
+        //   // console.log(role);
+        //   onSignIn({ ...payload });
+        //   router.push(chooseRolePath);
+        // }
+
+        // if user role is more than one, then hold off on signingOut, if not send them through
+        // const userRole = role[0].toLowerCase();
+        // router.push(dashboardPaths[userRole]);
       })
       .catch((err) => {
         return showNotification({

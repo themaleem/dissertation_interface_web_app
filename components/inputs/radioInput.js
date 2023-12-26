@@ -41,8 +41,8 @@ const RadioInput = ({
         onChange={handleChange}
         checked={input ? input.checked : checked}
       />
-      <span class="inner-span-label">{label}</span>
-      <div class="radio-background" />
+      <span className="inner-span-label">{label}</span>
+      <div className="radio-background" />
       {/* {meta.error && meta.touched && <p className="error-text">{meta.error}</p>}
             {meta.submitError && <p className="error-text">{meta.submitError}</p>} */}
     </label>

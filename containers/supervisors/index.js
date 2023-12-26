@@ -1,6 +1,6 @@
-import useSWR, { mutate } from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
+import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useMemo, useState } from "react";
@@ -17,6 +17,7 @@ import { showNotification } from "../../components/notification";
 import SearchIconImage from "../../public/images/search-icon.svg";
 import deactivateUser from "../../actions/superadmin/deactivateUser";
 import getSupervisors from "../../actions/supervisors/getSupervisors";
+import assignAdminRole from "../../actions/supervisors/assignAdminRole";
 import EmptyStateSVG from "../../public/images/038-drawkit-nature-man-monochrome.svg";
 import SupervisorsInvitesSkeleton from "../../components/skeletons/supervisors/invites";
 
@@ -28,6 +29,7 @@ const SupervisorsList = ({
   activateUser,
   getSupervisors,
   deactivateUser,
+  assignAdminRole,
 }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
@@ -75,7 +77,7 @@ const SupervisorsList = ({
           mutateResources();
           showNotification({
             severity: "success",
-            detail: "Admin has been activated successfully",
+            detail: "Supervisor has been activated successfully",
           });
         })
         .catch((err) => {
@@ -92,7 +94,7 @@ const SupervisorsList = ({
           mutateResources();
           showNotification({
             severity: "success",
-            detail: "Admin has been deactivated successfully",
+            detail: "Supervisor has been deactivated successfully",
           });
         })
         .catch((err) => {
@@ -105,7 +107,7 @@ const SupervisorsList = ({
   const onDeactivateUser = (email) => {
     confirmDialog({
       icon: "pi pi-info-circle",
-      header: "Deactivate Admin",
+      header: "Deactivate Supervisor",
       acceptClassName: "button is-primary",
       accept: () => handleDeactivateUser(email),
       message: "Are you sure you want to deactivate account?",
@@ -139,6 +141,27 @@ const SupervisorsList = ({
     );
   };
 
+  const handleAssignAdminRole = (email, role) => {
+    return assignAdminRole({ email, role })
+      .then(() => {
+        showNotification({
+          severity: "success",
+          detail: `Supervisor now has an extra role of ${role}`,
+        });
+      })
+      .catch();
+  };
+
+  const onAssignAdminRole = (user, role) => {
+    confirmDialog({
+      icon: "pi pi-info-circle",
+      header: `Assign ${role} role to supervisor`,
+      acceptClassName: "button is-primary",
+      accept: () => handleAssignAdminRole(user.email, role),
+      message: `Proceed to assign ${role} role to ${user.firstName} ?`,
+    });
+  };
+
   const renderSupervisorsList = () => {
     if (!data?.result) return <SupervisorsInvitesSkeleton rows={5} />;
 
@@ -153,7 +176,7 @@ const SupervisorsList = ({
 
     return (
       <>
-        <div className="custom-table">
+        <div className="custom-table supervisors">
           <div className="custom-table-row header">
             <div className="custom-table-cell">
               <span>Staff ID</span>
@@ -197,6 +220,13 @@ const SupervisorsList = ({
                     onClick={() => toggleEditModal(user)}
                   >
                     Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => onAssignAdminRole(user, "admin")}
+                  >
+                    Assign admin role
                   </button>
                   {user.isLockedOut ? (
                     <button
@@ -285,9 +315,13 @@ SupervisorsList.propTypes = {
   activateUser: PropTypes.func.isRequired,
   getSupervisors: PropTypes.func.isRequired,
   deactivateUser: PropTypes.func.isRequired,
+  assignAdminRole: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(null, { activateUser, getSupervisors, deactivateUser })(
-  SupervisorsList,
-);
+export default connect(null, {
+  activateUser,
+  getSupervisors,
+  assignAdminRole,
+  deactivateUser,
+})(SupervisorsList);

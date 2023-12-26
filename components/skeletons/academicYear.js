@@ -48,7 +48,7 @@ const AcademicYearSkeleton = ({ rows }) => {
               </div>
               <div className="custom-table-cell">
                 <span>
-                  <Skeleton width={60} height={15} />{" "}
+                  <Skeleton width={60} height={15} />
                 </span>
               </div>
             </div>

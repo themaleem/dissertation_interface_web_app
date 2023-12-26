@@ -53,6 +53,10 @@ const pathsByName = {
     type: "auth",
     href: "/auth/student/confirm-invite",
   },
+  chooseRolePath: {
+    type: "auth",
+    href: "/auth/choose-role",
+  },
   adminDashboardPath: {
     type: "admin",
     metaTitle: "",
@@ -216,6 +220,12 @@ const pathsByName = {
     type: "supervisor",
     metaDescription: "",
     href: "/supervisor/dashboard",
+  },
+  cohortMetricsPath: {
+    metaTitle: "",
+    type: "supervisor",
+    metaDescription: "",
+    route: "/dissertationCohort/active/metrics",
   },
 };
 

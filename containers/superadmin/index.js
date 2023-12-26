@@ -1,29 +1,61 @@
+import useSWR from "swr";
+import { useMemo } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import Counter from "./counter";
+import { getPath } from "../../config/urls";
+import Suspense from "../../components/suspense";
+import getActiveMetrics from "../../actions/superadmin/getActiveMetrics";
+import MetricCounter from "../../components/skeletons/superadmin/metricCounter";
+import { createStringifiedUrl } from "../../lib/objects";
 
-const counterBoxItems = [
-  {
-    title: "Students",
-    end: 1928,
-  },
-  {
-    title: "Supervisors",
-    end: 1600,
-  },
-  {
-    title: "Approved",
-    end: 1235,
-    className: " is-success",
-  },
-  {
-    title: "Declined",
-    end: 845,
-    className: " is-danger",
-  },
-];
+const SuperadminDashboard = ({ auth, getActiveMetrics }) => {
+  const baseUrl = createStringifiedUrl(getPath("cohortMetricsPath").route);
 
-const SuperadminDashboard = ({ auth }) => {
+  const { data } = useSWR(baseUrl, getActiveMetrics);
+
+  const counterBoxItems = useMemo(() => {
+    if (!data) return [];
+
+    return [
+      {
+        title: "Students",
+        end: data.students,
+      },
+      {
+        title: "Supervisors",
+        end: data.supervisors,
+      },
+      {
+        title: "Approved",
+        className: " is-success",
+        end: data.approvedRequests,
+      },
+      {
+        title: "Declined",
+        className: " is-danger",
+        end: data.declinedRequests,
+      },
+    ];
+  }, [data]);
+
+  const renderCounterSection = () => {
+    return counterBoxItems.map((item) => (
+      <div
+        key={item.title}
+        className={`overview-card-list-item${
+          item.className ? item.className : ""
+        }`}
+      >
+        <Counter end={item.end} />
+        <p>{item.title}</p>
+      </div>
+    ));
+  };
+
+  const renderCounterSectionSkeleton = () => <MetricCounter />;
+
   return (
     <>
       <section className="overview-section">
@@ -35,17 +67,13 @@ const SuperadminDashboard = ({ auth }) => {
               </div>
             </div>
             <div className="overview-card-list">
-              {counterBoxItems.map((item) => (
-                <div
-                  key={item.title}
-                  className={`overview-card-list-item${
-                    item.className ? item.className : ""
-                  }`}
-                >
-                  <Counter end={item.end} />
-                  <p>{item.title}</p>
-                </div>
-              ))}
+              <Suspense
+                hasData
+                auth={auth}
+                component={renderCounterSection}
+                skeleton={renderCounterSectionSkeleton}
+                data={data ? counterBoxItems : undefined}
+              />
             </div>
           </div>
         </div>
@@ -201,7 +229,8 @@ const SuperadminDashboard = ({ auth }) => {
 };
 
 SuperadminDashboard.propTypes = {
+  getActiveMetrics: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default SuperadminDashboard;
+export default connect(null, { getActiveMetrics })(SuperadminDashboard);

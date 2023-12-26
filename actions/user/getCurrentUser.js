@@ -1,3 +1,5 @@
+import cookie from "cookie";
+
 import { signInSuccess } from "../../reducers/auth/authReducer";
 
 const getCurrentUser =
@@ -13,8 +15,10 @@ const getCurrentUser =
       const payload = {
         ...user,
         active: !isLockedOut,
-        role: role[0].toLowerCase(),
       };
+
+      const cookies = cookie.parse(document.cookie);
+      payload.role = cookies.role || role;
 
       dispatch(signInSuccess(payload));
       return payload;

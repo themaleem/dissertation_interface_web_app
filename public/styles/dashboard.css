@@ -568,6 +568,18 @@ section.list-section {
   gap: 24px;
 }
 
+.field-group.is-balance{
+  grid-template-columns: 1fr 1fr;
+}
+
+.field-top-strip{
+  background: #E0E0E0;
+  padding: 16px 24px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  
+}
+
 .modal-card-body{
   padding: 24px 24px 0 24px;
 }

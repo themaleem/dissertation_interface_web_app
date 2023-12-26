@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import ImageComponent from "./image";
 import CaretForwardImage from "../public/images/caret-forward.svg";
 import CaretBackwardImage from "../public/images/caret-backward.svg";
@@ -9,6 +11,7 @@ const Pagination = ({
   pageSize,
   totalRecords,
   onPageChange,
+  extraTableClass,
   currentPageNumber,
 }) => {
   const size = pageSize || PAGE_SIZE;
@@ -85,7 +88,9 @@ const Pagination = ({
   };
 
   return (
-    <div className="table-pagination is-flex is-align-items-center is-justify-content-space-between">
+    <div
+      className={`table-pagination is-flex is-align-items-center is-justify-content-space-between ${extraTableClass}`}
+    >
       <p>
         Showing {Math.min(size, totalRecords - (currentPageNumber - 1) * size)}{" "}
         of {totalRecords} results
@@ -115,6 +120,18 @@ const Pagination = ({
       )}
     </div>
   );
+};
+
+Pagination.defaultProps = {
+  extraTableClass: "",
+};
+
+Pagination.propTypes = {
+  extraTableClass: PropTypes.string,
+  pageSize: PropTypes.string.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  totalRecords: PropTypes.string.isRequired,
+  currentPageNumber: PropTypes.number.isRequired,
 };
 
 export default Pagination;
