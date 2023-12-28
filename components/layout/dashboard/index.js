@@ -20,7 +20,7 @@ const DashboardLayout = ({ auth, children }) => {
   const role = useMemo(() => {
     if (!auth.user) return undefined;
 
-    return auth.user.role;
+    return auth.user.activeRole;
   }, [auth.user]);
 
   // @todo is supervisor header sufficient as a fallback header?

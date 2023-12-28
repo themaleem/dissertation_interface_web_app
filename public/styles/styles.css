@@ -504,6 +504,13 @@ footer {
   line-height: normal;
 }
 
+.form-card-nav-link-inner h3 span{
+  display: block;
+  font-weight: 400;
+  font-size: 16px;
+  padding-top: 8px;
+}
+
 .field .control {
   border-radius: 8px;
   background: #fff;
@@ -515,6 +522,10 @@ footer {
   align-items: center;
   position: relative;
   margin-bottom: 24px;
+}
+
+.field .control.has-textarea{
+  height: auto;
 }
 
 .field .control.has-error{
@@ -541,8 +552,10 @@ footer {
 }
 
 .field .control input:focus ~ label,
+.field .control textarea:focus ~ label,
 .field .control select ~ label,
 .field .control input:not(:placeholder-shown) ~ label,
+.field .control textarea:not(:placeholder-shown) ~ label,
 .field .control label.is-active {
   font-size: 12px;
   top: 12px;
@@ -550,8 +563,8 @@ footer {
   z-index: 3;
 }
 
-.field .control .input,
-  .field .control select {
+.field .control .input,.field .control textarea
+  .field .control select, .field textarea {
   background: transparent !important;
   border: 0px solid;
   box-shadow: none;
@@ -561,6 +574,14 @@ footer {
   transform: translateY(8px);
   position: relative;
   z-index: 1;
+}
+
+.field .control textarea{
+width: 100%;
+min-height: 202px;
+padding-top: 8px;
+color: #333;
+font-style: italic;
 }
 
 .field .control select {
@@ -742,7 +763,35 @@ footer {
   padding: 0;
  }
 
+.form-select-list{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
 
+.form-select-list-item{
+  border-radius: 12px;
+background: #FFF;
+display: flex;
+padding: 24px 16px;
+flex-direction: column;
+justify-content: flex-end;
+align-items: flex-start;
+gap: 16px;
+flex: 1 0 0;
+cursor: pointer;
+}
+
+.form-select-list-clickable{
+  width: 100%;
+}
+
+.form-select-list-clickable h6{
+  font-size: 24px;
+  font-weight: 700;
+line-height: normal;
+color: #333;
+}
 
 @media only screen and (min-width: 768px) {
   .menu-burger {

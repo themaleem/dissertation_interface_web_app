@@ -18,11 +18,12 @@ const onStudentPath = (pathname) => isPathType(pathname, "student");
 const onSupervisorPath = (pathname) => isPathType(pathname, "supervisor");
 const onSuperadminPath = (pathname) => isPathType(pathname, "superadmin");
 
+const chooseRolePath = getPath("chooseRolePath").href;
 const adminDashboardPath = getPath("adminDashboardPath").href;
 const studentDashboardPath = getPath("studentDashboardPath").href;
 const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
 
-const dashboardPaths = {
+export const dashboardPaths = {
   admin: adminDashboardPath,
   student: studentDashboardPath,
   superadmin: adminDashboardPath,
@@ -63,22 +64,30 @@ const authWrapper = (WrappedComponent) => {
       config: ONLY_FOCUS_REVALIDATION,
     });
 
-    const isAdmin = () => user.role === "admin";
-    const isStudent = () => user.role === "student";
-    const isSuperAdmin = () => user.role === "superadmin";
-    const isSupervisor = () => user.role === "supervisor";
+    const isAdmin = () => user.activeRole === "admin";
+    const isStudent = () => user.activeRole === "student";
+    const isSuperAdmin = () => user.activeRole === "superadmin";
+    const isSupervisor = () => user.activeRole === "supervisor";
 
     // Handle Redirects
     // User who is unauthenticated but trying to visit an authentication pages.
     // Need to set the link to redirect a user to who tried to visit an authenticated page without signing in
     const noUserAndNotOnAuthPath = () => {
       if (user === null && !onAuthPath(pathname)) {
-        const str = window.location.href.substring(
-          window.location.origin.length,
-        );
-
         return (redirectTo = signInPath);
       }
+      return undefined;
+    };
+
+    const userIsLoggedInWithoutRole = () => {
+      if (
+        user !== null &&
+        user.activeRole === null &&
+        pathname !== chooseRolePath
+      ) {
+        return (redirectTo = chooseRolePath);
+      }
+
       return undefined;
     };
 
@@ -88,11 +97,7 @@ const authWrapper = (WrappedComponent) => {
     // todo send user dashboard index page based on role
     const userOnAuthPath = () => {
       if (user !== null && onAuthPath(pathname)) {
-        const str = window.location.href.substring(
-          window.location.origin.length,
-        );
-
-        const userRole = user.role.toLowerCase();
+        const userRole = user.activeRole.toLowerCase();
         return (redirectTo = dashboardPaths[userRole]);
       }
       return undefined;
@@ -115,13 +120,24 @@ const authWrapper = (WrappedComponent) => {
     // if you're not superadmin, and you visit superadmin path
     // if you're not admin, and you visit admin path
     const isForbidden = () => {
+      const userRole = user.activeRole.toLowerCase();
+
       if (!isSuperAdmin() && onSuperadminPath(pathname)) {
-        const userRole = user.role.toLowerCase();
-        return (redirectTo = dashboardPaths[userRole]);
+        return (redirectTo = adminDashboardPath);
+      }
+
+      if (
+        isSuperAdmin() &&
+        (onStudentPath(pathname) || onSupervisorPath(pathname))
+      ) {
+        return (redirectTo = adminDashboardPath);
+      }
+
+      if (isAdmin() && !onAdminPath(pathname)) {
+        return (redirectTo = adminDashboardPath);
       }
 
       if ((isStudent() || isSupervisor()) && onAdminPath(pathname)) {
-        const userRole = user.role.toLowerCase();
         return (redirectTo = dashboardPaths[userRole]);
       }
 
@@ -142,7 +158,11 @@ const authWrapper = (WrappedComponent) => {
     if (user !== undefined && pathname && !onStaticPath(pathname)) {
       if (noUserAndNotOnAuthPath()) {
       } else if (user) {
-        userOnAuthPath() || isForbidden() || userAccountIsInactive();
+        if (user.activeRole === null) {
+          userIsLoggedInWithoutRole();
+        } else {
+          userOnAuthPath() || isForbidden() || userAccountIsInactive();
+        }
       }
     }
 

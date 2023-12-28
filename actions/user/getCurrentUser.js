@@ -12,13 +12,12 @@ const getCurrentUser =
         },
       } = response;
 
-      const payload = {
-        ...user,
-        active: !isLockedOut,
-      };
+      const payload = { ...user, roles: role, active: !isLockedOut };
 
       const cookies = cookie.parse(document.cookie);
-      payload.role = cookies.role || role;
+      // @todo revisit the way i'm saving/getting active role
+      payload.activeRole =
+        cookies.activeRole === "null" ? null : cookies.activeRole;
 
       dispatch(signInSuccess(payload));
       return payload;

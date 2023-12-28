@@ -1,38 +1,24 @@
 import Link from "next/link";
-import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
-import Skeleton from "react-loading-skeleton";
 
 import Image from "../../image";
-import Suspense from "../../suspense";
 import { getPath } from "../../../config/urls";
+import ProfileDropdown from "./profileDropdown";
 import Logo from "../../../public/images/logo.svg";
-import { getUserInitials } from "../../../lib/objects";
 
 const homePath = getPath("homePath").href;
 const studentDashboardPath = getPath("studentDashboardPath").href;
+const availableSupervisorsPath = getPath("availableSupervisorsPath").href;
 
 const paths = [
   { name: "Dashboard", path: studentDashboardPath },
-  { name: "Supervisors", path: "#" },
+  { name: "Supervisors", path: availableSupervisorsPath },
   { name: "Requests", path: "#" },
 ];
 
 const StudentHeader = ({ auth }) => {
   const router = useRouter();
-
-  const renderInitial = () => (
-    <div className="navbar-item">
-      <div className="initials-wrapper">{getUserInitials(auth.user)}</div>
-    </div>
-  );
-
-  const renderInitialSkeleton = () => (
-    <div className="navbar-item">
-      <Skeleton circle height={48} width={48} className="initials-wrapper" />
-    </div>
-  );
 
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -65,11 +51,7 @@ const StudentHeader = ({ auth }) => {
                 </div>
               );
             })}
-            <Suspense
-              auth={auth}
-              component={renderInitial}
-              skeleton={renderInitialSkeleton}
-            />
+            <ProfileDropdown auth={auth} />
           </div>
         </div>
       </div>

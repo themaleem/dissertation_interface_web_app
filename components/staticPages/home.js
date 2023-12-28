@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/router";
 
 import FAQSection from "./faq";
@@ -11,28 +11,13 @@ import DocImage from "../../public/images/doc.svg";
 import HeroImage from "../../public/images/rafiki.png";
 import HealthImage from "../../public/images/health.svg";
 import BulbImage from "../../public/images/tabler_bulb.svg";
+import { chooseRoleOrDashboardPath } from "../../lib/objects";
 
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;
-const adminDashboardPath = getPath("adminDashboardPath").href;
-const studentDashboardPath = getPath("studentDashboardPath").href;
-const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
-
-const dashboardPaths = {
-  admin: adminDashboardPath,
-  student: studentDashboardPath,
-  superadmin: adminDashboardPath,
-  supervisor: supervisorDashboardPath,
-};
 
 const Home = ({ auth }) => {
   const router = useRouter();
-
-  const role = useMemo(() => {
-    if (!auth.user) return undefined;
-
-    return auth.user.role;
-  }, [auth.user]);
 
   const renderHeroButton = useCallback(() => {
     if (!auth.user)
@@ -50,12 +35,12 @@ const Home = ({ auth }) => {
       <button
         type="button"
         className="button"
-        onClick={() => router.push(dashboardPaths[role])}
+        onClick={() => router.push(chooseRoleOrDashboardPath(auth.user))}
       >
         Go to Dashboard
       </button>
     );
-  }, [auth.user, role, router]);
+  }, [auth.user, router]);
 
   return (
     <>

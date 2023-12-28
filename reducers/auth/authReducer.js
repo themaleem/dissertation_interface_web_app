@@ -16,7 +16,10 @@ const authReducer = createSlice({
     },
     signInSuccess: (state, action) => {
       state.isAuthenticated = true;
-      state.user = action.payload;
+      state.user = { ...state.user, ...action.payload };
+    },
+    updateRole: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
     },
     signingOut: (state) => {
       state.signingOut = true;
@@ -29,7 +32,7 @@ const authReducer = createSlice({
   },
 });
 
-export const { signOut, signUpSuccess, signingOut, signInSuccess } =
+export const { signOut, signUpSuccess, updateRole, signingOut, signInSuccess } =
   authReducer.actions;
 
 export default authReducer.reducer;

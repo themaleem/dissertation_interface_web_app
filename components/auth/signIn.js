@@ -1,5 +1,5 @@
 import Link from "next/link";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Form } from "react-final-form";
 import { useDispatch } from "react-redux";
 
@@ -15,22 +15,11 @@ import { FORM_SUBSCRIPTION } from "../../config/form";
 import BackArrowImage from "../../public/images/back-arrow.svg";
 
 const homePath = getPath("homePath").href;
-// const chooseRolePath = getPath("chooseRolePath").href;
+const chooseRolePath = getPath("chooseRolePath").href;
 const forgotPasswordPath = getPath("forgotPasswordPath").href;
 
-// const adminDashboardPath = getPath("adminDashboardPath").href;
-// const studentDashboardPath = getPath("studentDashboardPath").href;
-// const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
-
-// const dashboardPaths = {
-//   admin: adminDashboardPath,
-//   student: studentDashboardPath,
-//   superadmin: adminDashboardPath,
-//   supervisor: supervisorDashboardPath,
-// };
-
 const SignIn = ({ auth }) => {
-  // const router = useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
@@ -44,20 +33,16 @@ const SignIn = ({ auth }) => {
 
         const payload = { user, accessToken, refreshToken };
 
-        return onSignIn({ ...payload, role: role[0].toLowerCase() });
-
-        // if (role.length === 1) {
-        //   onSignIn({ ...payload, role: role[0].toLowerCase() });
-        // } else {
-        //   // console.log("dd");
-        //   // console.log(role);
-        //   onSignIn({ ...payload });
-        //   router.push(chooseRolePath);
-        // }
-
-        // if user role is more than one, then hold off on signingOut, if not send them through
-        // const userRole = role[0].toLowerCase();
-        // router.push(dashboardPaths[userRole]);
+        if (role.length === 1) {
+          onSignIn({
+            ...payload,
+            roles: role,
+            activeRole: role[0].toLowerCase(),
+          });
+        } else {
+          onSignIn({ ...payload, activeRole: null, roles: role });
+          router.push(chooseRolePath);
+        }
       })
       .catch((err) => {
         return showNotification({
