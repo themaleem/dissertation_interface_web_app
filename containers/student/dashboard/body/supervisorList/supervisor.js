@@ -42,8 +42,8 @@ const Supervisor = ({ supervisor, afterRequest, request }) => {
   const cancelRequest = () => {
     setIsSendingRequest(true);
     const data = {
+      comment: "Cancel Request",
       requestId: request.requestId,
-      comment: "some",
     };
     return dispatch(cancelSupervisionRequest(data))
       .then(() => {

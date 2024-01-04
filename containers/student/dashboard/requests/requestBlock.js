@@ -11,7 +11,7 @@ const RequestBlock = ({ request, mutate, baseUrl }) => {
   const dispatch = useDispatch();
   const [isSendingRequest, setIsSendingRequest] = useState();
 
-  const { id, status, supervisorDetails, studentDetails } = request;
+  const { id, status, supervisorDetails } = request;
 
   const cancelRequest = () => {
     setIsSendingRequest(true);
