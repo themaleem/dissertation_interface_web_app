@@ -188,12 +188,23 @@ const pathsByName = {
     metaDescription: "",
     href: "/student/dashboard",
   },
+  studentPath: {
+    type: "auth",
+    href: "/student/[id]",
+    route: "/student/[id]",
+  },
   availableSupervisorsPath: {
     metaTitle: "",
     type: "student",
     metaDescription: "",
     href: "/student/available-supervisors",
     route: "/student/available-supervisors",
+  },
+  studentRequestsPath: {
+    metaTitle: "",
+    type: "student",
+    metaDescription: "",
+    route: "/student/supervision-requests",
   },
   supervisorsPath: {
     type: "admin",

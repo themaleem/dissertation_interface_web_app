@@ -14,7 +14,6 @@ const availableSupervisorsPath = getPath("availableSupervisorsPath").href;
 const paths = [
   { name: "Dashboard", path: studentDashboardPath },
   { name: "Supervisors", path: availableSupervisorsPath },
-  { name: "Requests", path: "#" },
 ];
 
 const StudentHeader = ({ auth }) => {

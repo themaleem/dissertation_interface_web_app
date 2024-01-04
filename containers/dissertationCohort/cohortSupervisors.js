@@ -3,6 +3,7 @@ import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useMemo, useState } from "react";
+import { confirmDialog } from "primereact/confirmdialog";
 
 import AddModal from "./addModal";
 import { getPath } from "../../config/urls";
@@ -10,15 +11,18 @@ import ModalWrapper from "../../components/modal";
 import ImageComponent from "../../components/image";
 import Pagination from "../../components/pagination";
 import { createStringifiedUrl } from "../../lib/objects";
+import { showNotification } from "../../components/notification";
 import SearchIconImage from "../../public/images/search-icon.svg";
 import getSupervisors from "../../actions/supervisors/getSupervisors";
 import EmptyStateSVG from "../../public/images/038-drawkit-nature-man-monochrome.svg";
 import SupervisorsInvitesSkeleton from "../../components/skeletons/supervisors/invites";
+import removeSupervisorFromCohort from "../../actions/supervisors/removeSupervisorFromCohort";
 
 const CohortSupervisorsList = ({
   auth,
   getSupervisors,
   dissertationCohortId,
+  removeSupervisorFromCohort,
 }) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
@@ -73,6 +77,33 @@ const CohortSupervisorsList = ({
         />
       </ModalWrapper>
     );
+  };
+
+  const handleRemoveFromCohort = useCallback(
+    (supervisionCohortId) => {
+      return removeSupervisorFromCohort(supervisionCohortId)
+        .then(() => {
+          mutateResources();
+          showNotification({
+            severity: "success",
+            detail: "Supervisor has been removed successfully!",
+          });
+        })
+        .catch((err) => {
+          showNotification({ detail: err.message });
+        });
+    },
+    [removeSupervisorFromCohort, mutateResources],
+  );
+
+  const onRemoveFromCohort = (supervisionCohortId) => {
+    confirmDialog({
+      icon: "pi pi-info-circle",
+      header: "Remove Supervisor",
+      acceptClassName: "button is-primary",
+      accept: () => handleRemoveFromCohort(supervisionCohortId),
+      message: "Are you sure you want to remove supervisor from cohort?",
+    });
   };
 
   const renderCohortSupervisorsList = () => {
@@ -134,7 +165,10 @@ const CohortSupervisorsList = ({
                     {userDetails.isLockedOut ? "Inactive" : "Active"}{" "}
                   </span>
                 </div>
-                <div className="custom-table-cell">
+                <div
+                  className="custom-table-cell"
+                  onClick={() => onRemoveFromCohort(supervisor.id)}
+                >
                   <button type="button" className="button">
                     Remove
                   </button>
@@ -203,6 +237,9 @@ const CohortSupervisorsList = ({
 CohortSupervisorsList.propTypes = {
   getSupervisors: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
+  removeSupervisorFromCohort: PropTypes.func.isRequired,
 };
 
-export default connect(null, { getSupervisors })(CohortSupervisorsList);
+export default connect(null, { getSupervisors, removeSupervisorFromCohort })(
+  CohortSupervisorsList,
+);

@@ -85,9 +85,9 @@ const ChooseRole = ({ auth }) => {
               </form>
             </div>
           </div>
-          <div class="form-card-bt-strip">
+          <div className="form-card-bt-strip">
             <p>Not your account?</p>
-            <a onClick={onLogoutClick} class="is-flex is-align-item-center">
+            <a onClick={onLogoutClick} className="is-flex is-align-item-center">
               Log out
               <ImageComponent src={FrontArrowImage} alt="front-arrow-icon" />
             </a>

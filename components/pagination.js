@@ -128,9 +128,9 @@ Pagination.defaultProps = {
 
 Pagination.propTypes = {
   extraTableClass: PropTypes.string,
-  pageSize: PropTypes.string.isRequired,
+  pageSize: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
-  totalRecords: PropTypes.string.isRequired,
+  totalRecords: PropTypes.number.isRequired,
   currentPageNumber: PropTypes.number.isRequired,
 };
 

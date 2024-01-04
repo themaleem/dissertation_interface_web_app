@@ -46,9 +46,7 @@ const DetailsModal = ({
         mutateResources();
       })
       .catch((err) => {
-        console.log(err);
-        // const errorList = Object.values(err.data?.errors);
-        // showNotification({detail:errorList?.[0]?.[0] || "Something went wrong."})
+        showNotification({ detail: err.message });
       })
       .finally(closeModal);
   };
