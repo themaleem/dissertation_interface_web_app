@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import Skeleton from "react-loading-skeleton";
 
-import { getPath } from "../../../../../config/urls";
-import { createStringifiedUrl } from "../../../../../lib/objects";
-import SuspenseComponent from "../../../../../components/suspense";
-import getCourses from "../../../../../actions/systemConfig/course/getCourses";
-import AsyncSelectInput from "../../../../../components/inputs/asyncSelectInput";
+import { getPath } from "../../../../config/urls";
+import { createStringifiedUrl } from "../../../../lib/objects";
+import SuspenseComponent from "../../../../components/suspense";
+import AsyncSelectInput from "../../../../components/inputs/asyncSelectInput";
+import getDepartments from "../../../../actions/systemConfig/departments/getDepartments";
 
-const CourseSearch = ({
+const DepartmentSearch = ({
   id,
   auth,
   meta,
@@ -21,25 +21,25 @@ const CourseSearch = ({
   clearable,
   className,
   searchable,
-  getCourses,
   placeholder,
   defaultValue,
   cacheOptions,
   getOptionValue,
+  getDepartments,
   getOptionLabel,
 }) => {
-  const baseUrl = createStringifiedUrl(getPath("activeCoursesPath").route);
+  const baseUrl = createStringifiedUrl(getPath("activeDepartmentsPath").route);
 
-  const { data } = useSWR(baseUrl, getCourses);
+  const { data } = useSWR(baseUrl, getDepartments);
 
-  const defaultOptions = (data?.result || []).map((course) => {
+  const defaultOptions = (data?.result || []).map((department) => {
     return {
-      value: course.id,
-      label: course.name,
+      value: department.id,
+      label: department.name,
     };
   });
 
-  let handleCourseSearch = (value, callback) => {
+  let handleDepartmentSearch = (value, callback) => {
     const name = value.trim();
     if (!name.length) {
       callback(defaultOptions);
@@ -48,13 +48,13 @@ const CourseSearch = ({
 
     const url = createStringifiedUrl(baseUrl, { SearchByName: name });
 
-    getCourses(url)
+    getDepartments(url)
       .then((response) => {
         let options = [];
         if (response.result) {
-          options = response.result.map((course) => ({
-            value: course.id,
-            label: course.name,
+          options = response.result.map((department) => ({
+            value: department.id,
+            label: department.name,
           }));
         }
         callback(options);
@@ -62,7 +62,7 @@ const CourseSearch = ({
       .catch();
   };
 
-  handleCourseSearch = debounce(handleCourseSearch, 300);
+  handleDepartmentSearch = debounce(handleDepartmentSearch, 300);
 
   const renderSkeleton = () => <Skeleton height={35} width={200} />;
 
@@ -83,7 +83,7 @@ const CourseSearch = ({
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
         defaultOptions={defaultOptions}
-        loadOptions={handleCourseSearch}
+        loadOptions={handleDepartmentSearch}
       />
     );
   };
@@ -100,7 +100,7 @@ const CourseSearch = ({
   );
 };
 
-CourseSearch.defaultProps = {
+DepartmentSearch.defaultProps = {
   multi: false,
   loading: false,
   meta: undefined,
@@ -115,7 +115,7 @@ CourseSearch.defaultProps = {
   getOptionLabel: undefined,
 };
 
-CourseSearch.propTypes = {
+DepartmentSearch.propTypes = {
   multi: PropTypes.bool,
   loading: PropTypes.bool,
   onChange: PropTypes.func,
@@ -126,10 +126,10 @@ CourseSearch.propTypes = {
   getOptionValue: PropTypes.func,
   getOptionLabel: PropTypes.func,
   input: PropTypes.instanceOf(Object),
-  getCourses: PropTypes.func.isRequired,
   meta: PropTypes.objectOf(PropTypes.any),
+  getDepartments: PropTypes.func.isRequired,
   defaultValue: PropTypes.instanceOf(Array),
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(null, { getCourses })(CourseSearch);
+export default connect(null, { getDepartments })(DepartmentSearch);

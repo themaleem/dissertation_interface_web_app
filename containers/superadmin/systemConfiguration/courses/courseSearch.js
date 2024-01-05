@@ -1,17 +1,16 @@
+import useSWR from "swr";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import Skeleton from "react-loading-skeleton";
 
-import { getPath } from "../../../../../config/urls";
-import useWithSWR from "../../../../../components/swr/withSwr";
-import { dateWithSlashes } from "../../../../../lib/dateUtils";
-import { createStringifiedUrl } from "../../../../../lib/objects";
-import SuspenseComponent from "../../../../../components/suspense";
-import AsyncSelectInput from "../../../../../components/inputs/asyncSelectInput";
-import getAcademicYear from "../../../../../actions/systemConfig/getAcademicYears";
+import { getPath } from "../../../../config/urls";
+import { createStringifiedUrl } from "../../../../lib/objects";
+import SuspenseComponent from "../../../../components/suspense";
+import getCourses from "../../../../actions/systemConfig/course/getCourses";
+import AsyncSelectInput from "../../../../components/inputs/asyncSelectInput";
 
-const AcademicYearSearch = ({
+const CourseSearch = ({
   id,
   auth,
   meta,
@@ -22,50 +21,40 @@ const AcademicYearSearch = ({
   clearable,
   className,
   searchable,
+  getCourses,
   placeholder,
   defaultValue,
   cacheOptions,
   getOptionValue,
-  getAcademicYear,
   getOptionLabel,
 }) => {
-  const baseUrl = createStringifiedUrl(
-    getPath("systemConfigurationPath").route,
-  );
+  const baseUrl = createStringifiedUrl(getPath("activeCoursesPath").route);
 
-  const { data } = useWithSWR({
-    auth,
-    baseUrl,
-    fetcher: getAcademicYear,
-  });
+  const { data } = useSWR(baseUrl, getCourses);
 
-  const defaultOptions = (data?.result.data || []).map((academicYear) => {
+  const defaultOptions = (data?.result || []).map((course) => {
     return {
-      value: academicYear.id,
-      label: `${dateWithSlashes(academicYear.startDate)} - ${dateWithSlashes(
-        academicYear.endDate,
-      )}`,
+      value: course.id,
+      label: course.name,
     };
   });
 
-  let handleAcademicYearSearch = (value, callback) => {
-    const date = value.trim();
-    if (!date.length) {
+  let handleCourseSearch = (value, callback) => {
+    const name = value.trim();
+    if (!name.length) {
       callback(defaultOptions);
       return;
     }
 
-    const url = createStringifiedUrl(baseUrl, { SearchByStartYear: date });
+    const url = createStringifiedUrl(baseUrl, { SearchByName: name });
 
-    getAcademicYear(url)
+    getCourses(url)
       .then((response) => {
         let options = [];
         if (response.result) {
-          options = response.result.data.map((academicYear) => ({
-            value: academicYear.id,
-            label: `${dateWithSlashes(
-              academicYear.startDate,
-            )} - ${dateWithSlashes(academicYear.endDate)}`,
+          options = response.result.map((course) => ({
+            value: course.id,
+            label: course.name,
           }));
         }
         callback(options);
@@ -73,7 +62,7 @@ const AcademicYearSearch = ({
       .catch();
   };
 
-  handleAcademicYearSearch = debounce(handleAcademicYearSearch, 300);
+  handleCourseSearch = debounce(handleCourseSearch, 300);
 
   const renderSkeleton = () => <Skeleton height={35} width={200} />;
 
@@ -94,13 +83,14 @@ const AcademicYearSearch = ({
         getOptionLabel={getOptionLabel}
         getOptionValue={getOptionValue}
         defaultOptions={defaultOptions}
-        loadOptions={handleAcademicYearSearch}
+        loadOptions={handleCourseSearch}
       />
     );
   };
 
   return (
     <SuspenseComponent
+      noAuth
       hasData
       auth={auth}
       skeleton={renderSkeleton}
@@ -110,7 +100,7 @@ const AcademicYearSearch = ({
   );
 };
 
-AcademicYearSearch.defaultProps = {
+CourseSearch.defaultProps = {
   multi: false,
   loading: false,
   meta: undefined,
@@ -125,7 +115,7 @@ AcademicYearSearch.defaultProps = {
   getOptionLabel: undefined,
 };
 
-AcademicYearSearch.propTypes = {
+CourseSearch.propTypes = {
   multi: PropTypes.bool,
   loading: PropTypes.bool,
   onChange: PropTypes.func,
@@ -136,10 +126,10 @@ AcademicYearSearch.propTypes = {
   getOptionValue: PropTypes.func,
   getOptionLabel: PropTypes.func,
   input: PropTypes.instanceOf(Object),
+  getCourses: PropTypes.func.isRequired,
   meta: PropTypes.objectOf(PropTypes.any),
   defaultValue: PropTypes.instanceOf(Array),
-  getAcademicYear: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(null, { getAcademicYear })(AcademicYearSearch);
+export default connect(null, { getCourses })(CourseSearch);

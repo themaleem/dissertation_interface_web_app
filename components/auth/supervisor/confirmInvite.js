@@ -13,11 +13,10 @@ import { showNotification } from "../../notification";
 import PasswordInput from "../../inputs/passwordInput";
 import { FORM_SUBSCRIPTION } from "../../../config/form";
 import BackArrowImage from "../../../public/images/back-arrow.svg";
-import FrontArrowImage from "../../../public/images/front-arrow.svg";
 import confirmInvite from "../../../actions/supervisors/confirmInvite";
 import { required, validateConfirmationPassword } from "../../../lib/objects";
 import registerSupervisor from "../../../actions/supervisors/registerSupervisor";
-import departmentSearch from "../../../containers/superadmin/admins/systemConfiguration/departments/departmentSearch";
+import departmentSearch from "../../../containers/superadmin/systemConfiguration/departments/departmentSearch";
 
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;

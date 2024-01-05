@@ -5,16 +5,16 @@ import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
 
 import DepartmentModal from "./departmentModal";
-import { getPath } from "../../../../../config/urls";
-import ModalWrapper from "../../../../../components/modal";
-import ImageComponent from "../../../../../components/image";
-import Pagination from "../../../../../components/pagination";
-import { dateWithSlashes } from "../../../../../lib/dateUtils";
-import { createStringifiedUrl } from "../../../../../lib/objects";
-import SearchIconImage from "../../../../../public/images/search-icon.svg";
-import DepartmentSkeleton from "../../../../../components/skeletons/department";
-import getDepartments from "../../../../../actions/systemConfig/departments/getDepartments";
-import EmptyStateSVG from "../../../../../public/images/038-drawkit-nature-man-monochrome.svg";
+import { getPath } from "../../../../config/urls";
+import ModalWrapper from "../../../../components/modal";
+import ImageComponent from "../../../../components/image";
+import Pagination from "../../../../components/pagination";
+import { dateWithSlashes } from "../../../../lib/dateUtils";
+import { createStringifiedUrl } from "../../../../lib/objects";
+import SearchIconImage from "../../../../public/images/search-icon.svg";
+import DepartmentSkeleton from "../../../../components/skeletons/department";
+import getDepartments from "../../../../actions/systemConfig/departments/getDepartments";
+import EmptyStateSVG from "../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const Departments = ({ getDepartments }) => {
   const [pageSize] = useState(10);

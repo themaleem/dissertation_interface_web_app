@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import authWrapper from "../../../containers/hoc/authWrapper";
 import DashboardLayout from "../../../components/layout/dashboard";
 import SystemConfigurationHeader from "../../../components/layout/dashboard/systemConfigurationHeader";
-import CreateAcademicYear from "../../../containers/superadmin/admins/systemConfiguration/academicYear/createAcademicYear";
+import CreateAcademicYear from "../../../containers/superadmin/systemConfiguration/academicYear/createAcademicYear";
 
 const NewAcademicYear = ({ auth }) => {
   return (

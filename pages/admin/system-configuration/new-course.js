@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 
 import authWrapper from "../../../containers/hoc/authWrapper";
 import DashboardLayout from "../../../components/layout/dashboard";
+import CreateCourse from "../../../containers/superadmin/systemConfiguration/courses/createCourse";
 import SystemConfigurationHeader from "../../../components/layout/dashboard/systemConfigurationHeader";
-import CreateCourse from "../../../containers/superadmin/admins/systemConfiguration/courses/createCourse";
 
 const CreateCoursePage = ({ auth }) => {
   return (

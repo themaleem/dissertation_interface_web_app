@@ -1,41 +1,46 @@
 import Link from "next/link";
+import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { getPath } from "../../../../../config/urls";
-import { required } from "../../../../../lib/objects";
-import ImageComponent from "../../../../../components/image";
-import { FORM_SUBSCRIPTION } from "../../../../../config/form";
-import CalendarSVG from "../../../../../public/images/calendar.svg";
-import BackArrowImage from "../../../../../public/images/back-arrow.svg";
-import { showNotification } from "../../../../../components/notification";
-import CalendarInput from "../../../../../components/inputs/calendarInput";
-import createAcademicYear from "../../../../../actions/systemConfig/createAcademicYear";
+import { getPath } from "../../../../config/urls";
+import { required } from "../../../../lib/objects";
+import ImageComponent from "../../../../components/image";
+import { FORM_SUBSCRIPTION } from "../../../../config/form";
+import CalendarSVG from "../../../../public/images/calendar.svg";
+import AcademicYearSearch from "../academicYear/academicYearSearch";
+import BackArrowImage from "../../../../public/images/back-arrow.svg";
+import { showNotification } from "../../../../components/notification";
+import CalendarInput from "../../../../components/inputs/calendarInput";
+import createCohort from "../../../../actions/systemConfig/cohort/createCohort";
 
-const systemConfigurationPath = `${
+const dissertationCohortsPath = `${
   getPath("systemConfigurationPath").href
-}#tab=academic-year`;
+}#tab=cohorts`;
 
-const CreateAcademicYear = () => {
+const CreateCohort = ({ auth }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const navToAcademicYearsPage = () => router.push(systemConfigurationPath);
+  const navToCohortListPage = () => router.push(dissertationCohortsPath);
 
   const onSubmit = (values) => {
     const data = {
       endDate: values.end_date,
       startDate: values.start_date,
+      academicYearId: values.academic_year.value,
+      supervisionChoiceDeadline: values.deadline_date,
     };
 
-    return dispatch(createAcademicYear(data))
+    return dispatch(createCohort(data))
       .then(() => {
         showNotification({
           severity: "success",
-          detail: "Academic year has been created successfully!",
+          detail: "Dissertation Cohort has been created successfully!",
         });
-        navToAcademicYearsPage();
+
+        navToCohortListPage();
       })
       .catch((err) => {
         // @note dispatching only the very first error i encounter on create
@@ -54,15 +59,15 @@ const CreateAcademicYear = () => {
           <div className="form-card">
             <div className="form-card-header no-bt">
               <Link
-                href={systemConfigurationPath}
+                href={dissertationCohortsPath}
                 className="form-card-nav-link is-flex is-align-items-center"
               >
                 <ImageComponent src={BackArrowImage} alt="back arrow" />
-                Back to academic year list
+                Back to Dissertation Cohort List
               </Link>
 
               <div className="form-card-nav-link-inner">
-                <h3>Add new academic year</h3>
+                <h3>New Dissertation Cohort</h3>
               </div>
             </div>
             <Form
@@ -72,11 +77,23 @@ const CreateAcademicYear = () => {
                 return (
                   <form className="form-container" autoComplete="off">
                     <div className="field">
+                      <label htmlFor="startDate"> Academic Year</label>
+                      <div className="control">
+                        <Field
+                          auth={auth}
+                          type="text"
+                          className="input"
+                          id="academic_year"
+                          validate={required}
+                          name="academic_year"
+                          component={AcademicYearSearch}
+                        />
+                      </div>
                       <div className="control">
                         <Field
                           showIcon
                           type="text"
-                          id="start_date"
+                          id="startDate"
                           className="input"
                           name="start_date"
                           validate={required}
@@ -91,14 +108,31 @@ const CreateAcademicYear = () => {
                           className="calendar-icon"
                         />
                       </div>
-                    </div>
-                    <div className="field">
                       <div className="control">
                         <Field
                           showIcon
                           type="text"
+                          className="input"
+                          id="deadlineDate"
+                          validate={required}
+                          name="deadline_date"
+                          component={CalendarInput}
+                        />
+                        <label htmlFor="deadlineDate" className="is-active">
+                          Deadline date
+                        </label>
+                        <ImageComponent
+                          src={CalendarSVG}
+                          alt="calendar icon"
+                          className="calendar-icon"
+                        />
+                      </div>
+                      <div className="control">
+                        <Field
+                          showIcon
+                          type="text"
+                          id="endDate"
                           name="end_date"
-                          id="start_date"
                           className="input"
                           validate={required}
                           component={CalendarInput}
@@ -118,7 +152,7 @@ const CreateAcademicYear = () => {
                       <button
                         type="button"
                         className="button no-bg"
-                        onClick={navToAcademicYearsPage}
+                        onClick={navToCohortListPage}
                       >
                         Cancel
                       </button>
@@ -130,7 +164,7 @@ const CreateAcademicYear = () => {
                         }`}
                         disabled={hasValidationErrors || submitting}
                       >
-                        Add Academic Year
+                        Add dissertation cohort
                       </button>
                     </div>
                   </form>
@@ -144,6 +178,8 @@ const CreateAcademicYear = () => {
   );
 };
 
-CreateAcademicYear.propTypes = {};
+CreateCohort.propTypes = {
+  auth: PropTypes.instanceOf(Object).isRequired,
+};
 
-export default CreateAcademicYear;
+export default CreateCohort;

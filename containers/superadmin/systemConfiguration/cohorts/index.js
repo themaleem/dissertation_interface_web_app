@@ -6,17 +6,17 @@ import { useCallback, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
 import EditCohortModal from "./editCohortModal";
-import { getPath } from "../../../../../config/urls";
-import Suspense from "../../../../../components/suspense";
-import ModalWrapper from "../../../../../components/modal";
-import ImageComponent from "../../../../../components/image";
-import Pagination from "../../../../../components/pagination";
-import { createStringifiedUrl } from "../../../../../lib/objects";
-import { toDayMonthYearLong } from "../../../../../lib/dateUtils";
-import getCohorts from "../../../../../actions/systemConfig/cohort/getCohorts";
-import AcademicYearSkeleton from "../../../../../components/skeletons/academicYear";
-import getActiveCohort from "../../../../../actions/systemConfig/cohort/getActiveCohort";
-import EmptyStateSVG from "../../../../../public/images/038-drawkit-nature-man-monochrome.svg";
+import { getPath } from "../../../../config/urls";
+import Suspense from "../../../../components/suspense";
+import ModalWrapper from "../../../../components/modal";
+import ImageComponent from "../../../../components/image";
+import Pagination from "../../../../components/pagination";
+import { createStringifiedUrl } from "../../../../lib/objects";
+import { toDayMonthYearLong } from "../../../../lib/dateUtils";
+import getCohorts from "../../../../actions/systemConfig/cohort/getCohorts";
+import AcademicYearSkeleton from "../../../../components/skeletons/academicYear";
+import getActiveCohort from "../../../../actions/systemConfig/cohort/getActiveCohort";
+import EmptyStateSVG from "../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const newDissertationCohortsPath = getPath("newDissertationCohortsPath").href;
 const activeDissertationCohortPath = getPath(

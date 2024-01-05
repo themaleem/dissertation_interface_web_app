@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import CustomTabs from "../../../components/customTabs";
 import authWrapper from "../../../containers/hoc/authWrapper";
 import DashboardLayout from "../../../components/layout/dashboard";
-import Cohorts from "../../../containers/superadmin/admins/systemConfiguration/cohorts";
-import Courses from "../../../containers/superadmin/admins/systemConfiguration/courses";
-import SystemConfiguration from "../../../containers/superadmin/admins/systemConfiguration";
-import Departments from "../../../containers/superadmin/admins/systemConfiguration/departments";
+import Cohorts from "../../../containers/superadmin/systemConfiguration/cohorts";
+import Courses from "../../../containers/superadmin/systemConfiguration/courses";
+import SystemConfiguration from "../../../containers/superadmin/systemConfiguration";
+import Departments from "../../../containers/superadmin/systemConfiguration/departments";
 
 const tabsObject = {
   "academic-year": 0,

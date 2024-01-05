@@ -2,16 +2,16 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { required } from "../../../../../lib/objects";
-import ImageComponent from "../../../../../components/image";
-import { dateWithSlashes } from "../../../../../lib/dateUtils";
-import CloseSVGImage from "../../../../../public/images/close.svg";
-import { FORM_WITH_DIRTY_VALUES } from "../../../../../config/form";
-import CalendarSVG from "../../../../../public/images/calendar.svg";
+import { required } from "../../../../lib/objects";
+import ImageComponent from "../../../../components/image";
+import { dateWithSlashes } from "../../../../lib/dateUtils";
+import CloseSVGImage from "../../../../public/images/close.svg";
+import { FORM_WITH_DIRTY_VALUES } from "../../../../config/form";
+import CalendarSVG from "../../../../public/images/calendar.svg";
 import AcademicYearSearch from "../academicYear/academicYearSearch";
-import { showNotification } from "../../../../../components/notification";
-import CalendarInput from "../../../../../components/inputs/calendarInput";
-import updateCohort from "../../../../../actions/systemConfig/cohort/updateCohort";
+import { showNotification } from "../../../../components/notification";
+import CalendarInput from "../../../../components/inputs/calendarInput";
+import updateCohort from "../../../../actions/systemConfig/cohort/updateCohort";
 
 const EditCohortModal = ({ auth, closeModal, mutateResources, cohort }) => {
   const dispatch = useDispatch();

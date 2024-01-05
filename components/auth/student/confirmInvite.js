@@ -14,10 +14,9 @@ import PasswordInput from "../../inputs/passwordInput";
 import { FORM_SUBSCRIPTION } from "../../../config/form";
 import BackArrowImage from "../../../public/images/back-arrow.svg";
 import confirmInvite from "../../../actions/students/confirmInvite";
-import FrontArrowImage from "../../../public/images/front-arrow.svg";
 import registerStudent from "../../../actions/students/registerStudent";
 import { required, validateConfirmationPassword } from "../../../lib/objects";
-import CourseSearch from "../../../containers/superadmin/admins/systemConfiguration/courses/courseSearch";
+import CourseSearch from "../../../containers/superadmin/systemConfiguration/courses/courseSearch";
 
 const homePath = getPath("homePath").href;
 const signInPath = getPath("signInPath").href;

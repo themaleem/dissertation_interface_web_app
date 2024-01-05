@@ -6,15 +6,15 @@ import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
 
 import EditModal from "./courseModal";
-import { getPath } from "../../../../../config/urls";
-import ModalWrapper from "../../../../../components/modal";
-import ImageComponent from "../../../../../components/image";
-import Pagination from "../../../../../components/pagination";
-import { createStringifiedUrl } from "../../../../../lib/objects";
-import CourseSkeleton from "../../../../../components/skeletons/course";
-import SearchIconImage from "../../../../../public/images/search-icon.svg";
-import getCourses from "../../../../../actions/systemConfig/course/getCourses";
-import EmptyStateSVG from "../../../../../public/images/038-drawkit-nature-man-monochrome.svg";
+import { getPath } from "../../../../config/urls";
+import ModalWrapper from "../../../../components/modal";
+import ImageComponent from "../../../../components/image";
+import Pagination from "../../../../components/pagination";
+import { createStringifiedUrl } from "../../../../lib/objects";
+import CourseSkeleton from "../../../../components/skeletons/course";
+import SearchIconImage from "../../../../public/images/search-icon.svg";
+import getCourses from "../../../../actions/systemConfig/course/getCourses";
+import EmptyStateSVG from "../../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const newCoursePath = getPath("newCoursePath").href;
 

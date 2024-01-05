@@ -4,16 +4,16 @@ import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import { useCallback, useState } from "react";
 
-import { getPath } from "../../../../config/urls";
+import { getPath } from "../../../config/urls";
+import ModalWrapper from "../../../components/modal";
+import ImageComponent from "../../../components/image";
 import DetailsModal from "./academicYear/detailsModal";
-import ModalWrapper from "../../../../components/modal";
-import ImageComponent from "../../../../components/image";
-import Pagination from "../../../../components/pagination";
-import { toDayMonthYearLong } from "../../../../lib/dateUtils";
-import { capitalize, createStringifiedUrl } from "../../../../lib/objects";
-import AcademicYearSkeleton from "../../../../components/skeletons/academicYear";
-import getAcademicYears from "../../../../actions/systemConfig/getAcademicYears";
-import EmptyStateSVG from "../../../../public/images/038-drawkit-nature-man-monochrome.svg";
+import Pagination from "../../../components/pagination";
+import { toDayMonthYearLong } from "../../../lib/dateUtils";
+import { capitalize, createStringifiedUrl } from "../../../lib/objects";
+import AcademicYearSkeleton from "../../../components/skeletons/academicYear";
+import getAcademicYears from "../../../actions/systemConfig/getAcademicYears";
+import EmptyStateSVG from "../../../public/images/038-drawkit-nature-man-monochrome.svg";
 
 const newAcademicYearPath = getPath("newAcademicYearPath").href;
 

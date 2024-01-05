@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-import ImageComponent from "../../../../../components/image";
-import { toDayMonthYearLong } from "../../../../../lib/dateUtils";
-import CloseSVGImage from "../../../../../public/images/close.svg";
+import ImageComponent from "../../../../components/image";
+import { toDayMonthYearLong } from "../../../../lib/dateUtils";
+import CloseSVGImage from "../../../../public/images/close.svg";
 
 const DetailsModal = ({ dissertationCohort, closeModal, toggleEditModal }) => {
   return (
