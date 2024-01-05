@@ -234,9 +234,15 @@ const pathsByName = {
   },
   cohortMetricsPath: {
     metaTitle: "",
-    type: "supervisor",
+    type: "admin",
     metaDescription: "",
     route: "/dissertationCohort/active/metrics",
+  },
+  supervisionRequestsPath: {
+    metaTitle: "",
+    type: "admin",
+    metaDescription: "",
+    route: "/supervisionRequest",
   },
 };
 

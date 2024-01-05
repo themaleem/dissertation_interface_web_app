@@ -3,12 +3,15 @@ import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import Counter from "./counter";
+import Counter from "./dashboard/counter";
 import { getPath } from "../../config/urls";
 import Suspense from "../../components/suspense";
+import DashboardStudentList from "./dashboard/students";
+import { createStringifiedUrl } from "../../lib/objects";
+import DashboardSupervisorList from "./dashboard/supervisors";
+import DashboardSupervisionRequests from "./dashboard/requests";
 import getActiveMetrics from "../../actions/superadmin/getActiveMetrics";
 import MetricCounter from "../../components/skeletons/superadmin/metricCounter";
-import { createStringifiedUrl } from "../../lib/objects";
 
 const SuperadminDashboard = ({ auth, getActiveMetrics }) => {
   const baseUrl = createStringifiedUrl(getPath("cohortMetricsPath").route);
@@ -80,148 +83,13 @@ const SuperadminDashboard = ({ auth, getActiveMetrics }) => {
       </section>
       <section className="request-section">
         <div className="container">
-          <div className="request-block">
-            <div className="dashboard-header">
-              <div className="dashboard-header-inner">
-                <h3>Supervision requests</h3>
-                <button className="button">View all</button>
-              </div>
-            </div>
-            <div className="request-card-list">
-              <div className="request-card-list-card-item">
-                <div className="request-card-list-card-item-inner">
-                  <div className="request-card-list-card-header">
-                    <span className="custom-tag">Pending</span>
-                    <div className="interpunct" />
-                    <span>9 hours ago</span>
-                  </div>
-                  <h5>5,000</h5>
-                  <p>To Jonathan Sherman</p>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-              <div className="request-card-list-card-item">
-                <div className="request-card-list-card-item-inner">
-                  <div className="request-card-list-card-header">
-                    <span className="custom-tag">Pending</span>
-                    <div className="interpunct" />
-                    <span>9 hours ago</span>
-                  </div>
-                  <h5>5,000</h5>
-                  <p>To Jonathan Sherman</p>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-              <div className="request-card-list-card-item">
-                <div className="request-card-list-card-item-inner">
-                  <div className="request-card-list-card-header">
-                    <span className="custom-tag">Pending</span>
-                    <div className="interpunct" />
-                    <span>9 hours ago</span>
-                  </div>
-                  <h5>5,000</h5>
-                  <p>To Jonathan Sherman</p>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-            </div>
-          </div>
+          <DashboardSupervisionRequests auth={auth} />
         </div>
       </section>
       <section className="list-section">
         <div className="container">
-          <div className="list-section-left">
-            <div className="dashboard-header">
-              <div className="dashboard-header-inner">
-                <h3>Students</h3>
-                <button className="button">View all</button>
-              </div>
-            </div>
-            <div className="list-section-list">
-              <div className="list-section-list-card-item">
-                <div className="list-section-list-card-item-inner">
-                  <div className="list-section-list-card-initials-wrapper">
-                    JD
-                  </div>
-                  <div>
-                    <h6>John Doe</h6>
-                    <p>Computing</p>
-                  </div>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-              <div className="list-section-list-card-item">
-                <div className="list-section-list-card-item-inner">
-                  <div className="list-section-list-card-initials-wrapper">
-                    JD
-                  </div>
-                  <div>
-                    <h6>John Doe</h6>
-                    <p>Computing</p>
-                  </div>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-              <div className="list-section-list-card-item">
-                <div className="list-section-list-card-item-inner">
-                  <div className="list-section-list-card-initials-wrapper">
-                    JD
-                  </div>
-                  <div>
-                    <h6>John Doe</h6>
-                    <p>Computing</p>
-                  </div>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-            </div>
-          </div>
-          <div className="list-section-right">
-            <div className="dashboard-header">
-              <div className="dashboard-header-inner">
-                <h3>Supervisors</h3>
-                <button className="button">View all</button>
-              </div>
-            </div>
-            <div className="list-section-list">
-              <div className="list-section-list-card-item">
-                <div className="list-section-list-card-item-inner">
-                  <div className="list-section-list-card-initials-wrapper">
-                    JD
-                  </div>
-                  <div>
-                    <h6>John Doe</h6>
-                    <p>Computing</p>
-                  </div>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-              <div className="list-section-list-card-item">
-                <div className="list-section-list-card-item-inner">
-                  <div className="list-section-list-card-initials-wrapper">
-                    JD
-                  </div>
-                  <div>
-                    <h6>John Doe</h6>
-                    <p>Computing</p>
-                  </div>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-              <div className="list-section-list-card-item">
-                <div className="list-section-list-card-item-inner">
-                  <div className="list-section-list-card-initials-wrapper">
-                    JD
-                  </div>
-                  <div>
-                    <h6>John Doe</h6>
-                    <p>Computing</p>
-                  </div>
-                </div>
-                <img src="/images/caret-forward.svg" alt="" />
-              </div>
-            </div>
-          </div>
+          <DashboardStudentList auth={auth} />
+          <DashboardSupervisorList auth={auth} />
         </div>
       </section>
     </>
