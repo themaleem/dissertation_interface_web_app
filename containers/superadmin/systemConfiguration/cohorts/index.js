@@ -1,6 +1,6 @@
+import useSWR from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
-import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import { useCallback, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -48,9 +48,9 @@ const Cohorts = ({ auth, getCohorts, getActiveCohort }) => {
     setOpenEditModal((open) => !open);
   }, []);
 
-  const { data } = useSWR(baseUrl, getCohorts);
+  const { data, mutate } = useSWR(baseUrl, getCohorts);
 
-  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
+  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
   const renderEditModal = useCallback(() => {
     return (

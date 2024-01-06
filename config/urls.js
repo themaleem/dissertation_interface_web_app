@@ -242,7 +242,8 @@ const pathsByName = {
     metaTitle: "",
     type: "admin",
     metaDescription: "",
-    route: "/supervisionRequest",
+    route: "/SupervisionRequest",
+    href: "/supervision-requests",
   },
 };
 

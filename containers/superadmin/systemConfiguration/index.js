@@ -1,6 +1,6 @@
+import useSWR from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
-import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import { useCallback, useState } from "react";
 
@@ -41,9 +41,9 @@ const SystemConfiguration = ({ auth, getAcademicYears }) => {
     setOpenDetailsModal((open) => !open);
   }, []);
 
-  const { data } = useSWR(baseUrl, getAcademicYears);
+  const { data, mutate } = useSWR(baseUrl, getAcademicYears);
 
-  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
+  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
   const renderDetailsModal = useCallback(() => {
     return (

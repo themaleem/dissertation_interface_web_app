@@ -1,4 +1,4 @@
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -66,9 +66,9 @@ const CohortStudentList = ({
     setOpenEditModal((open) => !open);
   }, []);
 
-  const { data } = useSWR(baseUrl, getStudents);
+  const { data, mutate } = useSWR(baseUrl, getStudents);
 
-  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
+  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
   const handleActivateUser = useCallback(
     (email) => {
@@ -148,7 +148,9 @@ const CohortStudentList = ({
       return (
         <div className="empty-state">
           <ImageComponent src={EmptyStateSVG} alt="empty state image" />
-          <p>No results found. Please try a different search.</p>
+          <p>
+            No results found. {searchValue && "Please try a different search."}
+          </p>
         </div>
       );
     }

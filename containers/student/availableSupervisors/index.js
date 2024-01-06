@@ -105,7 +105,9 @@ const AvailableSupervisors = ({
       return (
         <div className="empty-state">
           <ImageComponent src={EmptyStateSVG} alt="empty state image" />
-          <p>No results found. Please try a different search.</p>
+          <p>
+            No results found. {searchValue && "Please try a different search."}
+          </p>
         </div>
       );
     }

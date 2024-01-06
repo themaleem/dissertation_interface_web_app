@@ -13,6 +13,7 @@ const studentsPath = getPath("studentsPath").href;
 const adminUsersPath = getPath("adminUsersPath").href;
 const supervisorsPath = getPath("supervisorsPath").href;
 const adminDashboardPath = getPath("adminDashboardPath").href;
+const supervisionRequestsPath = getPath("supervisionRequestsPath").href;
 const systemConfigurationPath = getPath("systemConfigurationPath").href;
 
 const paths = [
@@ -21,7 +22,7 @@ const paths = [
   { name: "System configuration", path: systemConfigurationPath },
   { name: "Students", path: studentsPath },
   { name: "Supervisors", path: supervisorsPath },
-  { name: "Requests", path: "#" },
+  { name: "Requests", path: supervisionRequestsPath },
 ];
 
 const AdminHeader = ({ auth }) => {

@@ -1,6 +1,6 @@
+import useSWR from "swr";
 import Router from "next/router";
 import PropTypes from "prop-types";
-import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useMemo, useState } from "react";
@@ -66,9 +66,9 @@ const SupervisorsList = ({
     setOpenEditModal((open) => !open);
   }, []);
 
-  const { data } = useSWR(baseUrl, getSupervisors);
+  const { data, mutate } = useSWR(baseUrl, getSupervisors);
 
-  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
+  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
   const handleActivateUser = useCallback(
     (email) => {
@@ -169,7 +169,9 @@ const SupervisorsList = ({
       return (
         <div className="empty-state">
           <ImageComponent src={EmptyStateSVG} alt="empty state image" />
-          <p>No results found. Please try a different search.</p>
+          <p>
+            No results found. {searchValue && "Please try a different search."}
+          </p>
         </div>
       );
     }

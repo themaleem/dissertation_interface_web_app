@@ -1,5 +1,5 @@
+import useSWR from "swr";
 import PropTypes from "prop-types";
-import useSWR, { mutate } from "swr";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
@@ -54,9 +54,9 @@ const Departments = ({ getDepartments }) => {
     setOpenModal((state) => !state);
   }, []);
 
-  const { data } = useSWR(baseUrl, getDepartments);
+  const { data, mutate } = useSWR(baseUrl, getDepartments);
 
-  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
+  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
   const renderDepartmentModal = useCallback(() => {
     return (
@@ -82,7 +82,9 @@ const Departments = ({ getDepartments }) => {
       return (
         <div className="empty-state">
           <ImageComponent src={EmptyStateSVG} alt="empty state image" />
-          <p>No results found. Please try a different search.</p>
+          <p>
+            No results found. {searchValue && "Please try a different search."}
+          </p>
         </div>
       );
     }

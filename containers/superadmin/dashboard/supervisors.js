@@ -44,7 +44,7 @@ const DashboardSupervisorList = ({ auth, getSupervisors }) => {
           {data.result.data.map((user) => {
             const department = user.department.name;
             return (
-              <UserCard key={user.id} user={user} department={department} />
+              <UserCard user={user} key={user.id} department={department} />
             );
           })}
         </div>

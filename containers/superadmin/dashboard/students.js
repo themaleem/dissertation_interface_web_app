@@ -44,7 +44,7 @@ const DashboardSupervisorList = ({ auth, getStudents }) => {
             const department = user.course.name;
 
             return (
-              <UserCard key={user.id} user={user} department={department} />
+              <UserCard user={user} key={user.id} department={department} />
             );
           })}
         </div>

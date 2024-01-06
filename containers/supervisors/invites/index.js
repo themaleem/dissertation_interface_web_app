@@ -1,5 +1,5 @@
+import useSWR from "swr";
 import Router from "next/router";
-import useSWR, { mutate } from "swr";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import debounce from "lodash/debounce";
@@ -52,9 +52,9 @@ const SupervisorsInvitesList = ({
     SearchByStaffId: searchValue,
   });
 
-  const { data } = useSWR(baseUrl, getSupervisorInvites);
+  const { data, mutate } = useSWR(baseUrl, getSupervisorInvites);
 
-  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl]);
+  const mutateResources = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
   const toggleDetailsModal = useCallback((academicYear) => {
     if (academicYear) {
@@ -124,7 +124,9 @@ const SupervisorsInvitesList = ({
       return (
         <div className="empty-state">
           <ImageComponent src={EmptyStateSVG} alt="empty state image" />
-          <p>No results found. Please try a different search.</p>
+          <p>
+            No results found. {searchValue && "Please try a different search."}
+          </p>
         </div>
       );
     }
