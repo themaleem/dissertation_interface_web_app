@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { Form } from "react-final-form";
 import { useDispatch } from "react-redux";
 
@@ -15,11 +15,11 @@ import { FORM_SUBSCRIPTION } from "../../config/form";
 import BackArrowImage from "../../public/images/back-arrow.svg";
 
 const homePath = getPath("homePath").href;
-const chooseRolePath = getPath("chooseRolePath").href;
+// const chooseRolePath = getPath("chooseRolePath").href;
 const forgotPasswordPath = getPath("forgotPasswordPath").href;
 
 const SignIn = ({ auth }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
@@ -41,7 +41,7 @@ const SignIn = ({ auth }) => {
           });
         } else {
           onSignIn({ ...payload, activeRole: null, roles: role });
-          router.push(chooseRolePath);
+          // router.push(chooseRolePath);
         }
       })
       .catch((err) => {

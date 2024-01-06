@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 import ImageComponent from "../image";
 import { getPath } from "../../config/urls";
@@ -11,17 +11,17 @@ import CaretImage from "../../public/images/carret-fr.svg";
 import BackArrowImage from "../../public/images/back-arrow.svg";
 import FrontArrowImage from "../../public/images/front-arrow.svg";
 import SupervisorImage from "../../public/images/supervisor.svg";
-import { dashboardPaths } from "../../containers/hoc/authWrapper";
+// import { dashboardPaths } from "../../containers/hoc/authWrapper";
 import AdminstratorImage from "../../public/images/administrator.svg";
 
 const homePath = getPath("homePath").href;
 
 const ChooseRole = ({ auth }) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleChooseRole = (role) => {
     onChooseRole({ activeRole: role });
-    return router.push(dashboardPaths[role]);
+    // return router.push(dashboardPaths[role]);
   };
 
   const { onSignOut } = useSignOut(auth);
