@@ -2,6 +2,7 @@ import useSWR from "swr";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { useRouter } from "next/router";
 
 import RequestItem from "./requestItem";
 import { getPath } from "../../../../config/urls";
@@ -9,7 +10,11 @@ import { createStringifiedUrl } from "../../../../lib/objects";
 import getSupervisonRequests from "../../../../actions/superadmin/getSupervisionRequests";
 import DashboardSupervisionRequests from "../../../../components/skeletons/superadmin/dashboardSupervisionRequests";
 
+const supervisionRequestsPath = getPath("supervisionRequestsPath");
+
 const SupervisionRequests = ({ getSupervisonRequests }) => {
+  const router = useRouter();
+
   const baseUrl = useMemo(() => {
     return createStringifiedUrl(getPath("supervisionRequestsPath").route, {
       pageSize: 3,
@@ -17,6 +22,9 @@ const SupervisionRequests = ({ getSupervisonRequests }) => {
   }, []);
 
   const { data } = useSWR(baseUrl, getSupervisonRequests);
+
+  const navToSupervisionRequestsPage = () =>
+    router.push(supervisionRequestsPath);
 
   const renderStudentRequests = () => {
     if (!data?.result) return <DashboardSupervisionRequests />;
@@ -39,7 +47,11 @@ const SupervisionRequests = ({ getSupervisonRequests }) => {
       <div className="dashboard-header">
         <div className="dashboard-header-inner">
           <h3>Supervision requests</h3>
-          <button type="button" className="button">
+          <button
+            type="button"
+            className="button"
+            onClick={navToSupervisionRequestsPage}
+          >
             View all
           </button>
         </div>
