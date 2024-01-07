@@ -48,15 +48,13 @@ const AvailableSupervisors = ({
   const baseUrl = useMemo(() => {
     if (!auth.user?.id) return "";
 
-    const params = {
-      pageSize: 3,
-    };
+    const params = { pageSize };
 
     return createStringifiedUrl(
       getPath("availableSupervisorsPath").route,
       params,
     );
-  }, [auth.user?.id]);
+  }, [auth.user?.id, pageSize]);
 
   const { data } = useSWR(baseUrl, getAvailableSupervisors);
 

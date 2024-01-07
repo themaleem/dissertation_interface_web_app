@@ -4,18 +4,18 @@ import { capitalize } from "lodash";
 import { useDispatch } from "react-redux";
 import { confirmDialog } from "primereact/confirmdialog";
 
+import { timeAgo } from "../../../../lib/dateUtils";
 import { showNotification } from "../../../../components/notification";
 import cancelSupervisionRequest from "../../../../actions/student/cancelSupervisonRequest";
 
-const RequestBlock = ({ request, mutate, baseUrl }) => {
+const RequestBlock = ({ request, afterAction }) => {
   const dispatch = useDispatch();
   const [isSendingRequest, setIsSendingRequest] = useState();
 
-  const { id, status, supervisorDetails } = request;
+  const { id, status, supervisorDetails, createdAt } = request;
 
   const cancelRequest = () => {
     setIsSendingRequest(true);
-    // @todo  why do we need comment?
     const data = { requestId: id, comment: "Cancel Request" };
 
     return dispatch(cancelSupervisionRequest(data))
@@ -25,7 +25,7 @@ const RequestBlock = ({ request, mutate, baseUrl }) => {
           detail: "Request Cancelled",
           summary: "Request has been cancelled!",
         });
-        mutate(baseUrl);
+        afterAction();
       })
       .catch((err) => showNotification({ detail: err.message }))
       .finally(() => {
@@ -53,30 +53,33 @@ const RequestBlock = ({ request, mutate, baseUrl }) => {
             {capitalize(status)}
           </span>
           <div className="interpunct" />
-          <span>9 hours ago</span>
+          <span>{timeAgo(createdAt)}</span>
         </div>
         <h5>
           {supervisorDetails.firstName} {supervisorDetails.lastName}
         </h5>
         <p>{supervisorDetails.department.name}</p>
-        <div className="btn-group">
-          <button
-            type="button"
-            onClick={onCancelRequest}
-            disabled={isSendingRequest}
-            className={`button${isSendingRequest ? " is-loading-custom" : ""}`}
-          >
-            Cancel
-          </button>
-        </div>
+        {status === "pending" && (
+          <div className="btn-group">
+            <button
+              type="button"
+              onClick={onCancelRequest}
+              disabled={isSendingRequest}
+              className={`button${
+                isSendingRequest ? " is-loading-custom" : ""
+              }`}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 RequestBlock.propTypes = {
-  mutate: PropTypes.func.isRequired,
-  baseUrl: PropTypes.string.isRequired,
+  afterAction: PropTypes.func.isRequired,
   request: PropTypes.instanceOf(Object).isRequired,
 };
 

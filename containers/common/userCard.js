@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { useCallback, useState } from "react";
 
-import ModalWrapper from "../../../components/modal";
+import ModalWrapper from "../../components/modal";
 import UserDetailsModal from "./userCardDetailsModal";
-import ImageComponent from "../../../components/image";
-import { getUserInitials } from "../../../lib/objects";
-import CaretForwardImage from "../../../public/images/caret-forward.svg";
+import ImageComponent from "../../components/image";
+import { getUserInitials } from "../../lib/objects";
+import CaretForwardImage from "../../public/images/caret-forward.svg";
 
 const UserCard = ({ user, department }) => {
   const [openDetailsModal, setOpenDetailsModal] = useState(false);

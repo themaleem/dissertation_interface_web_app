@@ -232,6 +232,13 @@ const pathsByName = {
     metaDescription: "",
     href: "/supervisor/dashboard",
   },
+  supervisorSupervisionRequestsPath: {
+    metaTitle: "",
+    type: "supervisor",
+    metaDescription: "",
+    route: "/supervisor/supervision-requests",
+    href: "/supervisor/supervision-requests",
+  },
   cohortMetricsPath: {
     metaTitle: "",
     type: "admin",
@@ -242,7 +249,7 @@ const pathsByName = {
     metaTitle: "",
     type: "admin",
     metaDescription: "",
-    route: "/SupervisionRequest",
+    route: "/supervisionrequest",
     href: "/supervision-requests",
   },
 };

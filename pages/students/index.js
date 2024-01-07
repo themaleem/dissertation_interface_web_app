@@ -12,7 +12,7 @@ const tabsObject = {
   invites: 1,
 };
 
-const SupervisorsPage = ({ auth }) => {
+const StudentsPage = ({ auth }) => {
   const getTabs = useCallback(() => {
     return [
       {
@@ -43,8 +43,8 @@ const SupervisorsPage = ({ auth }) => {
   );
 };
 
-SupervisorsPage.propTypes = {
+StudentsPage.propTypes = {
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default authWrapper(SupervisorsPage);
+export default authWrapper(StudentsPage);

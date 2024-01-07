@@ -10,9 +10,9 @@ import { createStringifiedUrl } from "../../../../lib/objects";
 import getSupervisonRequests from "../../../../actions/superadmin/getSupervisionRequests";
 import DashboardSupervisionRequests from "../../../../components/skeletons/superadmin/dashboardSupervisionRequests";
 
-const supervisionRequestsPath = getPath("supervisionRequestsPath");
+const supervisionRequestsPath = getPath("supervisionRequestsPath").href;
 
-const SupervisionRequests = ({ getSupervisonRequests }) => {
+const SupervisionRequests = ({ auth, getSupervisonRequests }) => {
   const router = useRouter();
 
   const baseUrl = useMemo(() => {
@@ -36,7 +36,7 @@ const SupervisionRequests = ({ getSupervisonRequests }) => {
     return (
       <div className="request-card-list">
         {data.result.data.map((request) => (
-          <RequestItem key={request.id} request={request} />
+          <RequestItem key={request.id} auth={auth} request={request} />
         ))}
       </div>
     );
@@ -62,6 +62,7 @@ const SupervisionRequests = ({ getSupervisonRequests }) => {
 };
 
 SupervisionRequests.propTypes = {
+  auth: PropTypes.instanceOf(Object).isRequired,
   getSupervisonRequests: PropTypes.func.isRequired,
 };
 

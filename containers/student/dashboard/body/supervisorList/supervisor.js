@@ -49,7 +49,7 @@ const Supervisor = ({ supervisor, afterRequest, request }) => {
       .then(() => {
         showNotification({
           severity: "success",
-          detail: "Request Sent",
+          detail: "Request Canc",
           summary: "Supervison request has been cancelled!",
         });
         afterRequest();

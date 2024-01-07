@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
 
-import PicImage from "../../../public/images/pic.png";
-import ImageComponent from "../../../components/image";
-import CloseSVGImage from "../../../public/images/close.svg";
-import FileIcon from "../../../public/images/basil_file-solid.svg";
-import { getUserInitials } from "../../../lib/objects";
+import ImageComponent from "../../components/image";
+import UserImageOrInitials from "./userImageOrInitials";
+import CloseSVGImage from "../../public/images/close.svg";
+import FileIcon from "../../public/images/basil_file-solid.svg";
 
 const UserDetailsModal = ({ user, department, closeModal }) => {
   return (
@@ -25,11 +24,10 @@ const UserDetailsModal = ({ user, department, closeModal }) => {
           <div className="list-section-list-card-item aligned-tp">
             <div className="list-section-list-card-item-inner">
               <div className="list-section-list-card-initials-wrapper">
-                {user.profilePicture ? (
-                  <img src={user.profilePicture} alt="user-profile-icon" />
-                ) : (
-                  getUserInitials(user)
-                )}
+                <UserImageOrInitials
+                  user={user}
+                  profilePicture={user.profilePicture}
+                />
               </div>
               <div>
                 <h6>

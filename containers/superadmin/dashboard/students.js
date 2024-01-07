@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 
-import UserCard from "../common/userCard";
+import UserCard from "../../common/userCard";
 import { getPath } from "../../../config/urls";
 import Suspense from "../../../components/suspense";
 import { createStringifiedUrl } from "../../../lib/objects";

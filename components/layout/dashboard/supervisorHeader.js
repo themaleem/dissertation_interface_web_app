@@ -9,11 +9,13 @@ import Logo from "../../../public/images/logo.svg";
 
 const homePath = getPath("homePath").href;
 const supervisorDashboardPath = getPath("supervisorDashboardPath").href;
+const supervisorSupervisionRequestsPath = getPath(
+  "supervisorSupervisionRequestsPath",
+).href;
 
 const paths = [
   { name: "Dashboard", path: supervisorDashboardPath },
-  { name: "Students", path: "#" },
-  { name: "Requests", path: "#" },
+  { name: "Requests", path: supervisorSupervisionRequestsPath },
 ];
 
 const SupervisorHeader = ({ auth }) => {

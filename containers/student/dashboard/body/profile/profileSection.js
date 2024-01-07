@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { useRef, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { serialize as objectToFormData } from "object-to-formdata";
 
@@ -9,6 +9,7 @@ import TextInput from "../../../../../components/inputs/textInput";
 import getStudent from "../../../../../actions/student/getStudent";
 import updateProfile from "../../../../../actions/auth/updateProfile";
 import { required, getUserInitials } from "../../../../../lib/objects";
+import UserImageOrInitials from "../../../../common/userImageOrInitials";
 import { showNotification } from "../../../../../components/notification";
 
 const ProfileSection = ({
@@ -184,11 +185,7 @@ const ProfileSection = ({
     <div className="list-section-list-card-item aligned-tp">
       <div className="list-section-list-card-item-inner">
         <div className="list-section-list-card-initials-wrapper">
-          {profilePictureUrl ? (
-            <img src={avatarUrl} alt="s" />
-          ) : (
-            getUserInitials(user)
-          )}
+          <UserImageOrInitials user={user} profilePicture={avatarUrl} />
         </div>
         <div>
           <h6>

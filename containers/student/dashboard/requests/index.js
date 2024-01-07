@@ -1,21 +1,9 @@
-import useSWR from "swr";
-import { useMemo } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 import RequestBlock from "./requestBlock";
-import { getPath } from "../../../../config/urls";
-import { createStringifiedUrl } from "../../../../lib/objects";
-import getStudentRequests from "../../../../actions/student/getStudentRequests";
 import StudentRequestsSkeleton from "../../../../components/skeletons/student/studentRequests";
 
-const StudentRequests = ({ auth, getStudentRequests }) => {
-  const baseUrl = useMemo(() => {
-    return createStringifiedUrl(getPath("studentRequestsPath").route);
-  }, []);
-
-  const { data, mutate } = useSWR(baseUrl, getStudentRequests);
-
+const StudentRequests = ({ auth, data, afterAction }) => {
   const renderStudentRequests = () => {
     if (!data?.result) return <StudentRequestsSkeleton />;
 
@@ -31,10 +19,9 @@ const StudentRequests = ({ auth, getStudentRequests }) => {
       <div className="request-card-list">
         {data.result.data.map((request) => (
           <RequestBlock
-            mutate={mutate}
             key={request.id}
-            baseUrl={baseUrl}
             request={request}
+            afterAction={afterAction}
           />
         ))}
       </div>
@@ -42,26 +29,24 @@ const StudentRequests = ({ auth, getStudentRequests }) => {
   };
 
   return (
-    <section className="request-section has-top">
-      <div className="section-wrapper">
-        <div className="container">
-          <div className="request-block">
-            <div className="dashboard-header">
-              <div className="dashboard-header-inner">
-                <h3>Supervision requests</h3>
-              </div>
+    <div className="section-wrapper">
+      <div className="container">
+        <div className="request-block">
+          <div className="dashboard-header">
+            <div className="dashboard-header-inner">
+              <h3>Supervision requests</h3>
             </div>
-            {renderStudentRequests()}
           </div>
+          {renderStudentRequests()}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
 StudentRequests.propTypes = {
+  afterAction: PropTypes.func.isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
-  getStudentRequests: PropTypes.func.isRequired,
 };
 
-export default connect(null, { getStudentRequests })(StudentRequests);
+export default StudentRequests;
