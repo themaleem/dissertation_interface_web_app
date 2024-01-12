@@ -259,7 +259,7 @@ const StudentsList = ({ auth, getStudents, activateUser, deactivateUser }) => {
                       type="text"
                       className="input"
                       onChange={handleInputChange}
-                      placeholder="Search by Username"
+                      placeholder="Search by name"
                     />
                     <span className="searxh-icon-img">
                       <ImageComponent src={SearchIconImage} alt="search icon" />

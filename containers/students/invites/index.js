@@ -12,6 +12,7 @@ import ModalWrapper from "../../../components/modal";
 import ImageComponent from "../../../components/image";
 import Pagination from "../../../components/pagination";
 import { createStringifiedUrl } from "../../../lib/objects";
+import resendInvite from "../../../actions/students/resendInvite";
 import { showNotification } from "../../../components/notification";
 import SearchIconImage from "../../../public/images/search-icon.svg";
 import getStudentInvites from "../../../actions/students/getInvites";
@@ -21,7 +22,11 @@ import SupervisorsInvitesSkeleton from "../../../components/skeletons/supervisor
 
 const inviteStudentPath = getPath("inviteStudentPath").href;
 
-const StudentsInvitesList = ({ getStudentInvites, deleteStudentInvite }) => {
+const StudentsInvitesList = ({
+  resendInvite,
+  getStudentInvites,
+  deleteStudentInvite,
+}) => {
   const [pageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
   const [searchValue, setSearchValue] = useState("");
@@ -86,6 +91,33 @@ const StudentsInvitesList = ({ getStudentInvites, deleteStudentInvite }) => {
       acceptClassName: "button is-primary",
       message: "Proceed to deleting this invitation?",
       accept: () => handleDeleteInvitation(invitationId),
+    });
+  };
+
+  const handleResendInvitation = useCallback(
+    (invitationId) => {
+      return resendInvite(invitationId)
+        .then(() => {
+          mutateResources();
+          showNotification({
+            severity: "success",
+            detail: "Invitation has been resent!",
+          });
+        })
+        .catch((err) => {
+          showNotification({ detail: err.message });
+        });
+    },
+    [resendInvite, mutateResources],
+  );
+
+  const onResendInvitation = (invitationId) => {
+    confirmDialog({
+      icon: "pi pi-info-circle",
+      header: "Resend Invitation",
+      message: "Resend this invitation?",
+      acceptClassName: "button is-primary",
+      accept: () => handleResendInvitation(invitationId),
     });
   };
 
@@ -171,6 +203,13 @@ const StudentsInvitesList = ({ getStudentInvites, deleteStudentInvite }) => {
                   <button
                     type="button"
                     className="button"
+                    onClick={() => onResendInvitation(invitation.id)}
+                  >
+                    Resend Invite
+                  </button>
+                  <button
+                    type="button"
+                    className="button"
                     onClick={() => toggleDetailsModal(invitation)}
                   >
                     View Details
@@ -224,7 +263,7 @@ const StudentsInvitesList = ({ getStudentInvites, deleteStudentInvite }) => {
                       type="text"
                       className="input"
                       onChange={handleInputChange}
-                      placeholder="Search by Username"
+                      placeholder="Search by name"
                     />
                     <span className="searxh-icon-img">
                       <ImageComponent alt="Search Icon" src={SearchIconImage} />
@@ -242,10 +281,13 @@ const StudentsInvitesList = ({ getStudentInvites, deleteStudentInvite }) => {
 };
 
 StudentsInvitesList.propTypes = {
+  resendInvite: PropTypes.func.isRequired,
   getStudentInvites: PropTypes.func.isRequired,
   deleteStudentInvite: PropTypes.func.isRequired,
 };
 
-export default connect(null, { getStudentInvites, deleteStudentInvite })(
-  StudentsInvitesList,
-);
+export default connect(null, {
+  resendInvite,
+  getStudentInvites,
+  deleteStudentInvite,
+})(StudentsInvitesList);

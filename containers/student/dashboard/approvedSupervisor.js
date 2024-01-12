@@ -38,7 +38,7 @@ const ApprovedSupervisor = ({ auth, data }) => {
 };
 
 ApprovedSupervisor.propTypes = {
-  data: PropTypes.string.isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 

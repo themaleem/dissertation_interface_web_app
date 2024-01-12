@@ -75,6 +75,7 @@ const AddModal = ({
                         className="input"
                         name="supervisor"
                         validate={required}
+                        placeholder="Select StaffID"
                         component={UnassignedSupervisorSearch}
                         dissertationCohortId={dissertationCohortId}
                       />

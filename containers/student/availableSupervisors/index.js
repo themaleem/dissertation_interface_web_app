@@ -50,11 +50,13 @@ const AvailableSupervisors = ({
 
     const params = { pageSize };
 
+    if (searchValue) params.SearchByUserName = searchValue;
+
     return createStringifiedUrl(
       getPath("availableSupervisorsPath").route,
       params,
     );
-  }, [auth.user?.id, pageSize]);
+  }, [auth.user?.id, pageSize, searchValue]);
 
   const { data } = useSWR(baseUrl, getAvailableSupervisors);
 
@@ -158,24 +160,18 @@ const AvailableSupervisors = ({
               </div>
               <div className="search-block is-flex is-align-items-flex-end is-justify-content-space-between">
                 <h6 className="search-block-results"></h6>
-                <div className="field is-grid">
+                <div className="field">
                   <p className="control has-icons-left no-label no-bts">
                     <input
                       type="text"
                       className="input"
                       onChange={handleInputChange}
-                      placeholder="Search by Username"
+                      placeholder="Search by name"
                     />
                     <span className="searxh-icon-img">
                       <ImageComponent src={SearchIconImage} alt="search icon" />
                     </span>
                   </p>
-                  <div className="control">
-                    <select name id>
-                      <option value>Name (A-Z)</option>
-                    </select>
-                    <label> Sort by </label>
-                  </div>
                 </div>
               </div>
               {renderSupervisorsList()}

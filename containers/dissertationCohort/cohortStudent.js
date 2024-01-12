@@ -260,13 +260,15 @@ const CohortStudentList = ({
                 </div>
               </div>
               <div className="search-block is-flex is-align-items-flex-end is-justify-content-space-between">
+                <h6 className="search-block-results"></h6>
+
                 <div className="field">
                   <p className="control has-icons-left no-label no-bts">
                     <input
                       type="text"
                       className="input"
                       onChange={handleInputChange}
-                      placeholder="Search by Username"
+                      placeholder="Search by name"
                     />
                     <span className="searxh-icon-img">
                       <ImageComponent src={SearchIconImage} alt="search icon" />

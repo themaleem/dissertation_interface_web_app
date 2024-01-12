@@ -21,6 +21,7 @@ const RequestItem = ({ auth, request }) => {
     return (
       <ModalWrapper open={openDetailsModal} closeModal={toggleDetailsModal}>
         <RequestDetailsModal
+          isAdmin
           auth={auth}
           request={request}
           closeModal={toggleDetailsModal}

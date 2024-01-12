@@ -18,7 +18,7 @@ const StudentDashboard = ({ auth, getStudentRequests }) => {
 
   const afterAction = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
-  const hasApprovedRequest = data?.result?.data?.some(
+  const hasApprovedRequest = (data?.result?.data || []).some(
     (request) => request.status === "approved",
   );
 
@@ -29,6 +29,7 @@ const StudentDashboard = ({ auth, getStudentRequests }) => {
           <StudentRequests auth={auth} data={data} afterAction={afterAction} />
         )}
       </section>
+      {/* @todo wrap in suspense component so data will be present before render */}
       <StudentDashboardBody
         auth={auth}
         data={data}

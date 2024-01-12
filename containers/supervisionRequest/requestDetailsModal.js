@@ -20,6 +20,7 @@ import RequestDetailModalSkeleton from "../../components/skeletons/supervisor/re
 
 const RequestDetailsModal = ({
   auth,
+  isAdmin,
   request,
   closeModal,
   getStudent,
@@ -92,6 +93,16 @@ const RequestDetailsModal = ({
     });
   };
 
+  const {
+    supervisorDetails: {
+      department: { name: departmentName },
+      email,
+      lastName,
+      firstName,
+      profilePicture: pprofilePictureData,
+    },
+  } = request;
+
   const renderStudentProfile = () => {
     const {
       studentDetails: { course, researchTopic, researchProposal },
@@ -111,12 +122,32 @@ const RequestDetailsModal = ({
       <>
         <section className="modal-card-body">
           <div className="modal-stacked-content">
+            {isAdmin && (
+              <div className="list-section-list-card-item aligned-tp">
+                <div className="list-section-list-card-item-inner">
+                  <div className="list-section-list-card-initials-wrapper">
+                    <UserImageOrInitials
+                      user={{ lastName, firstName }}
+                      profilePictureData={pprofilePictureData}
+                    />
+                  </div>
+                  <div>
+                    <h6>
+                      {firstName} {lastName}
+                    </h6>
+                    <p className="sub">{email}</p>
+                    <p className="sm">{departmentName}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="list-section-list-card-item aligned-tp">
               <div className="list-section-list-card-item-inner">
                 <div className="list-section-list-card-initials-wrapper">
                   <UserImageOrInitials
                     user={user}
-                    profilePicture={profilePicture}
+                    profilePictureData={profilePicture}
                   />
                 </div>
                 <div>
@@ -207,7 +238,12 @@ const RequestDetailsModal = ({
   );
 };
 
+RequestDetailsModal.defaultProps = {
+  isAdmin: false,
+};
+
 RequestDetailsModal.propTypes = {
+  isAdmin: PropTypes.bool,
   closeModal: PropTypes.func.isRequired,
   acceptRequest: PropTypes.func.isRequired,
   declineRequest: PropTypes.func.isRequired,

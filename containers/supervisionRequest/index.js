@@ -98,9 +98,9 @@ const SupervisorRequestsList = ({
                 <h3>{capitalize(status)} requests</h3>
               </div>
             </div>
-            <div className="search-block is-flex is-align-items-flex-end is-justify-content-space-between">
+            {/* <div className="search-block is-flex is-align-items-flex-end is-justify-content-space-between">
               <h6 className="search-block-results"></h6>
-              <div className="field is-grid">
+              <div className="field">
                 <p className="control has-icons-left no-label no-bts">
                   <input
                     type="text"
@@ -112,14 +112,8 @@ const SupervisorRequestsList = ({
                     <ImageComponent src={SearchIconImage} alt="search icon" />
                   </span>
                 </p>
-                <div className="control no-bts">
-                  <select name id>
-                    <option value>Name (A-Z)</option>
-                  </select>
-                  <label htmlFor> Sort by </label>
-                </div>
               </div>
-            </div>
+            </div> */}
             {renderSupervisionRequestsList()}
           </div>
         </div>

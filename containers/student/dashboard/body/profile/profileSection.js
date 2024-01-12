@@ -17,16 +17,17 @@ const ProfileSection = ({
   course,
   afterRequest,
   updateProfile,
-  profilePictureUrl,
+  profilePictureData,
 }) => {
-  const [avatarUrl, setAvatarUrl] = useState(profilePictureUrl);
+  const finalForm = useRef();
+
+  const [avatarUrl] = useState(profilePictureData?.imageData);
   const [showEditProfile, setShowEditProfile] = useState(false);
 
   const fileInputRef = useRef(null);
 
   const toggleEditProfile = () => {
     setShowEditProfile((state) => !state);
-    setAvatarUrl(profilePictureUrl);
   };
 
   const profileFormInitialRequest = {
@@ -36,7 +37,6 @@ const ProfileSection = ({
 
   const updateStudentProfile = (values) => {
     const payload = objectToFormData({
-      file: avatarUrl,
       lastName: values.last_name,
       firstName: values.first_name,
     });
@@ -57,11 +57,20 @@ const ProfileSection = ({
 
   const handleAvatarChange = (event) => {
     if (event.target.files[0]) {
-      const fileReader = new FileReader();
-      fileReader.onload = (e) => {
-        setAvatarUrl(e.target.result);
-      };
-      fileReader.readAsDataURL(event.target.files[0]);
+      const payload = new FormData();
+      payload.append("file", event.target.files[0]);
+
+      return updateProfile(payload)
+        .then(() => {
+          afterRequest();
+          showNotification({
+            severity: "success",
+            detail: "Profile Picture updated",
+          });
+        })
+        .catch((err) => {
+          showNotification({ detail: err.message });
+        });
     }
   };
 
@@ -76,8 +85,8 @@ const ProfileSection = ({
           onClick={triggerFileSelectPopup}
           className="list-section-list-card-initials-wrapper lg avatar"
         >
-          {profilePictureUrl || avatarUrl ? (
-            <img src={avatarUrl} alt="s" />
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="avatar" />
           ) : (
             getUserInitials(user)
           )}
@@ -102,9 +111,16 @@ const ProfileSection = ({
         subscription={FORM_WITH_DIRT}
         onSubmit={updateStudentProfile}
         initialValues={profileFormInitialRequest}
-        render={({ dirty, submitting, handleSubmit, hasValidationErrors }) => {
+        render={({
+          dirty,
+          submitting,
+          handleSubmit,
+          form,
+          hasValidationErrors,
+        }) => {
+          finalForm.current = form;
           return (
-            <form autoComplete="off">
+            <form autoComplete="off" encType="multipart/form-data">
               <div className="field-group">
                 <div className="field">
                   <Field
@@ -201,16 +217,17 @@ const ProfileSection = ({
     </div>
   );
 };
+
 ProfileSection.defaultProps = {
-  profilePictureUrl: null,
+  profilePictureData: undefined,
 };
 
 ProfileSection.propTypes = {
-  profilePictureUrl: PropTypes.string,
   afterRequest: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   user: PropTypes.instanceOf(Object).isRequired,
   course: PropTypes.instanceOf(Object).isRequired,
+  profilePictureData: PropTypes.instanceOf(Object),
 };
 
 export default connect(null, { getStudent, updateProfile })(ProfileSection);

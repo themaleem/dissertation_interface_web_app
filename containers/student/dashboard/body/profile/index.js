@@ -37,7 +37,7 @@ const Profile = ({ auth, getStudent }) => {
             user={user}
             course={course}
             afterRequest={afterRequest}
-            profilePictureUrl={profilePicture}
+            profilePictureData={profilePicture}
           />
           <ResearchTopicSection
             afterRequest={afterRequest}
