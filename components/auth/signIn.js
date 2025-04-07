@@ -15,11 +15,9 @@ import { FORM_SUBSCRIPTION } from "../../config/form";
 import BackArrowImage from "../../public/images/back-arrow.svg";
 
 const homePath = getPath("homePath").href;
-// const chooseRolePath = getPath("chooseRolePath").href;
 const forgotPasswordPath = getPath("forgotPasswordPath").href;
 
 const SignIn = ({ auth }) => {
-  // const router = useRouter();
   const dispatch = useDispatch();
 
   const onSubmit = (values) => {
@@ -41,7 +39,6 @@ const SignIn = ({ auth }) => {
           });
         } else {
           onSignIn({ ...payload, activeRole: null, roles: role });
-          // router.push(chooseRolePath);
         }
       })
       .catch((err) => {

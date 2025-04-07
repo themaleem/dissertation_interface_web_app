@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { useCallback, useState } from "react";
 
-import { timeAgo } from "../../lib/dateUtils";
-import ModalWrapper from "../../components/modal";
+import { timeAgo } from "../../../lib/dateUtils";
+import ModalWrapper from "../../../components/modal";
 import RequestDetailsModal from "./requestDetailsModal";
-import { capitalize, getSupervisionRequestClass } from "../../lib/objects";
+import { capitalize, getSupervisionRequestClass } from "../../../lib/objects";
 
 const SupervisorRequestItem = ({ auth, request }) => {
   const {

@@ -4,19 +4,19 @@ import { connect } from "react-redux";
 import { useMemo, useState } from "react";
 import { confirmDialog } from "primereact/confirmdialog";
 
-import { getPath } from "../../config/urls";
-import Suspense from "../../components/suspense";
-import ImageComponent from "../../components/image";
-import { createStringifiedUrl } from "../../lib/objects";
-import getStudent from "../../actions/student/getStudent";
-import CloseSVGImage from "../../public/images/close.svg";
-import UserImageOrInitials from "../common/userImageOrInitials";
-import FileIcon from "../../public/images/basil_file-solid.svg";
-import { showNotification } from "../../components/notification";
-import acceptRequest from "../../actions/supervisor/acceptRequest";
-import declineRequest from "../../actions/supervisor/declineRequest";
-import FileIconRed from "../../public/images/basil_file-solid-red.svg";
-import RequestDetailModalSkeleton from "../../components/skeletons/supervisor/requestDetailModal";
+import { getPath } from "../../../config/urls";
+import Suspense from "../../../components/suspense";
+import ImageComponent from "../../../components/image";
+import { createStringifiedUrl } from "../../../lib/objects";
+import getStudent from "../../../actions/student/getStudent";
+import CloseSVGImage from "../../../public/images/close.svg";
+import FileIcon from "../../../public/images/basil_file-solid.svg";
+import UserImageOrInitials from "../../common/userImageOrInitials";
+import { showNotification } from "../../../components/notification";
+import acceptRequest from "../../../actions/supervisor/acceptRequest";
+import declineRequest from "../../../actions/supervisor/declineRequest";
+import FileIconRed from "../../../public/images/basil_file-solid-red.svg";
+import RequestDetailModalSkeleton from "../../../components/skeletons/supervisor/requestDetailModal";
 
 const RequestDetailsModal = ({
   auth,
@@ -39,7 +39,7 @@ const RequestDetailsModal = ({
 
   const { data } = useSWR(baseUrl, getStudent);
 
-  const sendRequest = () => {
+  const acceptSupervisionRequest = () => {
     setIsSendingRequest(true);
     const payload = { requestId: request.id, comment: "Accept Request" };
 
@@ -56,9 +56,9 @@ const RequestDetailsModal = ({
       .finally(() => setIsSendingRequest(false));
   };
 
-  const onSendRequest = () => {
+  const onAcceptRequest = () => {
     confirmDialog({
-      accept: sendRequest,
+      accept: acceptSupervisionRequest,
       header: "Send Request?",
       icon: "pi pi-info-circle",
       acceptClassName: "button is-primary",
@@ -199,7 +199,7 @@ const RequestDetailsModal = ({
 
             <button
               type="button"
-              onClick={onSendRequest}
+              onClick={onAcceptRequest}
               disabled={isSendingRequest}
               className={`button is-primary${
                 isSendingRequest ? " is-loading-custom" : ""

@@ -4,15 +4,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useCallback, useMemo, useState } from "react";
 
-import { getPath } from "../../config/urls";
-import ImageComponent from "../../components/image";
-import Pagination from "../../components/pagination";
+import { getPath } from "../../../config/urls";
+import ImageComponent from "../../../components/image";
+import Pagination from "../../../components/pagination";
 import SupervisorRequestItem from "./supervisorRequestItem";
-import SearchIconImage from "../../public/images/search-icon.svg";
-import { capitalize, createStringifiedUrl } from "../../lib/objects";
-import getSupervisonRequests from "../../actions/superadmin/getSupervisionRequests";
-import EmptyStateSVG from "../../public/images/038-drawkit-nature-man-monochrome.svg";
-import SupervisionRequestsSkeleton from "../../components/skeletons/supervisor/supervisionRequests";
+import SearchIconImage from "../../../public/images/search-icon.svg";
+import { capitalize, createStringifiedUrl } from "../../../lib/objects";
+import getSupervisonRequests from "../../../actions/superadmin/getSupervisionRequests";
+import EmptyStateSVG from "../../../public/images/038-drawkit-nature-man-monochrome.svg";
+import SupervisionRequestsSkeleton from "../../../components/skeletons/supervisor/supervisionRequests";
 
 const SupervisorRequestsList = ({
   auth,

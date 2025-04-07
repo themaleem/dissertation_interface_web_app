@@ -213,6 +213,11 @@ const pathsByName = {
     route: "/supervisor",
     href: "/supervisors",
   },
+  supervisorPath: {
+    type: "auth",
+    href: "/supervisor/[id]",
+    route: "/supervisor/[id]",
+  },
   supervisorInvitesPath: {
     type: "admin",
     metaTitle: "",

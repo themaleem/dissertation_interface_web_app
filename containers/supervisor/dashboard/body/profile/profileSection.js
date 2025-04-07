@@ -6,7 +6,6 @@ import { serialize as objectToFormData } from "object-to-formdata";
 
 import { FORM_WITH_DIRT } from "../../../../../config/form";
 import TextInput from "../../../../../components/inputs/textInput";
-import getStudent from "../../../../../actions/student/getStudent";
 import updateProfile from "../../../../../actions/auth/updateProfile";
 import { required, getUserInitials } from "../../../../../lib/objects";
 import UserImageOrInitials from "../../../../common/userImageOrInitials";
@@ -14,7 +13,7 @@ import { showNotification } from "../../../../../components/notification";
 
 const ProfileSection = ({
   user,
-  course,
+  department,
   afterRequest,
   updateProfile,
   profilePictureData,
@@ -35,7 +34,7 @@ const ProfileSection = ({
     first_name: user.firstName,
   };
 
-  const updateStudentProfile = (values) => {
+  const updateSupervisorProfile = (values) => {
     const payload = objectToFormData({
       lastName: values.last_name,
       firstName: values.first_name,
@@ -62,7 +61,7 @@ const ProfileSection = ({
 
       return updateProfile(payload)
         .then(() => {
-          afterRequest();
+          // afterRequest();
           showNotification({
             severity: "success",
             detail: "Profile Picture updated",
@@ -109,7 +108,7 @@ const ProfileSection = ({
       </div>
       <Form
         subscription={FORM_WITH_DIRT}
-        onSubmit={updateStudentProfile}
+        onSubmit={updateSupervisorProfile}
         initialValues={profileFormInitialRequest}
         render={({
           dirty,
@@ -160,14 +159,14 @@ const ProfileSection = ({
               </div>
               <div className="field">
                 <div className="custom-control">
-                  <label htmlFor="course">Course: </label>
+                  <label htmlFor="department">Department: </label>
                   <input
                     disabled
-                    id="course"
                     type="text"
+                    id="department"
                     className="input"
                     autoComplete="off"
-                    defaultValue={course.name}
+                    defaultValue={department.name}
                   />
                 </div>
               </div>
@@ -208,7 +207,7 @@ const ProfileSection = ({
             {user.firstName} {user.lastName}
           </h6>
           <p className="sub">{user.email}</p>
-          <p className="sm">{course.name}</p>
+          <p className="sm">{department.name}</p>
         </div>
       </div>
       <button type="button" className="button" onClick={toggleEditProfile}>
@@ -226,8 +225,8 @@ ProfileSection.propTypes = {
   afterRequest: PropTypes.func.isRequired,
   updateProfile: PropTypes.func.isRequired,
   user: PropTypes.instanceOf(Object).isRequired,
-  course: PropTypes.instanceOf(Object).isRequired,
   profilePictureData: PropTypes.instanceOf(Object),
+  department: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default connect(null, { getStudent, updateProfile })(ProfileSection);
+export default connect(null, { updateProfile })(ProfileSection);

@@ -44,7 +44,7 @@ const SupervisorDetailsModal = ({
       header: "Send Request?",
       icon: "pi pi-info-circle",
       acceptClassName: "button is-primary",
-      message: "Confirm supervision request?",
+      message: "Are you sure you want to send supervision request?",
     });
   };
 

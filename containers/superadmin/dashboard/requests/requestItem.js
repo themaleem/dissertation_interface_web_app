@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { capitalize } from "../../../../lib/objects";
 import ModalWrapper from "../../../../components/modal";
 import ImageComponent from "../../../../components/image";
-import RequestDetailsModal from "../../../supervisionRequest/requestDetailsModal";
+import RequestDetailsModal from "../../../supervisor/supervisionRequest/requestDetailsModal";
 import CaretForwardImage from "../../../../public/images/caret-forward.svg";
 import { timeAgo } from "../../../../lib/dateUtils";
 

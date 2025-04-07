@@ -1,7 +1,7 @@
 import useSWR from "swr";
-import { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { useCallback, useMemo } from "react";
 
 import StudentRequests from "./requests";
 import StudentDashboardBody from "./body";
@@ -18,6 +18,8 @@ const StudentDashboard = ({ auth, getStudentRequests }) => {
 
   const afterAction = useCallback(() => mutate(baseUrl), [baseUrl, mutate]);
 
+  // @note we can do this without worrying because there will only
+  // be three requests maximum at any time per student
   const hasApprovedRequest = (data?.result?.data || []).some(
     (request) => request.status === "approved",
   );

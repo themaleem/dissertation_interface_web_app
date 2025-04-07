@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 
 import authWrapper from "../../containers/hoc/authWrapper";
-import SupervisorDashboard from "../../containers/supervisor/dashboard";
 import DashboardLayout from "../../components/layout/dashboard";
+import SupervisorDashboard from "../../containers/supervisor/dashboard";
 
-const SuperAdminPage = ({ auth }) => {
+const SupervisorDashboardPage = ({ auth }) => {
   return (
     <DashboardLayout>
       <SupervisorDashboard auth={auth} />
@@ -12,8 +12,8 @@ const SuperAdminPage = ({ auth }) => {
   );
 };
 
-SuperAdminPage.propTypes = {
+SupervisorDashboardPage.propTypes = {
   auth: PropTypes.instanceOf(Object).isRequired,
 };
 
-export default authWrapper(SuperAdminPage);
+export default authWrapper(SupervisorDashboardPage);

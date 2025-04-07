@@ -40,7 +40,7 @@ const DashboardSupervisorList = ({ auth, getStudents }) => {
           </div>
         </div>
         <div className="list-section-list">
-          {data.result.data.map((user) => {
+          {data?.result?.data?.map((user) => {
             const department = user.course.name;
 
             return (

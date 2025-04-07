@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import CustomTabs from "../../components/customTabs";
 import authWrapper from "../../containers/hoc/authWrapper";
 import DashboardLayout from "../../components/layout/dashboard";
-import SupervisorRequestsList from "../../containers/supervisionRequest";
+import SupervisorRequestsList from "../../containers/supervisor/supervisionRequest";
 
 const path = "supervisorSupervisionRequestsPath";
 

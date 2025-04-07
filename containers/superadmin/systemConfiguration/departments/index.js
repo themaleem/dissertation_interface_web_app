@@ -100,7 +100,7 @@ const Departments = ({ getDepartments }) => {
               <span> Name</span>
             </div>
             <div className="custom-table-cell">
-              <span>Email</span>
+              <span>Created By</span>
             </div>
             <div className="custom-table-cell">
               <span> Date Created</span>
